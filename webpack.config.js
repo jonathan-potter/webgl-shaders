@@ -24,7 +24,7 @@ module.exports = {
         loader: "babel-loader"
       },
       {
-        test: /\.sh$/,
+        test: /\.glsl$/,
         exclude: /node_modules/,
         loader: "raw-loader"
       }

@@ -1,4 +1,4 @@
-import shader from 'shaders/fractal.sh'
+import shader from 'shaders/fractal.glsl'
 
 /**
  * Part 2 Challenges:
