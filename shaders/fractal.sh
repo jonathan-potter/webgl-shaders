@@ -41,7 +41,7 @@ int julia(vec2 coordinate, vec2 offset) {
   return fractal(c, z);
 }
 
-vec2 fragCoordToXY(vec2 fragCoord) {
+vec2 fragCoordToXY(vec4 fragCoord) {
   vec2 relativePosition = fragCoord.xy / iResolution.xy;
   float aspectRatio = iResolution.x / 500.0;
 
@@ -51,16 +51,12 @@ vec2 fragCoordToXY(vec2 fragCoord) {
   return cartesianPosition;
 }
 
-vec4 mainImage(float x, float y) {
-  vec2 coordinate = fragCoordToXY(vec2(x, y));
+void main() {
+  vec2 coordinate = fragCoordToXY(gl_FragCoord);
 
   int mandelbrotValue = julia(coordinate, vec2(-0.795, 0.2321));
 
   float color = 5.0 * float(mandelbrotValue) / float(MAX_ITERATIONS);
 
-  return vec4(color, color, color, 1.0);
-}
-
-void main() {
-  gl_FragColor = mainImage(gl_FragCoord.x, gl_FragCoord.y);
+  gl_FragColor = vec4(color, color, color, 1.0);
 }
