@@ -54,9 +54,9 @@ vec2 fragCoordToXY(vec4 fragCoord) {
 void main() {
   vec2 coordinate = fragCoordToXY(gl_FragCoord);
 
-  int mandelbrotValue = julia(coordinate, vec2(-0.795, 0.2321));
+  int fractalValue = julia(coordinate, vec2(-0.795, 0.2321));
 
-  float color = 5.0 * float(mandelbrotValue) / float(MAX_ITERATIONS);
+  float color = 5.0 * float(fractalValue) / float(MAX_ITERATIONS);
 
   gl_FragColor = vec4(color, color, color, 1.0);
 }
