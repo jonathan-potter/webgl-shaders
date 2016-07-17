@@ -40,31 +40,7 @@ var vertexShader = compileShader('\n\
   }\
 ', context.VERTEX_SHADER);
 
-var fragmentShader = compileShader('                                          \n\
-  precision highp float;                                                      \n\
-                                                                              \n\
-  const float CHECK_SIZE = 50.0;                                              \n\
-                                                                              \n\
-  void main(){                                                                \n\
-    float x_thing = step(CHECK_SIZE / 2.0, mod(gl_FragCoord.x, CHECK_SIZE));  \n\
-    float y_thing = step(CHECK_SIZE / 2.0, mod(gl_FragCoord.y, CHECK_SIZE));  \n\
-    float color;                                                              \n\
-                                                                              \n\
-    bool condition1 = x_thing > 0.5 && y_thing < 0.5;                         \n\
-    bool condition2 = x_thing< 0.5 && y_thing > 0.5;                          \n\
-                                                                              \n\
-    if (condition1 || condition2) {                                           \n\
-      color = 1.0;                                                            \n\
-    } else {                                                                  \n\
-      color = 0.0;                                                            \n\
-    }                                                                         \n\
-                                                                              \n\
-    gl_FragColor = vec4(color,                                                \n\
-                        color,                                                \n\
-                        color,                                                \n\
-                        1.0);                                                 \n\
-  }                                                                           \n\
-', context.FRAGMENT_SHADER);
+var fragmentShader = compileShader(shader, context.FRAGMENT_SHADER);
 
 var program = context.createProgram();
 context.attachShader(program, vertexShader);
