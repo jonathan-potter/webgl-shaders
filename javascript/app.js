@@ -1,5 +1,4 @@
-import shader from 'shaders/checkerboard.sh'
-console.log(shader)
+import shader from 'shaders/fractal.sh'
 
 /**
  * Part 2 Challenges:
