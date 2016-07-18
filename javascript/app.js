@@ -1,15 +1,13 @@
 import shader from 'shaders/fractal.glsl'
 
-/**
- * Part 2 Challenges:
- *
- * - Change the gradient to be white
- *   to black, left-to-right only
- * - Make a checkerboard pattern (hint: https://www.opengl.org/sdk/docs/man/html/mod.xhtml)
- * - Make a checkerboard pattern without using conditions! (hint: https://www.opengl.org/sdk/docs/man/html/step.xhtml)
- */
+var canvas  = document.getElementById("main");
 
-var canvas = document.getElementById("main");
+var WIDTH  = window.innerWidth;
+var HEIGHT = window.innerHeight;
+
+canvas.width  = WIDTH;
+canvas.height = HEIGHT;
+
 var context = canvas.getContext('webgl');
 
 /**
@@ -23,7 +21,7 @@ function compileShader(shaderSource, shaderType) {
   context.compileShader(shader);
 
   if (!context.getShaderParameter(shader, context.COMPILE_STATUS)) {
-      throw "Shader compile failed with: " + context.getShaderInfoLog(shader);
+    throw "Shader compile failed with: " + context.getShaderInfoLog(shader);
   }
 
   return shader;
@@ -102,6 +100,32 @@ context.vertexAttribPointer(positionHandle,
  * Draw
  */
 
+function getUniformLocation(program, name) {
+  var uniformLocation = context.getUniformLocation(program, name);
+  if (uniformLocation === -1) {
+    throw 'Can not find uniform ' + name + '.';
+  }
+  return uniformLocation;
+}
+
+function drawFrame() {
+  var dataToSendToGPU = new Float32Array(5);
+
+  var time = performance.now();
+
+  dataToSendToGPU[0] = WIDTH;
+  dataToSendToGPU[1] = HEIGHT;
+  dataToSendToGPU[2] = -0.795 + Math.sin(time / 2000) / 40;
+  dataToSendToGPU[3] = 0.2321 + Math.cos(time / 1330) / 40;
+
+  var dataPointer = getUniformLocation(program, 'data');
+  context.uniform1fv(dataPointer, dataToSendToGPU);
+  context.drawArrays(context.TRIANGLE_STRIP, 0, 4);
+
+  requestAnimationFrame(drawFrame)
+}
+
+requestAnimationFrame(drawFrame)
+
 // Render the 4 vertices specified above (starting at index 0)
 // in TRIANGLE_STRIP mode.
-context.drawArrays(context.TRIANGLE_STRIP, 0, 4);

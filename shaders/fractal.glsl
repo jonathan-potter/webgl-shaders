@@ -1,8 +1,14 @@
 precision highp float;
 
+// WIDTH, HEIGHT, C_REAL, C_IMAGINARY, TIME
+uniform float data[5];
+
+float WIDTH  = data[0];
+float HEIGHT = data[1];
+
 const int MAX_ITERATIONS = 512;
 
-vec2 iResolution = vec2(500.0, 500.0);
+vec2 iResolution = vec2(WIDTH, HEIGHT);
 
 struct complex {
   float real;
@@ -43,7 +49,7 @@ int julia(vec2 coordinate, vec2 offset) {
 
 vec2 fragCoordToXY(vec4 fragCoord) {
   vec2 relativePosition = fragCoord.xy / iResolution.xy;
-  float aspectRatio = iResolution.x / 500.0;
+  float aspectRatio = iResolution.x / HEIGHT;
 
   vec2 cartesianPosition = (relativePosition - 0.5) * 4.0;
   cartesianPosition.x *= aspectRatio;
@@ -54,7 +60,8 @@ vec2 fragCoordToXY(vec4 fragCoord) {
 void main() {
   vec2 coordinate = fragCoordToXY(gl_FragCoord);
 
-  int fractalValue = julia(coordinate, vec2(-0.795, 0.2321));
+  // int fractalValue = mandelbrot(coordinate);
+  int fractalValue = julia(coordinate, vec2(data[2], data[3]));
 
   float color = 5.0 * float(fractalValue) / float(MAX_ITERATIONS);
 
