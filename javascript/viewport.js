@@ -1,5 +1,4 @@
-const HIGHLIGHT_COLOR = 'white';
-const ZOOM_SIZE = 0.1;
+const ZOOM_SIZE = 0.5;
 
 const VIEWPORT_PROTOTYPE = {
   update: function () {
@@ -12,11 +11,12 @@ const VIEWPORT_PROTOTYPE = {
 
     this.growToAspectRatio();
   },
-  init: function ({applicationStatus, canvas, getConfig, setConfig}) {
-    this.applicationStatus = applicationStatus;
+  init: function ({canvas, getConfig, setConfig}) {
     this.getConfig = getConfig;
     this.setConfig = setConfig;
     this.bindToCanvas(canvas);
+
+    this.update();
   },
   xBounds: {min: 0, max: 0},
   yBounds: {min: 0, max: 0},
@@ -104,31 +104,11 @@ const VIEWPORT_PROTOTYPE = {
     this.height = this.canvas.height;
 
     this.canvas.addEventListener('click', event => {
-      if (!this.applicationStatus.activelyRendering) {
-        var canvasClickLocation    = this.canvasClickLocation(event);
-        var cartesianClickLocation = this.cartesianClickLocation(canvasClickLocation);
+      var canvasClickLocation    = this.canvasClickLocation(event);
+      var cartesianClickLocation = this.cartesianClickLocation(canvasClickLocation);
 
-        this.highlightZoomBox(canvasClickLocation);
-        this.zoomToLocation(cartesianClickLocation);
-      }
+      this.zoomToLocation(cartesianClickLocation);
     });
-  },
-  highlightZoomBox: function (location) {
-    var context = this.canvas.getContext('2d');
-    var canvasSize = this.canvasSize();
-
-    context.beginPath();
-    context.lineWidth = 1;
-    context.strokeStyle = HIGHLIGHT_COLOR;
-
-    context.rect(
-      location.x - canvasSize.x * ZOOM_SIZE * 0.5,
-      location.y - canvasSize.y * ZOOM_SIZE * 0.5,
-      canvasSize.x * ZOOM_SIZE,
-      canvasSize.y * ZOOM_SIZE
-    );
-
-    context.stroke();
   },
   growToAspectRatio: function () {
     var canvasAspectRatio = this.canvas.width / this.canvas.height;
@@ -168,10 +148,10 @@ const VIEWPORT_PROTOTYPE = {
 };
 
 export default {
-  create({applicationStatus, canvas, getConfig, setConfig}) {
+  create({canvas, getConfig, setConfig}) {
     var viewport = Object.create(VIEWPORT_PROTOTYPE);
 
-    viewport.init({applicationStatus, canvas, getConfig, setConfig});
+    viewport.init({canvas, getConfig, setConfig});
 
     return viewport;
   }

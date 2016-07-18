@@ -1,12 +1,20 @@
 precision highp float;
 
-// WIDTH, HEIGHT, C_REAL, C_IMAGINARY, TIME
-uniform float data[5];
+// WIDTH, HEIGHT, C_REAL, C_IMAGINARY, X_MIN, X_MAX, Y_MIN, Y_MAX
+uniform float data[8];
 
 float WIDTH  = data[0];
 float HEIGHT = data[1];
 
-const int MAX_ITERATIONS = 512;
+float C_REAL = data[2];
+float C_IMAG = data[3];
+
+float X_MIN  = data[4];
+float X_MAX  = data[5];
+float Y_MIN  = data[6];
+float Y_MAX  = data[7];
+
+const int MAX_ITERATIONS = 1024;
 
 vec2 iResolution = vec2(WIDTH, HEIGHT);
 
@@ -51,7 +59,11 @@ vec2 fragCoordToXY(vec4 fragCoord) {
   vec2 relativePosition = fragCoord.xy / iResolution.xy;
   float aspectRatio = iResolution.x / HEIGHT;
 
-  vec2 cartesianPosition = (relativePosition - 0.5) * 4.0;
+  vec2 center = vec2((X_MAX + X_MIN) / 2.0, (Y_MAX + Y_MIN) / 2.0);
+
+  vec2 cartesianPosition = (relativePosition - 0.5) * (X_MAX - X_MIN);
+  cartesianPosition.x += center.x;
+  cartesianPosition.y -= center.y;
   cartesianPosition.x *= aspectRatio;
 
   return cartesianPosition;
@@ -61,9 +73,9 @@ void main() {
   vec2 coordinate = fragCoordToXY(gl_FragCoord);
 
   // int fractalValue = mandelbrot(coordinate);
-  int fractalValue = julia(coordinate, vec2(data[2], data[3]));
+  int fractalValue = julia(coordinate, vec2(C_REAL, C_IMAG));
 
-  float color = 5.0 * float(fractalValue) / float(MAX_ITERATIONS);
+  float color = 2.0 * float(fractalValue) / float(MAX_ITERATIONS);
 
   gl_FragColor = vec4(color, color, color, 1.0);
 }

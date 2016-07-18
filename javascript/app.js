@@ -1,9 +1,18 @@
+/* core */
+import Config from 'javascript/config';
+import Viewport from 'javascript/viewport'
+
+/* utility */
 import compileShader from 'javascript/utility/compileShader'
 import getAttribLocation from 'javascript/utility/getAttribLocation'
 import getUniformLocation from 'javascript/utility/getUniformLocation'
 
+/* shaders */
 import vertexShaderSource from 'shaders/vertexShader.glsl'
 import shaderSource from 'shaders/fractal.glsl'
+
+/* libraries */
+import HashSubscriber from 'hash-subscriber'
 
 var canvas  = document.getElementById("main");
 
@@ -14,6 +23,28 @@ canvas.width  = WIDTH;
 canvas.height = HEIGHT;
 
 var context = canvas.getContext('webgl');
+
+Viewport.create({
+  canvas: canvas,
+  getConfig: Config.getConfig,
+  setConfig: Config.setConfig
+});
+
+/* IGNORING 'ITERATIONS' FOR NOW */
+// HashSubscriber.subscribe(['iterations'], () => {
+//   Fractal.MAX_ITERATIONS = getConfig().iterations;
+//   renderer.render();
+// });
+
+let {x_min, x_max, y_min, y_max} = Config.getConfig()
+HashSubscriber.subscribe(['x_min', 'x_max', 'y_min', 'y_max'], () => {
+  const config = Config.getConfig()
+
+  x_min = config.x_min
+  x_max = config.x_max
+  y_min = config.y_min
+  y_max = config.y_max
+});
 
 /**
  * Shaders
@@ -74,7 +105,7 @@ context.vertexAttribPointer(positionHandle,
  */
 
 function drawFrame() {
-  var dataToSendToGPU = new Float32Array(5);
+  var dataToSendToGPU = new Float32Array(8);
 
   var time = performance.now();
 
@@ -82,6 +113,10 @@ function drawFrame() {
   dataToSendToGPU[1] = HEIGHT;
   dataToSendToGPU[2] = -0.795 + Math.sin(time / 2000) / 40;
   dataToSendToGPU[3] = 0.2321 + Math.cos(time / 1330) / 40;
+  dataToSendToGPU[4] = x_min;
+  dataToSendToGPU[5] = x_max;
+  dataToSendToGPU[6] = y_min;
+  dataToSendToGPU[7] = y_max;
 
   var dataPointer = getUniformLocation(program, 'data', context);
   context.uniform1fv(dataPointer, dataToSendToGPU);
