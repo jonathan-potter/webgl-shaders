@@ -9,7 +9,7 @@ const DEFAULT_CONFIG = {
   y_min: -1.25,
   y_max:  1.25,
 
-  brightness: 4.0
+  brightness: 8.0
 };
 
 const Config = {
