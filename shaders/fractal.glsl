@@ -1,18 +1,20 @@
 precision highp float;
 
 // WIDTH, HEIGHT, C_REAL, C_IMAGINARY, X_MIN, X_MAX, Y_MIN, Y_MAX
-uniform float data[8];
+uniform float data[9];
 
-float WIDTH  = data[0];
-float HEIGHT = data[1];
+float WIDTH      = data[0];
+float HEIGHT     = data[1];
 
-float C_REAL = data[2];
-float C_IMAG = data[3];
+float C_REAL     = data[2];
+float C_IMAG     = data[3];
 
-float X_MIN  = data[4];
-float X_MAX  = data[5];
-float Y_MIN  = data[6];
-float Y_MAX  = data[7];
+float BRIGHTNESS = data[4];
+
+float X_MIN      = data[5];
+float X_MAX      = data[6];
+float Y_MIN      = data[7];
+float Y_MAX      = data[8];
 
 const int MAX_ITERATIONS = 1024;
 
@@ -75,7 +77,7 @@ void main() {
   // int fractalValue = mandelbrot(coordinate);
   int fractalValue = julia(coordinate, vec2(C_REAL, C_IMAG));
 
-  float color = 4.0 * float(fractalValue) / float(MAX_ITERATIONS);
+  float color = BRIGHTNESS * float(fractalValue) / float(MAX_ITERATIONS);
 
   gl_FragColor = vec4(color, color, color, 1.0);
 }

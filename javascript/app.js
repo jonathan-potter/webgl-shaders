@@ -36,14 +36,16 @@ Viewport.create({
 //   renderer.render();
 // });
 
-let {x_min, x_max, y_min, y_max} = Config.getConfig()
-HashSubscriber.subscribe(['x_min', 'x_max', 'y_min', 'y_max'], () => {
+let {brightness, x_min, x_max, y_min, y_max} = Config.getConfig()
+HashSubscriber.subscribe(['brightness', 'x_min', 'x_max', 'y_min', 'y_max'], () => {
   const config = Config.getConfig()
 
   x_min = config.x_min
   x_max = config.x_max
   y_min = config.y_min
   y_max = config.y_max
+
+  brightness = config.brightness
 });
 
 /**
@@ -105,7 +107,7 @@ context.vertexAttribPointer(positionHandle,
  */
 
 function drawFrame() {
-  var dataToSendToGPU = new Float32Array(8);
+  var dataToSendToGPU = new Float32Array(9);
 
   var time = performance.now();
 
@@ -113,10 +115,11 @@ function drawFrame() {
   dataToSendToGPU[1] = HEIGHT;
   dataToSendToGPU[2] = -0.795 + Math.sin(time / 2000) / 40;
   dataToSendToGPU[3] = 0.2321 + Math.cos(time / 1330) / 40;
-  dataToSendToGPU[4] = x_min;
-  dataToSendToGPU[5] = x_max;
-  dataToSendToGPU[6] = y_min;
-  dataToSendToGPU[7] = y_max;
+  dataToSendToGPU[4] = brightness
+  dataToSendToGPU[5] = x_min;
+  dataToSendToGPU[6] = x_max;
+  dataToSendToGPU[7] = y_min;
+  dataToSendToGPU[8] = y_max;
 
   var dataPointer = getUniformLocation(program, 'data', context);
   context.uniform1fv(dataPointer, dataToSendToGPU);
