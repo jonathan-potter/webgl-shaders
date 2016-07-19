@@ -11,7 +11,7 @@ npm start
 ```
 open this url in your browser.
 ```
-http://localhost:8080/`
+http://localhost:8080/
 ```
 
 Acknowledgement:
