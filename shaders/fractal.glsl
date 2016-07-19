@@ -75,7 +75,7 @@ void main() {
   // int fractalValue = mandelbrot(coordinate);
   int fractalValue = julia(coordinate, vec2(C_REAL, C_IMAG));
 
-  float color = 2.0 * float(fractalValue) / float(MAX_ITERATIONS);
+  float color = 4.0 * float(fractalValue) / float(MAX_ITERATIONS);
 
   gl_FragColor = vec4(color, color, color, 1.0);
 }

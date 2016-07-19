@@ -1,12 +1,47 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>webgl!</title>
+    <meta name="viewport" content="initial-scale=1">
+    <title>WebGL Fractals!</title>
+    <link rel="icon" href="assets/favicon.ico">
+    <link rel='stylesheet' href='assets/fontello/css/fontello.css'>
+
+    <link rel="stylesheet" href="css/skeleton/skeleton.css">
+    <link rel="stylesheet" href="css/skeleton/normalize.css">
+    <link rel='stylesheet' href='css/app.css'>
+    <link rel='stylesheet' href='css/header.css'>
 
     <link rel="stylesheet" type="text/css" href="css/app.css">
   </head>
   <body>
-    <canvas id="main"></canvas>
+    <header>
+      <div class='container'>
+        <heading>
+          <a href='https://jonathan-potter.github.io/webgl-shaders/'>
+            WebGL Julia Set
+          </a>
+        </heading>
+        <nav class='right'>
+          <ul>
+            <li>
+              <a href="https://github.com/jonathan-potter/webgl-shaders" title="Github repo">
+                <i class='icon-github-circled'></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://en.wikipedia.org/wiki/Julia_set" title="Wikipedia: Mandelbrot">
+                <i class='icon-wikipedia'></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <section>
+      <div>
+        <canvas id="main"></canvas>
+      </div>
+    </section>
 
     <script src="build/bundle.js"></script>
   </body>
