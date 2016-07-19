@@ -1,6 +1,8 @@
 import parseLocationHash from 'javascript/utility/parseLocationHash';
 import setLocationHash from 'javascript/utility/setLocationHash';
 
+import assign from 'lodash/assign'
+
 const DEFAULT_CONFIG = {
   x_min: -2.0,
   x_max:  2.0,
@@ -13,12 +15,12 @@ const DEFAULT_CONFIG = {
 const Config = {
   currentConfig: {},
   getConfig(locationHash = parseLocationHash()) {
-    Config.currentConfig = Object.assign({}, DEFAULT_CONFIG, locationHash);
+    Config.currentConfig = assign({}, DEFAULT_CONFIG, locationHash);
 
     return Config.currentConfig;
   },
   setConfig(configChanges) {
-    const newConfig = Object.assign({}, Config.getConfig(), configChanges);
+    const newConfig = assign({}, Config.getConfig(), configChanges);
 
     setLocationHash(newConfig);
   }

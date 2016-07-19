@@ -36,7 +36,7 @@ Viewport.create({
 //   renderer.render();
 // });
 
-let {brightness, x_min, x_max, y_min, y_max} = Config.getConfig()
+var {brightness, x_min, x_max, y_min, y_max} = Config.getConfig()
 HashSubscriber.subscribe(['brightness', 'x_min', 'x_max', 'y_min', 'y_max'], () => {
   const config = Config.getConfig()
 
@@ -109,7 +109,7 @@ context.vertexAttribPointer(positionHandle,
 function drawFrame() {
   var dataToSendToGPU = new Float32Array(9);
 
-  var time = performance.now();
+  var time = Date.now();
 
   dataToSendToGPU[0] = WIDTH;
   dataToSendToGPU[1] = HEIGHT;
