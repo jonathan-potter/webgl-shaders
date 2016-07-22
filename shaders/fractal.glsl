@@ -16,7 +16,7 @@ float X_MAX      = data[6];
 float Y_MIN      = data[7];
 float Y_MAX      = data[8];
 
-const int MAX_ITERATIONS = 1024;
+const int MAX_ITERATIONS = 255;
 
 vec2 iResolution = vec2(WIDTH, HEIGHT);
 
@@ -25,7 +25,7 @@ struct complex {
   float imaginary;
 };
 
-int fractal(complex c, complex z) {
+vec2 fractal(complex c, complex z) {
   for (int iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
 
     // z <- z^2 + c
@@ -36,21 +36,55 @@ int fractal(complex c, complex z) {
     z.imaginary = imaginary;
 
     if (z.real * z.real + z.imaginary * z.imaginary > 4.0) {
-      return iteration;
+      int N = iteration;
+      float value = (z.real * z.real + z.imaginary * z.imaginary);
+
+      return vec2(float(N), value);
     }
   }
 
-  return 0;
+  return vec2(0.0, 0.0);
 }
 
-int mandelbrot(vec2 coordinate) {
+vec4 colorize(vec2 fractalValue) {
+
+  float N = float(fractalValue.x);
+  float value = float(fractalValue.y);
+
+  // mu = N + 1 - log (log  |Z(N)|) / log 2
+  float mu = (N - log(log(sqrt(value))) / log(2.0));
+  // float remainder = mod(mu, 1.0);
+
+  // float baseValue = mu - remainder;
+
+  mu = sin(mu / 20.0) * sin(mu / 20.0);
+
+  float red = mu;
+  float blue = mu;
+  float green = mu;
+  // if (0.3333 < remainder) {
+  //   red += 1.0;
+  // } else if (0.6666 < remainder) {
+  //   red += 1.0;
+  //   blue += 1.0;
+  // }
+
+  // red /= float(MAX_ITERATIONS);
+  // blue /= float(MAX_ITERATIONS);
+  // green /= float(MAX_ITERATIONS);
+
+  // return vec4(red, blue, green, 0.0);
+  return vec4(red, blue, green, 0.0);
+}
+
+vec2 mandelbrot(vec2 coordinate) {
   complex c = complex(coordinate.x, coordinate.y);
   complex z = complex(0.0, 0.0);
 
   return fractal(c, z);
 }
 
-int julia(vec2 coordinate, vec2 offset) {
+vec2 julia(vec2 coordinate, vec2 offset) {
   complex c = complex(offset.x, offset.y);
   complex z = complex(coordinate.x, coordinate.y);
 
@@ -75,9 +109,18 @@ void main() {
   vec2 coordinate = fragCoordToXY(gl_FragCoord);
 
   // int fractalValue = mandelbrot(coordinate);
-  int fractalValue = julia(coordinate, vec2(C_REAL, C_IMAG));
+  vec2 fractalValue = julia(coordinate, vec2(C_REAL, C_IMAG));
 
-  float color = BRIGHTNESS * float(fractalValue) / float(MAX_ITERATIONS);
+  float N = fractalValue.x;
+  float value = fractalValue.y;
 
-  gl_FragColor = vec4(color, color, color, 1.0);
+  // mu = N + 1 - log (log  |Z(N)|) / log 2
+  // float color = float(N) / float(MAX_ITERATIONS);
+  vec4 color = colorize(fractalValue);
+
+  // float color = (N - log(log(log(value)))) / float(MAX_ITERATIONS);
+
+  // float color = BRIGHTNESS * float(fractalValue) / float(MAX_ITERATIONS);
+
+  gl_FragColor = vec4(color[0], color[1], color[2], 0.0);
 }

@@ -4,6 +4,8 @@ import setLocationHash from 'javascript/utility/setLocationHash';
 import assign from 'lodash/assign'
 
 const DEFAULT_CONFIG = {
+  animate: true,
+
   x_min: -2.0,
   x_max:  2.0,
   y_min: -1.25,

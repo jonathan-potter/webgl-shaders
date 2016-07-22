@@ -36,9 +36,11 @@ Viewport.create({
 //   renderer.render();
 // });
 
-var {brightness, x_min, x_max, y_min, y_max} = Config.getConfig()
-HashSubscriber.subscribe(['brightness', 'x_min', 'x_max', 'y_min', 'y_max'], () => {
+var {animate, brightness, x_min, x_max, y_min, y_max} = Config.getConfig()
+HashSubscriber.subscribe(['animate', 'brightness', 'x_min', 'x_max', 'y_min', 'y_max'], () => {
   const config = Config.getConfig()
+
+  animate = config.animate === 'true'
 
   x_min = config.x_min
   x_max = config.x_max
@@ -125,7 +127,9 @@ function drawFrame() {
   context.uniform1fv(dataPointer, dataToSendToGPU);
   context.drawArrays(context.TRIANGLE_STRIP, 0, 4);
 
-  requestAnimationFrame(drawFrame)
+  if (animate) {
+    requestAnimationFrame(drawFrame)
+  }
 }
 
 requestAnimationFrame(drawFrame)
