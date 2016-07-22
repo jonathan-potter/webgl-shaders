@@ -21,6 +21,7 @@ header * {
   margin: 0;
   text-decoration: none;
   color: inherit;
+  height: inherit;
 }
 
 heading {
@@ -33,7 +34,27 @@ nav {
   float: right;
 }
 
+nav > ul {
+  height: inherit;
+}
+
 nav > ul > li {
-  display: inline;
+  display: block;
   font-size: 20px;
+  float: left;
+  height: inherit;
+}
+
+.header-icon {
+  position: relative;
+  top: -8px;
+}
+
+.header-block-button {
+  display: inline-block;
+
+  height: 0;
+  line-height: 0;
+
+  padding: 30px 5px;
 }
