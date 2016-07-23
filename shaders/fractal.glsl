@@ -18,7 +18,11 @@ float Y_MAX      = data[8];
 
 const int MAX_ITERATIONS = 255;
 
+float X_RANGE = X_MAX - X_MIN;
+float Y_RANGE = Y_MAX - Y_MIN;
+
 vec2 iResolution = vec2(WIDTH, HEIGHT);
+vec2 iPixelSize   = vec2(X_RANGE / WIDTH, Y_RANGE / HEIGHT);
 
 struct complex {
   float real;
@@ -105,22 +109,28 @@ vec2 fragCoordToXY(vec4 fragCoord) {
   return cartesianPosition;
 }
 
+vec2 msaaFractal(vec2 coordinate) {
+  vec2 msaaCoordinate, fractalValue;
+  msaaCoordinate  = vec2(coordinate.x + iPixelSize.x * 0.25, coordinate.y + iPixelSize.y * 0.25);
+  fractalValue    = julia(coordinate, vec2(C_REAL, C_IMAG));
+  msaaCoordinate  = vec2(coordinate.x + iPixelSize.x * 0.75, msaaCoordinate.y + iPixelSize.y * 0.25);
+  fractalValue   += julia(msaaCoordinate, vec2(C_REAL, C_IMAG));
+  msaaCoordinate  = vec2(coordinate.x + iPixelSize.x * 0.25, msaaCoordinate.y + iPixelSize.y * 0.75);
+  fractalValue   += julia(msaaCoordinate, vec2(C_REAL, C_IMAG));
+  msaaCoordinate  = vec2(coordinate.x + iPixelSize.x * 0.75, msaaCoordinate.y + iPixelSize.y / 0.75);
+  fractalValue   += julia(msaaCoordinate, vec2(C_REAL, C_IMAG));
+
+  return fractalValue / 4.0;
+}
+
 void main() {
   vec2 coordinate = fragCoordToXY(gl_FragCoord);
 
-  // int fractalValue = mandelbrot(coordinate);
-  vec2 fractalValue = julia(coordinate, vec2(C_REAL, C_IMAG));
+  vec2 fractalValue = msaaFractal(coordinate);
 
-  float N = fractalValue.x;
-  float value = fractalValue.y;
+  float color = BRIGHTNESS * float(fractalValue) / float(MAX_ITERATIONS);
+  gl_FragColor = vec4(color, color, color, 0.0);
 
-  // mu = N + 1 - log (log  |Z(N)|) / log 2
-  // float color = float(N) / float(MAX_ITERATIONS);
-  vec4 color = colorize(fractalValue);
-
-  // float color = (N - log(log(log(value)))) / float(MAX_ITERATIONS);
-
-  // float color = BRIGHTNESS * float(fractalValue) / float(MAX_ITERATIONS);
-
-  gl_FragColor = vec4(color[0], color[1], color[2], 0.0);
+  // vec4 color = colorize(fractalValue);
+  // gl_FragColor = vec4(color[0], color[1], color[2], 0.0);
 }
