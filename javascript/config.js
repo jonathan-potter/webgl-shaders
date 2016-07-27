@@ -4,14 +4,16 @@ import setLocationHash from 'javascript/utility/setLocationHash';
 import assign from 'lodash/assign'
 
 const DEFAULT_CONFIG = {
-  animate: true,
+  // animate: true,
 
   x_min: -2.0,
   x_max:  2.0,
   y_min: -1.25,
   y_max:  1.25,
 
-  brightness: 8.0
+  brightness: 2.0,
+
+  supersamples: 1
 };
 
 const Config = {
