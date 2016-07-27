@@ -36,9 +36,11 @@ Viewport.create({
 //   renderer.render();
 // });
 
-var {brightness, x_min, x_max, y_min, y_max} = Config.getConfig()
-HashSubscriber.subscribe(['brightness', 'x_min', 'x_max', 'y_min', 'y_max'], () => {
+var {animate, brightness, supersamples, x_min, x_max, y_min, y_max} = Config.getConfig()
+HashSubscriber.subscribe(['animate', 'brightness', 'supersamples', 'x_min', 'x_max', 'y_min', 'y_max'], () => {
   const config = Config.getConfig()
+
+  // animate = config.animate === 'true'
 
   x_min = config.x_min
   x_max = config.x_max
@@ -46,6 +48,8 @@ HashSubscriber.subscribe(['brightness', 'x_min', 'x_max', 'y_min', 'y_max'], () 
   y_max = config.y_max
 
   brightness = config.brightness
+
+  supersamples = config.supersamples
 });
 
 /**
@@ -107,7 +111,7 @@ context.vertexAttribPointer(positionHandle,
  */
 
 function drawFrame() {
-  var dataToSendToGPU = new Float32Array(9);
+  var dataToSendToGPU = new Float32Array(10);
 
   var time = Date.now();
 
@@ -120,12 +124,16 @@ function drawFrame() {
   dataToSendToGPU[6] = x_max;
   dataToSendToGPU[7] = y_min;
   dataToSendToGPU[8] = y_max;
+  dataToSendToGPU[9] = supersamples;
 
   var dataPointer = getUniformLocation(program, 'data', context);
   context.uniform1fv(dataPointer, dataToSendToGPU);
+
   context.drawArrays(context.TRIANGLE_STRIP, 0, 4);
 
-  requestAnimationFrame(drawFrame)
+  // if (animate) {
+    requestAnimationFrame(drawFrame)
+  // }
 }
 
 requestAnimationFrame(drawFrame)
