@@ -40,7 +40,7 @@ var {animate, brightness, supersamples, x_min, x_max, y_min, y_max} = Config.get
 HashSubscriber.subscribe(['animate', 'brightness', 'supersamples', 'x_min', 'x_max', 'y_min', 'y_max'], () => {
   const config = Config.getConfig()
 
-  // animate = config.animate === 'true'
+  animate = config.animate
 
   x_min = config.x_min
   x_max = config.x_max
@@ -50,6 +50,8 @@ HashSubscriber.subscribe(['animate', 'brightness', 'supersamples', 'x_min', 'x_m
   brightness = config.brightness
 
   supersamples = config.supersamples
+
+  requestAnimationFrame(drawFrame)
 });
 
 /**
@@ -131,12 +133,9 @@ function drawFrame() {
 
   context.drawArrays(context.TRIANGLE_STRIP, 0, 4);
 
-  // if (animate) {
+  if (animate === 'true') {
     requestAnimationFrame(drawFrame)
-  // }
+  }
 }
 
 requestAnimationFrame(drawFrame)
-
-// Render the 4 vertices specified above (starting at index 0)
-// in TRIANGLE_STRIP mode.
