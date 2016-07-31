@@ -1,7 +1,12 @@
-html, body {
+html, body, ul, li, button, menu, label {
   padding: 0;
   border: 0;
   margin: 0;
+  list-style: none;
+  text-align: left;
+
+  font-weight: lighter;
+  font-family: helvetica-neue, airiel, sans-serif;
 }
 
 html, body, #main {

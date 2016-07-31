@@ -4,12 +4,13 @@
     <meta name="viewport" content="initial-scale=1">
     <title>WebGL Fractals!</title>
     <link rel="icon" href="assets/favicon.ico">
-    <link rel='stylesheet' href='assets/fontello/css/fontello.css'>
+    <link rel="stylesheet" href="assets/fontello/css/fontello.css">
 
     <link rel="stylesheet" href="css/skeleton/skeleton.css">
     <link rel="stylesheet" href="css/skeleton/normalize.css">
-    <link rel='stylesheet' href='css/app.css'>
-    <link rel='stylesheet' href='css/header.css'>
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/rangeSlider/rangeSlider.min.css">
 
     <link rel="stylesheet" type="text/css" href="css/app.css">
 
@@ -30,22 +31,60 @@
   </head>
   <body>
     <header>
-      <div class='container'>
+      <div class="container">
         <heading>
-          <a class="header-block-button" href='https://jonathan-potter.github.io/webgl-shaders/'>
+          <button class="hamberger-menu header-block-button">
+            G
+            <menu class="dropdown-menu">
+              <ul class="dropdown-menu-items">
+                <li class="dropdown-menu-item">
+                  <div class="left width-150">
+                    <label for="supersamples">supersamples</label>
+                  </div>
+                  <div class="left width-200">
+                    <input type="range" name="supersamples" list="supersamples-options" min="0" max="2" step="1" value="0">
+                    <datalist id="supersamples-options">
+                      <option data-content="1x">0</option>
+                      <option data-content="4x">1</option>
+                      <option data-content="16x">2</option>
+                    </datalist>
+                  </div>
+                </li>
+                <li class="dropdown-menu-item">
+                  <div class="left width-150">
+                    <label for="brightness">brightness</label>
+                  </div>
+                  <div class="left width-200">
+                    <input type="range" name="brightness" list="brightness-options" min="1" max="8" step="1" value="4">
+                    <datalist id="brightness-options">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                      <option>6</option>
+                      <option>7</option>
+                      <option>8</option>
+                    </datalist>
+                  </div>
+                </li>
+              </ul>
+            </menu>
+          </button>
+          <a class="header-block-button" href="https://jonathan-potter.github.io/webgl-shaders/">
             WebGL Julia Set
           </a>
         </heading>
-        <nav class='right'>
+        <nav class="right">
           <ul>
             <li>
               <a class="header-block-button" href="https://github.com/jonathan-potter/webgl-shaders" title="Github repo">
-                <i class='header-icon icon-github-circled'></i>
+                <i class="header-icon icon-github-circled"></i>
               </a>
             </li>
             <li>
               <a class="header-block-button" href="https://en.wikipedia.org/wiki/Julia_set" title="Wikipedia: Mandelbrot">
-                <i class='header-icon icon-wikipedia'></i>
+                <i class="header-icon icon-wikipedia"></i>
               </a>
             </li>
           </ul>

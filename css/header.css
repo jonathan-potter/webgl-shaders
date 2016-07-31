@@ -58,3 +58,61 @@ nav > ul > li {
 
   padding: 30px 5px;
 }
+
+.hamburger-menu {
+  position: relative;
+
+  width: 60px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+
+  display: none;
+
+  background-color: white;
+
+  height: auto;
+}
+
+.hamberger-menu /*:focus*/ .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu-item {
+  height: 60px;
+}
+
+.dropdown-menu-item * {
+  display: inline-block;
+}
+
+.dropdown-menu-item label {
+  width: 100%;
+
+  text-align: right;
+  line-height: 60px;
+  vertical-align: middle;
+}
+
+.dropdown-menu-item input {
+  width: 100%;
+
+}
+
+.dropdown-menu-item option {
+  display: none;
+}
+
+.left {
+  float: left;
+}
+
+.width-150 {
+  width: 150px;
+}
+
+.width-200 {
+  width: 200px;
+}

@@ -40,6 +40,7 @@ var {animate, brightness, supersamples, x_min, x_max, y_min, y_max} = Config.get
 HashSubscriber.subscribe(['animate', 'brightness', 'supersamples', 'x_min', 'x_max', 'y_min', 'y_max'], () => {
   const config = Config.getConfig()
 
+  var previousAnimate = animate
   animate = config.animate
 
   x_min = config.x_min
@@ -51,8 +52,25 @@ HashSubscriber.subscribe(['animate', 'brightness', 'supersamples', 'x_min', 'x_m
 
   supersamples = config.supersamples
 
-  requestAnimationFrame(drawFrame)
+  if (previousAnimate === 'false') {
+    requestAnimationFrame(drawFrame)
+  }
 });
+
+var sliderValues = {
+  supersamples: [1,4,16]
+}
+
+var sliders = document.getElementsByTagName('input')
+Array.from(sliders).forEach(slider => {
+  slider.addEventListener('mousemove', () => {
+    var values = sliderValues[slider.name];
+
+    Config.setConfig({
+      [slider.name]: values && values[slider.value] || slider.value
+    })
+  })
+})
 
 /**
  * Shaders
@@ -139,3 +157,4 @@ function drawFrame() {
 }
 
 requestAnimationFrame(drawFrame)
+
