@@ -1,7 +1,7 @@
 const ZOOM_SIZE = 0.5;
 
 const VIEWPORT_PROTOTYPE = {
-  update: function () {
+  update() {
     const currentConfig = this.getConfig();
 
     this.setBounds({
@@ -11,7 +11,7 @@ const VIEWPORT_PROTOTYPE = {
 
     this.growToAspectRatio();
   },
-  init: function ({canvas, getConfig, setConfig}) {
+  init({canvas, getConfig, setConfig}) {
     this.getConfig = getConfig;
     this.setConfig = setConfig;
     this.bindToCanvas(canvas);
@@ -20,11 +20,11 @@ const VIEWPORT_PROTOTYPE = {
   },
   xBounds: {min: 0, max: 0},
   yBounds: {min: 0, max: 0},
-  setBounds: function (bounds) {
+  setBounds(bounds) {
     this.xBounds = bounds.x;
     this.yBounds = bounds.y;
   },
-  locationHash: function () {
+  locationHash() {
     return {
       x_min: this.xBounds.min,
       x_max: this.xBounds.max,
@@ -32,37 +32,37 @@ const VIEWPORT_PROTOTYPE = {
       y_max: this.yBounds.max
     };
   },
-  center: function () {
+  center() {
     return {
       x: (this.xBounds.max + this.xBounds.min) / 2,
       y: (this.yBounds.max + this.yBounds.min) / 2
     };
   },
-  range: function () {
+  range() {
     return {
       x: this.xBounds.max - this.xBounds.min,
       y: this.yBounds.max - this.yBounds.min
     };
   },
-  delta: function () {
+  delta() {
     return {
       x: this.range().x / this.width,
       y: this.range().y / this.height
     };
   },
-  topLeft: function () {
+  topLeft() {
     return {
       x: this.xBounds.min,
       y: this.yBounds.min
     };
   },
-  canvasSize: function () {
+  canvasSize() {
     return {
       x: this.canvas.offsetWidth,
       y: this.canvas.offsetHeight
     };
   },
-  canvasClickLocation: function (event) {
+  canvasClickLocation(event) {
     const currentCanvasSize = this.canvasSize();
 
     return {
@@ -70,7 +70,7 @@ const VIEWPORT_PROTOTYPE = {
       y: event.offsetY / currentCanvasSize.y * this.height
     };
   },
-  cartesianClickLocation: function (canvasClickLocation) {
+  cartesianClickLocation(canvasClickLocation) {
     const range = this.range();
     const topLeft = this.topLeft();
 
@@ -79,7 +79,7 @@ const VIEWPORT_PROTOTYPE = {
       y: topLeft.y + range.y * canvasClickLocation.y / this.height
     };
   },
-  zoomToLocation: function (location) {
+  zoomToLocation(location) {
     const range = this.range();
 
     this.setBounds({
@@ -95,7 +95,7 @@ const VIEWPORT_PROTOTYPE = {
 
     this.setConfig(this.locationHash());
   },
-  bindToCanvas: function (canvas) {
+  bindToCanvas(canvas) {
     this.canvas = canvas;
     this.canvas.width = this.canvas.offsetWidth;
     this.canvas.height = this.canvas.offsetHeight;
@@ -110,7 +110,7 @@ const VIEWPORT_PROTOTYPE = {
       this.zoomToLocation(cartesianClickLocation);
     });
   },
-  growToAspectRatio: function () {
+  growToAspectRatio() {
     const canvasAspectRatio = this.canvas.width / this.canvas.height;
 
     const range = this.range();
