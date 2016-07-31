@@ -1,20 +1,20 @@
 export default function(query = window.location.hash) {
-  let keyValuePairs;
+  let keyValuePairs
   if (query.length > 0) {
-    keyValuePairs = query.slice(1).split('&');
+    keyValuePairs = query.slice(1).split('&')
   } else {
-    keyValuePairs = [];
+    keyValuePairs = []
   }
 
   return keyValuePairs.reduce((hash, keyValuePair) => {
-    let [key, value] = keyValuePair.split('=');
+    let [key, value] = keyValuePair.split('=')
 
     if (value && isNaN(value)) {
-      hash[key] = value;
+      hash[key] = value
     } else {
-      hash[key] = parseFloat(value);
+      hash[key] = parseFloat(value)
     }
 
-    return hash;
-  }, {});
+    return hash
+  }, {})
 }

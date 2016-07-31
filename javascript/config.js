@@ -1,5 +1,5 @@
-import parseLocationHash from 'javascript/utility/parseLocationHash';
-import setLocationHash from 'javascript/utility/setLocationHash';
+import parseLocationHash from 'javascript/utility/parseLocationHash'
+import setLocationHash from 'javascript/utility/setLocationHash'
 
 import assign from 'lodash/assign'
 
@@ -14,20 +14,20 @@ const DEFAULT_CONFIG = {
   brightness: 4.0,
 
   supersamples: 1
-};
+}
 
 const Config = {
   currentConfig: {},
   getConfig(locationHash = parseLocationHash()) {
-    Config.currentConfig = assign({}, DEFAULT_CONFIG, locationHash);
+    Config.currentConfig = assign({}, DEFAULT_CONFIG, locationHash)
 
-    return Config.currentConfig;
+    return Config.currentConfig
   },
   setConfig(configChanges) {
-    const newConfig = assign({}, Config.getConfig(), configChanges);
+    const newConfig = assign({}, Config.getConfig(), configChanges)
 
-    setLocationHash(newConfig);
+    setLocationHash(newConfig)
   }
-};
+}
 
-export default Config;
+export default Config
