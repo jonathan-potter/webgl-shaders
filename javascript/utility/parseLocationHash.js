@@ -1,5 +1,5 @@
 export default function(query = window.location.hash) {
-  var keyValuePairs;
+  let keyValuePairs;
   if (query.length > 0) {
     keyValuePairs = query.slice(1).split('&');
   } else {

@@ -2,7 +2,7 @@ const ZOOM_SIZE = 0.5;
 
 const VIEWPORT_PROTOTYPE = {
   update: function () {
-    let currentConfig = this.getConfig();
+    const currentConfig = this.getConfig();
 
     this.setBounds({
       x: {min: currentConfig.x_min, max: currentConfig.x_max},
@@ -63,7 +63,7 @@ const VIEWPORT_PROTOTYPE = {
     };
   },
   canvasClickLocation: function (event) {
-    var currentCanvasSize = this.canvasSize();
+    const currentCanvasSize = this.canvasSize();
 
     return {
       x: event.offsetX / currentCanvasSize.x * this.width,
@@ -71,8 +71,8 @@ const VIEWPORT_PROTOTYPE = {
     };
   },
   cartesianClickLocation: function (canvasClickLocation) {
-    var range = this.range();
-    var topLeft = this.topLeft();
+    const range = this.range();
+    const topLeft = this.topLeft();
 
     return {
       x: topLeft.x + range.x * canvasClickLocation.x / this.width,
@@ -80,7 +80,7 @@ const VIEWPORT_PROTOTYPE = {
     };
   },
   zoomToLocation: function (location) {
-    var range = this.range();
+    const range = this.range();
 
     this.setBounds({
       x: {
@@ -104,25 +104,25 @@ const VIEWPORT_PROTOTYPE = {
     this.height = this.canvas.height;
 
     this.canvas.addEventListener('click', event => {
-      var canvasClickLocation    = this.canvasClickLocation(event);
-      var cartesianClickLocation = this.cartesianClickLocation(canvasClickLocation);
+      const canvasClickLocation    = this.canvasClickLocation(event);
+      const cartesianClickLocation = this.cartesianClickLocation(canvasClickLocation);
 
       this.zoomToLocation(cartesianClickLocation);
     });
   },
   growToAspectRatio: function () {
-    var canvasAspectRatio = this.canvas.width / this.canvas.height;
+    const canvasAspectRatio = this.canvas.width / this.canvas.height;
 
-    var range = this.range();
-    var center = this.center();
-    var currentAspectRatio = range.x / range.y;
+    const range = this.range();
+    const center = this.center();
+    const currentAspectRatio = range.x / range.y;
 
-    var newDistanceFromCenter;
-    var xBounds = this.xBounds;
-    var yBounds = this.yBounds;
+    let newDistanceFromCenter;
+    let xBounds = this.xBounds;
+    let yBounds = this.yBounds;
     if (currentAspectRatio > canvasAspectRatio) {
       /* height needs expansion */
-      var verticalEdgeToCenterDistance = yBounds.min - center.y;
+      const verticalEdgeToCenterDistance = yBounds.min - center.y;
 
       newDistanceFromCenter = verticalEdgeToCenterDistance * (currentAspectRatio / canvasAspectRatio);
       yBounds = {
@@ -131,7 +131,7 @@ const VIEWPORT_PROTOTYPE = {
       };
     } else {
       /* width needs expansion */
-      var horizontalEdgeToCenterDistance = xBounds.min - center.x;
+      const horizontalEdgeToCenterDistance = xBounds.min - center.x;
 
       newDistanceFromCenter = horizontalEdgeToCenterDistance * (canvasAspectRatio / currentAspectRatio);
       xBounds = {
@@ -149,7 +149,7 @@ const VIEWPORT_PROTOTYPE = {
 
 export default {
   create({canvas, getConfig, setConfig}) {
-    var viewport = Object.create(VIEWPORT_PROTOTYPE);
+    const viewport = Object.create(VIEWPORT_PROTOTYPE);
 
     viewport.init({canvas, getConfig, setConfig});
 

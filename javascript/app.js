@@ -14,15 +14,15 @@ import shaderSource from 'shaders/fractal.glsl'
 /* libraries */
 import HashSubscriber from 'hash-subscriber'
 
-var canvas  = document.getElementById("main");
+const canvas  = document.getElementById("main");
 
-var WIDTH  = window.innerWidth;
-var HEIGHT = window.innerHeight;
+const WIDTH  = window.innerWidth;
+const HEIGHT = window.innerHeight;
 
 canvas.width  = WIDTH;
 canvas.height = HEIGHT;
 
-var context = canvas.getContext('webgl');
+const context = canvas.getContext('webgl');
 
 Viewport.create({
   canvas: canvas,
@@ -36,11 +36,11 @@ Viewport.create({
 //   renderer.render();
 // });
 
-var {animate, brightness, supersamples, x_min, x_max, y_min, y_max} = Config.getConfig()
+let {animate, brightness, supersamples, x_min, x_max, y_min, y_max} = Config.getConfig()
 HashSubscriber.subscribe(['animate', 'brightness', 'supersamples', 'x_min', 'x_max', 'y_min', 'y_max'], () => {
   const config = Config.getConfig()
 
-  var previousAnimate = animate
+  const previousAnimate = animate
   animate = config.animate
 
   x_min = config.x_min
@@ -57,14 +57,14 @@ HashSubscriber.subscribe(['animate', 'brightness', 'supersamples', 'x_min', 'x_m
   }
 });
 
-var sliderValues = {
+const sliderValues = {
   supersamples: [1,4,16]
 }
 
-var sliders = document.getElementsByTagName('input')
+const sliders = document.getElementsByTagName('input')
 Array.from(sliders).forEach(slider => {
   slider.addEventListener('mousemove', () => {
-    var values = sliderValues[slider.name];
+    const values = sliderValues[slider.name];
 
     Config.setConfig({
       [slider.name]: values && values[slider.value] || slider.value
@@ -76,10 +76,10 @@ Array.from(sliders).forEach(slider => {
  * Shaders
  */
 
-var vertexShader = compileShader(vertexShaderSource, context.VERTEX_SHADER, context);
-var fragmentShader = compileShader(shaderSource, context.FRAGMENT_SHADER, context);
+const vertexShader = compileShader(vertexShaderSource, context.VERTEX_SHADER, context);
+const fragmentShader = compileShader(shaderSource, context.FRAGMENT_SHADER, context);
 
-var program = context.createProgram();
+const program = context.createProgram();
 context.attachShader(program, vertexShader);
 context.attachShader(program, fragmentShader);
 context.linkProgram(program);
@@ -100,13 +100,13 @@ context.useProgram(program);
 //
 // We order them like so, so that when we draw with
 // context.TRIANGLE_STRIP, we draw triangle ABC and BCD.
-var vertexData = new Float32Array([
+const vertexData = new Float32Array([
   -1.0,  1.0, // top left
   -1.0, -1.0, // bottom left
    1.0,  1.0, // top right
    1.0, -1.0  // bottom right
 ]);
-var vertexDataBuffer = context.createBuffer();
+const vertexDataBuffer = context.createBuffer();
 context.bindBuffer(context.ARRAY_BUFFER, vertexDataBuffer);
 context.bufferData(context.ARRAY_BUFFER, vertexData, context.STATIC_DRAW);
 
@@ -116,7 +116,7 @@ context.bufferData(context.ARRAY_BUFFER, vertexData, context.STATIC_DRAW);
 
 // To make the geometry information available in the shader as attributes, we
 // need to tell WebGL what the layout of our data in the vertex buffer is.
-var positionHandle = getAttribLocation(program, 'position', context);
+const positionHandle = getAttribLocation(program, 'position', context);
 context.enableVertexAttribArray(positionHandle);
 context.vertexAttribPointer(positionHandle,
                        2, // position is a vec2
@@ -131,9 +131,9 @@ context.vertexAttribPointer(positionHandle,
  */
 
 function drawFrame() {
-  var dataToSendToGPU = new Float32Array(10);
+  const dataToSendToGPU = new Float32Array(10);
 
-  var time = Date.now();
+  const time = Date.now();
 
   dataToSendToGPU[0] = WIDTH;
   dataToSendToGPU[1] = HEIGHT;
@@ -146,7 +146,7 @@ function drawFrame() {
   dataToSendToGPU[8] = y_max;
   dataToSendToGPU[9] = supersamples;
 
-  var dataPointer = getUniformLocation(program, 'data', context);
+  const dataPointer = getUniformLocation(program, 'data', context);
   context.uniform1fv(dataPointer, dataToSendToGPU);
 
   context.drawArrays(context.TRIANGLE_STRIP, 0, 4);

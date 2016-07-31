@@ -1,7 +1,7 @@
 import map from 'lodash/map';
 
 export default function(query) {
-  var keyValuePairs = map(query, (value, key) => {
+  const keyValuePairs = map(query, (value, key) => {
     return [key, value].join('=');
   });
 
