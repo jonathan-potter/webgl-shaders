@@ -36,8 +36,8 @@ Viewport.create({
 //   renderer.render()
 // })
 
-let {animate, brightness, supersamples, x_min, x_max, y_min, y_max} = Config.getConfig()
-HashSubscriber.subscribe(['animate', 'brightness', 'supersamples', 'x_min', 'x_max', 'y_min', 'y_max'], () => {
+let {animate, brightness, speed, supersamples, x_min, x_max, y_min, y_max} = Config.getConfig()
+HashSubscriber.subscribe(['animate', 'brightness', 'speed', 'supersamples', 'x_min', 'x_max', 'y_min', 'y_max'], () => {
   const config = Config.getConfig()
 
   const previousAnimate = animate
@@ -49,6 +49,7 @@ HashSubscriber.subscribe(['animate', 'brightness', 'supersamples', 'x_min', 'x_m
   y_max = config.y_max
 
   brightness = config.brightness
+  speed = config.speed
 
   supersamples = config.supersamples
 
@@ -58,18 +59,22 @@ HashSubscriber.subscribe(['animate', 'brightness', 'supersamples', 'x_min', 'x_m
 })
 
 const sliderValues = {
-  supersamples: [1,4,16]
+  supersamples: [1, 4, 16]
+}
+
+function sliderEventHandler(slider) {
+  const values = sliderValues[slider.name]
+
+  Config.setConfig({
+    [slider.name]: values && values[slider.value] || slider.value
+  })
 }
 
 const sliders = document.getElementsByTagName('input')
 Array.from(sliders).forEach(slider => {
-  slider.addEventListener('mousemove', () => {
-    const values = sliderValues[slider.name]
-
-    Config.setConfig({
-      [slider.name]: values && values[slider.value] || slider.value
-    })
-  })
+  slider.addEventListener('mousemove', sliderEventHandler.bind(null, slider))
+  slider.addEventListener('mousedown', sliderEventHandler.bind(null, slider))
+  slider.addEventListener('click', sliderEventHandler.bind(null, slider))
 })
 
 /**
@@ -130,10 +135,11 @@ context.vertexAttribPointer(positionHandle,
  * Draw
  */
 
+let time = 0
 function drawFrame() {
   const dataToSendToGPU = new Float32Array(10)
 
-  const time = Date.now()
+  time += speed
 
   dataToSendToGPU[0] = WIDTH
   dataToSendToGPU[1] = HEIGHT
