@@ -189,7 +189,7 @@ void main() {
     float color = BRIGHTNESS * fractalValue.x / float(MAX_ITERATIONS);
     gl_FragColor = vec4(color, color, color, 0.0);
   } else if (COLORSET == 1.0) {
-    gl_FragColor = colorize(fractalValue);
+    gl_FragColor = BRIGHTNESS * colorize(fractalValue);
   }
 
 }
