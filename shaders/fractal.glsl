@@ -1,7 +1,7 @@
 precision highp float;
 
 // WIDTH, HEIGHT, C_REAL, C_IMAGINARY, X_MIN, X_MAX, Y_MIN, Y_MAX
-uniform float data[10];
+uniform float data[11];
 
 float WIDTH      = data[0];
 float HEIGHT     = data[1];
@@ -17,6 +17,8 @@ float Y_MIN      = data[7];
 float Y_MAX      = data[8];
 
 float SUPERSAMPLES = data[9];
+
+float COLORSET = data[10];
 
 const int MAX_ITERATIONS = 255;
 
@@ -183,9 +185,11 @@ void main() {
     fractalValue = msaa1x(coordinate);
   }
 
-  float color = BRIGHTNESS * fractalValue.x / float(MAX_ITERATIONS);
-  gl_FragColor = vec4(color, color, color, 0.0);
+  if (COLORSET == 0.0) {
+    float color = BRIGHTNESS * fractalValue.x / float(MAX_ITERATIONS);
+    gl_FragColor = vec4(color, color, color, 0.0);
+  } else if (COLORSET == 1.0) {
+    gl_FragColor = colorize(fractalValue);
+  }
 
-  // vec4 color = colorize(fractalValue);
-  // gl_FragColor = vec4(color[0], color[1], color[2], 0.0);
 }

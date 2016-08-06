@@ -10,6 +10,7 @@ const DEFAULT_CONFIG = {
   y_max:  1.25,
 
   brightness: 4.0,
+  colorset: 0,
   speed: 16,
   supersamples: 1
 }

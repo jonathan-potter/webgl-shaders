@@ -40,8 +40,8 @@ Array.from(sliders).forEach(slider => {
   slider.addEventListener('input', sliderEventHandler.bind(null, slider))
 })
 
-let brightness, speed, supersamples, x_min, x_max, y_min, y_max
-HashSubscriber.subscribe(['brightness', 'speed', 'supersamples', 'x_min', 'x_max', 'y_min', 'y_max'], setConfigValues)
+let brightness, colorset, speed, supersamples, x_min, x_max, y_min, y_max
+HashSubscriber.subscribe(['brightness', 'colorset', 'speed', 'supersamples', 'x_min', 'x_max', 'y_min', 'y_max'], setConfigValues)
 
 const SLIDER_VALUES = {
   supersamples: [1, 4, 16]
@@ -56,6 +56,7 @@ function setConfigValues() {
   y_max = config.y_max
 
   brightness = config.brightness
+  colorset = config.colorset
   speed = config.speed
 
   supersamples = config.supersamples
@@ -154,7 +155,7 @@ context.vertexAttribPointer(positionHandle,
 
 let time = Date.now()
 function drawFrame() {
-  const dataToSendToGPU = new Float32Array(10)
+  const dataToSendToGPU = new Float32Array(11)
 
   time += speed
 
@@ -168,6 +169,7 @@ function drawFrame() {
   dataToSendToGPU[7] = y_min
   dataToSendToGPU[8] = y_max
   dataToSendToGPU[9] = supersamples
+  dataToSendToGPU[10] = colorset
 
   const dataPointer = getUniformLocation(program, 'data', context)
   context.uniform1fv(dataPointer, dataToSendToGPU)
