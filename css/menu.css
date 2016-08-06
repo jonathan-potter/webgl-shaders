@@ -9,13 +9,14 @@
   height: 100%;
 
   background-color: white;
+  transition: 1s;
 }
 
 .content.menu-open {
   margin-left: 100%;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 550px) {
   .slide-out-menu {
     width: 400px;
   }
