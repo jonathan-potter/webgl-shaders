@@ -1,7 +1,7 @@
 precision highp float;
 
 // WIDTH, HEIGHT, C_REAL, C_IMAGINARY, X_MIN, X_MAX, Y_MIN, Y_MAX
-uniform float data[11];
+uniform float data[12];
 
 float WIDTH      = data[0];
 float HEIGHT     = data[1];
@@ -19,6 +19,7 @@ float Y_MAX      = data[8];
 float SUPERSAMPLES = data[9];
 
 float COLORSET = data[10];
+float FRACTAL = data[11];
 
 const int MAX_ITERATIONS = 255;
 
@@ -133,7 +134,11 @@ vec2 msaa(vec2 coordinate) {
   for (int index = 0; index < 16; index++) {
     vec2 msaaCoordinate = coordinate + iPixelSize * msaaCoords[index];
 
-    fractalValue += julia(msaaCoordinate, vec2(C_REAL, C_IMAG));
+    if (FRACTAL == 0.0) {
+      fractalValue += julia(msaaCoordinate, vec2(C_REAL, C_IMAG));
+    } else {
+      fractalValue += mandelbrot(msaaCoordinate);
+    }
 
     if (SUPERSAMPLES <= float(index + 1)) {
       return fractalValue / SUPERSAMPLES;

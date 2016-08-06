@@ -11,6 +11,7 @@ const DEFAULT_CONFIG = {
 
   brightness: 4.0,
   colorset: 0,
+  fractal: 0,
   speed: 16,
   supersamples: 1
 }
