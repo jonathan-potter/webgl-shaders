@@ -24,7 +24,8 @@
     "raw-loader": "^0.5.1"
   },
   "scripts": {
-    "start": "webpack-dev-server",
-    "lint": "eslint ./javascript"
+    "deploy": "source ./deploy.sh",
+    "lint": "eslint ./javascript",
+    "start": "webpack-dev-server"
   }
 }
