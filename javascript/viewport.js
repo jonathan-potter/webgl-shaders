@@ -95,6 +95,23 @@ const VIEWPORT_PROTOTYPE = {
 
     this.setConfig(this.locationHash())
   },
+  zoomOut(location) {
+    const center = this.center()
+    const range = this.range()
+
+    this.setBounds({
+      x: {
+        min: center.x - (range.x / ZOOM_SIZE * 0.5),
+        max: center.x + (range.x / ZOOM_SIZE * 0.5)
+      },
+      y: {
+        min: center.y - (range.y / ZOOM_SIZE * 0.5),
+        max: center.y + (range.y / ZOOM_SIZE * 0.5)
+      }
+    })
+
+    this.setConfig(this.locationHash())
+  },
   bindToCanvas(canvas) {
     this.canvas = canvas
     this.canvas.width = this.canvas.offsetWidth
