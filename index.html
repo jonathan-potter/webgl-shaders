@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/skeleton/normalize.css">
     <link rel="stylesheet" href="css/app.css">
     <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/menu.css">
 
     <link rel="stylesheet" type="text/css" href="css/app.css">
 
@@ -29,102 +30,104 @@
     <meta name="twitter:image"       content="http://jonathan-potter.github.io/webgl-shaders/assets/julia-set.png">
   </head>
   <body>
-    <header>
-      <div class="container">
-        <heading>
-          <button class="hamberger-menu header-block-button">
-            G
-            <menu class="dropdown-menu">
-              <ul class="dropdown-menu-items">
-                <li class="dropdown-menu-item">
-                  <div class="left width-150">
-                    <label for="supersamples">supersamples</label>
-                  </div>
-                  <div class="left width-200">
-                    <input type="range" name="supersamples" list="supersamples-options" min="0" max="2" step="1" value="0">
-                    <datalist id="supersamples-options">
-                      <option data-content="1x">0</option>
-                      <option data-content="4x">1</option>
-                      <option data-content="16x">2</option>
-                    </datalist>
-                  </div>
-                </li>
-                <li class="dropdown-menu-item">
-                  <div class="left width-150">
-                    <label for="brightness">brightness</label>
-                  </div>
-                  <div class="left width-200">
-                    <input type="range" name="brightness" list="brightness-options" min="1" max="8" step="1" value="4">
-                    <datalist id="brightness-options">
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
-                      <option>6</option>
-                      <option>7</option>
-                      <option>8</option>
-                    </datalist>
-                  </div>
-                </li>
-                <li class="dropdown-menu-item">
-                  <div class="left width-150">
-                    <label for="brightness">speed</label>
-                  </div>
-                  <div class="left width-200">
-                    <input type="range" name="speed" list="speed-options" min="0" max="320" step="16" value="30">
-                    <datalist id="speed-options">
-                      <option>0</option>
-                      <option>16</option>
-                      <option>32</option>
-                      <option>48</option>
-                      <option>64</option>
-                      <option>80</option>
-                      <option>96</option>
-                      <option>112</option>
-                      <option>128</option>
-                      <option>144</option>
-                      <option>160</option>
-                      <option>176</option>
-                      <option>192</option>
-                      <option>208</option>
-                      <option>224</option>
-                      <option>240</option>
-                      <option>256</option>
-                      <option>272</option>
-                      <option>288</option>
-                      <option>304</option>
-                      <option>320</option>
-                    </datalist>
-                  </div>
-                </li>
-              </ul>
-            </menu>
-          </button>
-          <a class="header-block-button" href="https://jonathan-potter.github.io/webgl-shaders/">
-            WebGL Julia Set
-          </a>
-        </heading>
-        <nav class="right">
-          <ul>
-            <li>
-              <a class="header-block-button" href="https://github.com/jonathan-potter/webgl-shaders" title="Github repo">
-                <i class="header-icon icon-github-circled"></i>
-              </a>
-            </li>
-            <li>
-              <a class="header-block-button" href="https://en.wikipedia.org/wiki/Julia_set" title="Wikipedia: Mandelbrot">
-                <i class="header-icon icon-wikipedia"></i>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-    <section>
-      <div>
-        <canvas id="main"></canvas>
-      </div>
+    <menu class="slide-out-menu">
+      <ul class="menu-items">
+        <li class="menu-item">
+          <div class="menu-item-label left">
+            <label for="supersamples">supersamples</label>
+          </div>
+          <div class="menu-item-range left">
+            <input type="range" name="supersamples" list="supersamples-options" min="0" max="2" step="1" value="0">
+            <datalist id="supersamples-options">
+              <option data-content="1x">0</option>
+              <option data-content="4x">1</option>
+              <option data-content="16x">2</option>
+            </datalist>
+          </div>
+        </li>
+        <li class="menu-item">
+          <div class="menu-item-label left">
+            <label for="brightness">brightness</label>
+          </div>
+          <div class="menu-item-range left">
+            <input type="range" name="brightness" list="brightness-options" min="1" max="8" step="1" value="4">
+            <datalist id="brightness-options">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+            </datalist>
+          </div>
+        </li>
+        <li class="menu-item">
+          <div class="menu-item-label left">
+            <label for="brightness">speed</label>
+          </div>
+          <div class="menu-item-range left">
+            <input type="range" name="speed" list="speed-options" min="0" max="320" step="16" value="30">
+            <datalist id="speed-options">
+              <option>0</option>
+              <option>16</option>
+              <option>32</option>
+              <option>48</option>
+              <option>64</option>
+              <option>80</option>
+              <option>96</option>
+              <option>112</option>
+              <option>128</option>
+              <option>144</option>
+              <option>160</option>
+              <option>176</option>
+              <option>192</option>
+              <option>208</option>
+              <option>224</option>
+              <option>240</option>
+              <option>256</option>
+              <option>272</option>
+              <option>288</option>
+              <option>304</option>
+              <option>320</option>
+            </datalist>
+          </div>
+        </li>
+      </ul>
+    </menu>
+    <section class="content">
+      <header>
+        <div class="container">
+          <heading>
+            <button class="hamberger-menu header-block-button">
+              <i class="header-icon icon-menu"></i>
+            </button>
+            <a class="header-block-button" href="https://jonathan-potter.github.io/webgl-shaders/">
+              WebGL Julia Set
+            </a>
+          </heading>
+          <nav class="right">
+            <ul>
+              <li>
+                <a class="header-block-button" href="https://github.com/jonathan-potter/webgl-shaders" title="Github repo">
+                  <i class="header-icon icon-github-circled"></i>
+                </a>
+              </li>
+              <li>
+                <a class="header-block-button" href="https://en.wikipedia.org/wiki/Julia_set" title="Wikipedia: Mandelbrot">
+                  <i class="header-icon icon-wikipedia"></i>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+      <section>
+        <div>
+          <canvas id="main"></canvas>
+        </div>
+      </section>
     </section>
 
     <script src="build/bundle.js"></script>

@@ -68,6 +68,13 @@ Array.from(sliders).forEach(slider => {
   slider.addEventListener('input', sliderEventHandler.bind(null, slider))
 })
 
+const content = document.getElementsByClassName('content')[0]
+const hambergerMenu = document.getElementsByClassName('hamberger-menu')[0]
+
+hambergerMenu.addEventListener('click', () => {
+  content.classList.toggle('menu-open')
+})
+
 /**
  * Shaders
  */

@@ -1,0 +1,71 @@
+.slide-out-menu {
+  position: fixed;
+  top: 60px;
+  left: 0;
+
+  z-index: 0;
+
+  width: 400px;
+  height: 100%;
+
+  background-color: white;
+}
+
+.content {
+  z-index: 1;
+
+  margin-left: 0;
+
+  transition: 1s;
+}
+
+.content.menu-open {
+  margin-left: 400px;
+}
+
+
+
+.hamburger-menu {
+  position: relative;
+
+  width: 60px;
+}
+
+.menu-item {
+  height: 60px;
+}
+
+.menu-item label, .menu-item input {
+  width: 100%;
+}
+
+.menu-item-label {
+  width: 115px;
+
+  padding-right: 10px;
+
+  line-height: 60px;
+  vertical-align: middle;
+
+  box-sizing: border-box;
+}
+
+.menu-item-label label {
+  text-align: right;
+}
+
+.menu-item-range {
+  width: 285px;
+
+  line-height: 60px;
+
+  padding-right: 10px;
+
+  box-sizing: border-box;
+}
+
+datalist, datalist * {
+  display: none;
+}
+
+
