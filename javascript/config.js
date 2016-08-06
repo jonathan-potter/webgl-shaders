@@ -9,7 +9,6 @@ const DEFAULT_CONFIG = {
   y_min: -1.25,
   y_max:  1.25,
 
-  animate: 'true',
   brightness: 4.0,
   speed: 16,
   supersamples: 1

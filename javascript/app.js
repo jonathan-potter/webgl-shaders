@@ -36,12 +36,9 @@ Viewport.create({
 //   renderer.render()
 // })
 
-let {animate, brightness, speed, supersamples, x_min, x_max, y_min, y_max} = Config.getConfig()
-HashSubscriber.subscribe(['animate', 'brightness', 'speed', 'supersamples', 'x_min', 'x_max', 'y_min', 'y_max'], () => {
+let {brightness, speed, supersamples, x_min, x_max, y_min, y_max} = Config.getConfig()
+HashSubscriber.subscribe(['brightness', 'speed', 'supersamples', 'x_min', 'x_max', 'y_min', 'y_max'], () => {
   const config = Config.getConfig()
-
-  const previousAnimate = animate
-  animate = config.animate
 
   x_min = config.x_min
   x_max = config.x_max
@@ -52,10 +49,6 @@ HashSubscriber.subscribe(['animate', 'brightness', 'speed', 'supersamples', 'x_m
   speed = config.speed
 
   supersamples = config.supersamples
-
-  if (previousAnimate === 'false') {
-    requestAnimationFrame(drawFrame)
-  }
 })
 
 const sliderValues = {
@@ -155,9 +148,7 @@ function drawFrame() {
 
   context.drawArrays(context.TRIANGLE_STRIP, 0, 4)
 
-  if (animate === 'true') {
-    requestAnimationFrame(drawFrame)
-  }
+  requestAnimationFrame(drawFrame)
 }
 
 requestAnimationFrame(drawFrame)
