@@ -152,7 +152,7 @@ context.vertexAttribPointer(positionHandle,
  * Draw
  */
 
-let time = 0
+let time = Date.now()
 function drawFrame() {
   const dataToSendToGPU = new Float32Array(10)
 
