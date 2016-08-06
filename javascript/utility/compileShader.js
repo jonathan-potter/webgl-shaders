@@ -5,7 +5,7 @@ export default function(shaderSource, shaderType, context) {
   context.compileShader(shader)
 
   if (!context.getShaderParameter(shader, context.COMPILE_STATUS)) {
-    throw "Shader compile failed with: " + context.getShaderInfoLog(shader)
+    throw 'Shader compile failed with: ' + context.getShaderInfoLog(shader)
   }
 
   return shader

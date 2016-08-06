@@ -72,9 +72,7 @@ function sliderEventHandler(slider) {
 
 const sliders = document.getElementsByTagName('input')
 Array.from(sliders).forEach(slider => {
-  slider.addEventListener('mousemove', sliderEventHandler.bind(null, slider))
-  slider.addEventListener('mousedown', sliderEventHandler.bind(null, slider))
-  slider.addEventListener('click', sliderEventHandler.bind(null, slider))
+  slider.addEventListener('input', sliderEventHandler.bind(null, slider))
 })
 
 /**
