@@ -35,9 +35,20 @@ Viewport.create({
 //   Fractal.MAX_ITERATIONS = getConfig().iterations
 //   renderer.render()
 // })
+const sliders = document.getElementsByTagName('input')
+Array.from(sliders).forEach(slider => {
+  slider.addEventListener('input', sliderEventHandler.bind(null, slider))
+})
 
-let {brightness, speed, supersamples, x_min, x_max, y_min, y_max} = Config.getConfig()
-HashSubscriber.subscribe(['brightness', 'speed', 'supersamples', 'x_min', 'x_max', 'y_min', 'y_max'], () => {
+let brightness, speed, supersamples, x_min, x_max, y_min, y_max
+setConfigValues()
+HashSubscriber.subscribe(['brightness', 'speed', 'supersamples', 'x_min', 'x_max', 'y_min', 'y_max'], setConfigValues)
+
+const sliderValues = {
+  supersamples: [1, 4, 16]
+}
+
+function setConfigValues() {
   const config = Config.getConfig()
 
   x_min = config.x_min
@@ -49,10 +60,10 @@ HashSubscriber.subscribe(['brightness', 'speed', 'supersamples', 'x_min', 'x_max
   speed = config.speed
 
   supersamples = config.supersamples
-})
 
-const sliderValues = {
-  supersamples: [1, 4, 16]
+  Array.from(sliders).forEach(slider => {
+    slider.value = config[slider.name]
+  })
 }
 
 function sliderEventHandler(slider) {
@@ -62,11 +73,6 @@ function sliderEventHandler(slider) {
     [slider.name]: values && values[slider.value] || slider.value
   })
 }
-
-const sliders = document.getElementsByTagName('input')
-Array.from(sliders).forEach(slider => {
-  slider.addEventListener('input', sliderEventHandler.bind(null, slider))
-})
 
 const content = document.getElementsByClassName('content')[0]
 const hambergerMenu = document.getElementsByClassName('hamberger-menu')[0]
