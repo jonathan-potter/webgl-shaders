@@ -41,10 +41,9 @@ Array.from(sliders).forEach(slider => {
 })
 
 let brightness, speed, supersamples, x_min, x_max, y_min, y_max
-setConfigValues()
 HashSubscriber.subscribe(['brightness', 'speed', 'supersamples', 'x_min', 'x_max', 'y_min', 'y_max'], setConfigValues)
 
-const sliderValues = {
+const SLIDER_VALUES = {
   supersamples: [1, 4, 16]
 }
 
@@ -62,12 +61,26 @@ function setConfigValues() {
   supersamples = config.supersamples
 
   Array.from(sliders).forEach(slider => {
-    slider.value = config[slider.name]
+    const currentValue = config[slider.name]
+    const values = SLIDER_VALUES[slider.name]
+
+    let valueIndex
+    if (values) {
+      valueIndex = values.indexOf(currentValue)
+    }
+
+    if (valueIndex === undefined) {
+      slider.value = currentValue
+    } else {
+      slider.value = valueIndex
+    }
   })
 }
 
+setConfigValues()
+
 function sliderEventHandler(slider) {
-  const values = sliderValues[slider.name]
+  const values = SLIDER_VALUES[slider.name]
 
   Config.setConfig({
     [slider.name]: values && values[slider.value] || slider.value
