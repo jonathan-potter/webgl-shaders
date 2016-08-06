@@ -28,9 +28,7 @@ float Y_RANGE = Y_MAX - Y_MIN;
 vec2 iResolution = vec2(WIDTH, HEIGHT);
 vec2 iPixelSize  = vec2(X_RANGE / WIDTH, Y_RANGE / HEIGHT);
 
-vec2 msaa4xCoords[4];
-vec2 altMsaa4xCoords[4];
-vec2 msaa16xCoords[16];
+vec2 msaaCoords[16];
 
 struct complex {
   float real;
@@ -100,90 +98,55 @@ vec2 fragCoordToXY(vec4 fragCoord) {
 }
 
 void initializeMSAA() {
-  // I really wish I had bitwise operators...
-  vec2 start = vec2(0.125, 0.125);
-  altMsaa4xCoords[0] = start + vec2(0.5 * 0.0 + 0.25 * 0.0, 0.5 * 0.0 + 0.25 * 0.0);
-  altMsaa4xCoords[1] = start + vec2(0.5 * 0.0 + 0.25 * 1.0, 0.5 * 1.0 + 0.25 * 0.0);
-  altMsaa4xCoords[2] = start + vec2(0.5 * 1.0 + 0.25 * 0.0, 0.5 * 0.0 + 0.25 * 1.0);
-  altMsaa4xCoords[3] = start + vec2(0.5 * 1.0 + 0.25 * 1.0, 0.5 * 1.0 + 0.25 * 1.0);
-
-  msaa4xCoords[0] = vec2(0.25, 0.25);
-  msaa4xCoords[1] = vec2(0.25, 0.75);
-  msaa4xCoords[2] = vec2(0.75, 0.25);
-  msaa4xCoords[3] = vec2(0.75, 0.75);
-
-  msaa16xCoords[0]  = vec2(0.125 + 0.0 * 0.25 + -0.0375, 0.125 + 0.0 * 0.25 + -0.0375);
-  msaa16xCoords[1]  = vec2(0.125 + 0.0 * 0.25 + -0.0125, 0.125 + 1.0 * 0.25 + -0.0375);
-  msaa16xCoords[2]  = vec2(0.125 + 0.0 * 0.25 +  0.0125, 0.125 + 2.0 * 0.25 + -0.0375);
-  msaa16xCoords[3]  = vec2(0.125 + 0.0 * 0.25 +  0.0375, 0.125 + 3.0 * 0.25 + -0.0375);
-  msaa16xCoords[4]  = vec2(0.125 + 1.0 * 0.25 + -0.0375, 0.125 + 0.0 * 0.25 + -0.0125);
-  msaa16xCoords[5]  = vec2(0.125 + 1.0 * 0.25 + -0.0125, 0.125 + 1.0 * 0.25 + -0.0125);
-  msaa16xCoords[6]  = vec2(0.125 + 1.0 * 0.25 +  0.0125, 0.125 + 2.0 * 0.25 + -0.0125);
-  msaa16xCoords[7]  = vec2(0.125 + 1.0 * 0.25 +  0.0375, 0.125 + 3.0 * 0.25 + -0.0125);
-  msaa16xCoords[8]  = vec2(0.125 + 2.0 * 0.25 + -0.0375, 0.125 + 0.0 * 0.25 +  0.0125);
-  msaa16xCoords[9]  = vec2(0.125 + 2.0 * 0.25 + -0.0125, 0.125 + 1.0 * 0.25 +  0.0125);
-  msaa16xCoords[10] = vec2(0.125 + 2.0 * 0.25 +  0.0125, 0.125 + 2.0 * 0.25 +  0.0125);
-  msaa16xCoords[11] = vec2(0.125 + 2.0 * 0.25 +  0.0375, 0.125 + 3.0 * 0.25 +  0.0125);
-  msaa16xCoords[12] = vec2(0.125 + 3.0 * 0.25 + -0.0375, 0.125 + 0.0 * 0.25 +  0.0375);
-  msaa16xCoords[13] = vec2(0.125 + 3.0 * 0.25 + -0.0125, 0.125 + 1.0 * 0.25 +  0.0375);
-  msaa16xCoords[14] = vec2(0.125 + 3.0 * 0.25 +  0.0125, 0.125 + 2.0 * 0.25 +  0.0375);
-  msaa16xCoords[15] = vec2(0.125 + 3.0 * 0.25 +  0.0375, 0.125 + 3.0 * 0.25 +  0.0375);
-}
-
-vec2 msaa1x(vec2 coordinate) {
-  return julia(coordinate, vec2(C_REAL, C_IMAG));
-}
-
-vec2 msaa4x(vec2 coordinate) {
-  vec2 fractalValue = vec2(0.0, 0.0);
-
-  for (int index = 0; index < 4; index++) {
-    vec2 msaaCoordinate = coordinate + iPixelSize * msaa4xCoords[index];
-
-    fractalValue += julia(msaaCoordinate, vec2(C_REAL, C_IMAG));
+  if (SUPERSAMPLES == 1.0) {
+    msaaCoords[0] = vec2(0.5, 0.5);
+  } else if (SUPERSAMPLES == 4.0) {
+    msaaCoords[0] = vec2(0.25, 0.25);
+    msaaCoords[1] = vec2(0.25, 0.75);
+    msaaCoords[2] = vec2(0.75, 0.25);
+    msaaCoords[3] = vec2(0.75, 0.75);
+  } else {
+    msaaCoords[0]  = vec2(0.125 + 0.0 * 0.25 + -0.0375, 0.125 + 0.0 * 0.25 + -0.0375);
+    msaaCoords[1]  = vec2(0.125 + 0.0 * 0.25 + -0.0125, 0.125 + 1.0 * 0.25 + -0.0375);
+    msaaCoords[2]  = vec2(0.125 + 0.0 * 0.25 +  0.0125, 0.125 + 2.0 * 0.25 + -0.0375);
+    msaaCoords[3]  = vec2(0.125 + 0.0 * 0.25 +  0.0375, 0.125 + 3.0 * 0.25 + -0.0375);
+    msaaCoords[4]  = vec2(0.125 + 1.0 * 0.25 + -0.0375, 0.125 + 0.0 * 0.25 + -0.0125);
+    msaaCoords[5]  = vec2(0.125 + 1.0 * 0.25 + -0.0125, 0.125 + 1.0 * 0.25 + -0.0125);
+    msaaCoords[6]  = vec2(0.125 + 1.0 * 0.25 +  0.0125, 0.125 + 2.0 * 0.25 + -0.0125);
+    msaaCoords[7]  = vec2(0.125 + 1.0 * 0.25 +  0.0375, 0.125 + 3.0 * 0.25 + -0.0125);
+    msaaCoords[8]  = vec2(0.125 + 2.0 * 0.25 + -0.0375, 0.125 + 0.0 * 0.25 +  0.0125);
+    msaaCoords[9]  = vec2(0.125 + 2.0 * 0.25 + -0.0125, 0.125 + 1.0 * 0.25 +  0.0125);
+    msaaCoords[10] = vec2(0.125 + 2.0 * 0.25 +  0.0125, 0.125 + 2.0 * 0.25 +  0.0125);
+    msaaCoords[11] = vec2(0.125 + 2.0 * 0.25 +  0.0375, 0.125 + 3.0 * 0.25 +  0.0125);
+    msaaCoords[12] = vec2(0.125 + 3.0 * 0.25 + -0.0375, 0.125 + 0.0 * 0.25 +  0.0375);
+    msaaCoords[13] = vec2(0.125 + 3.0 * 0.25 + -0.0125, 0.125 + 1.0 * 0.25 +  0.0375);
+    msaaCoords[14] = vec2(0.125 + 3.0 * 0.25 +  0.0125, 0.125 + 2.0 * 0.25 +  0.0375);
+    msaaCoords[15] = vec2(0.125 + 3.0 * 0.25 +  0.0375, 0.125 + 3.0 * 0.25 +  0.0375);
   }
-
-  return fractalValue / 4.0;
 }
 
-vec2 altMsaa4x(vec2 coordinate) {
+vec2 msaa(vec2 coordinate) {
   vec2 fractalValue = vec2(0.0, 0.0);
 
-  for (int index = 0; index < 4; index++) {
-    vec2 msaaCoordinate = coordinate + iPixelSize * altMsaa4xCoords[index];
-
-    fractalValue += julia(msaaCoordinate, vec2(C_REAL, C_IMAG));
-  }
-
-  return fractalValue / 4.0;
-}
-
-vec2 msaa16x(vec2 coordinate) {
-  vec2 fractalValue = vec2(0.0, 0.0);
+  initializeMSAA();
 
   for (int index = 0; index < 16; index++) {
-    vec2 msaaCoordinate = coordinate + iPixelSize * msaa16xCoords[index];
+    vec2 msaaCoordinate = coordinate + iPixelSize * msaaCoords[index];
 
     fractalValue += julia(msaaCoordinate, vec2(C_REAL, C_IMAG));
-  }
 
+    if (SUPERSAMPLES <= float(index + 1)) {
+      return fractalValue / SUPERSAMPLES;
+    }
+  }
 
   return fractalValue / 16.0;
 }
 
 void main() {
-  initializeMSAA();
-
   vec2 coordinate = fragCoordToXY(gl_FragCoord);
 
-  vec2 fractalValue;
-  if (SUPERSAMPLES == 16.0) {
-    fractalValue = msaa16x(coordinate);
-  } else if (SUPERSAMPLES == 4.0) {
-    fractalValue = msaa4x(coordinate);
-  } else {
-    fractalValue = msaa1x(coordinate);
-  }
+  vec2 fractalValue = msaa(coordinate);
 
   if (COLORSET == 0.0) {
     float color = BRIGHTNESS * fractalValue.x / float(MAX_ITERATIONS);
