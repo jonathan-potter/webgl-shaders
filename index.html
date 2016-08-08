@@ -37,12 +37,11 @@
             <label for="supersamples">supersamples</label>
           </div>
           <div class="menu-item-range left">
-            <input type="range" name="supersamples" list="supersamples-options" min="0" max="2" step="1" value="0">
-            <datalist id="supersamples-options">
-              <option data-content="1x">0</option>
-              <option data-content="4x">1</option>
-              <option data-content="16x">2</option>
-            </datalist>
+            <select type="select" name="supersamples" id="supersamples">
+              <option value="0">1x</option>
+              <option value="1">4x</option>
+              <option value="2">16x</option>
+            </select>
           </div>
         </li>
         <li class="menu-item">
@@ -50,17 +49,7 @@
             <label for="brightness">brightness</label>
           </div>
           <div class="menu-item-range left">
-            <input type="range" name="brightness" list="brightness-options" min="1" max="8" step="1" value="4">
-            <datalist id="brightness-options">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-            </datalist>
+            <input type="range" name="brightness" min="1" max="8" step="0.1" value="4">
           </div>
         </li>
         <li class="menu-item">
@@ -68,30 +57,7 @@
             <label for="brightness">speed</label>
           </div>
           <div class="menu-item-range left">
-            <input type="range" name="speed" list="speed-options" min="0" max="320" step="16" value="30">
-            <datalist id="speed-options">
-              <option>0</option>
-              <option>16</option>
-              <option>32</option>
-              <option>48</option>
-              <option>64</option>
-              <option>80</option>
-              <option>96</option>
-              <option>112</option>
-              <option>128</option>
-              <option>144</option>
-              <option>160</option>
-              <option>176</option>
-              <option>192</option>
-              <option>208</option>
-              <option>224</option>
-              <option>240</option>
-              <option>256</option>
-              <option>272</option>
-              <option>288</option>
-              <option>304</option>
-              <option>320</option>
-            </datalist>
+            <input type="range" name="speed" min="0" max="320" step="0.1" value="30">
           </div>
         </li>
         <li class="menu-item">
@@ -99,11 +65,10 @@
             <label for="colorset">colorset</label>
           </div>
           <div class="menu-item-range left">
-            <input type="range" name="colorset" list="colorset-options" min="0" max="1" step="1" value="0">
-            <datalist id="colorset-options">
-              <option>0</option>
-              <option>1</option>
-            </datalist>
+            <select type="select" name="colorset">
+              <option value="0">linear</option>
+              <option value="1">squared periodic</option>
+            </select>
           </div>
         </li>
         <li class="menu-item">
@@ -111,11 +76,10 @@
             <label for="fractal">fractal</label>
           </div>
           <div class="menu-item-range left">
-            <input type="range" name="fractal" list="fractal-options" min="0" max="1" step="1" value="0">
-            <datalist id="fractal-options">
-              <option>0</option>
-              <option>1</option>
-            </datalist>
+            <select type="select" name="fractal">
+              <option value="0">Julia Set</option>
+              <option value="1">Mandelbrot Set</option>
+            </select>
           </div>
         </li>
       </ul>

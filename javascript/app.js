@@ -35,8 +35,9 @@ Viewport.create({
 //   Fractal.MAX_ITERATIONS = getConfig().iterations
 //   renderer.render()
 // })
-const sliders = document.getElementsByTagName('input')
-Array.from(sliders).forEach(slider => {
+const sliders = Array.from(document.getElementsByTagName('input'))
+const selects = Array.from(document.getElementsByTagName('select'))
+sliders.concat(selects).forEach(slider => {
   slider.addEventListener('input', sliderEventHandler.bind(null, slider))
 })
 
