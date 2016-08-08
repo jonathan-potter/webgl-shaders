@@ -1,7 +1,7 @@
 precision highp float;
 
 // WIDTH, HEIGHT, C_REAL, C_IMAGINARY, X_MIN, X_MAX, Y_MIN, Y_MAX
-uniform float data[12];
+uniform float data[14];
 
 float WIDTH      = data[0];
 float HEIGHT     = data[1];
@@ -20,8 +20,11 @@ float SUPERSAMPLES = data[9];
 
 float COLORSET = data[10];
 float FRACTAL = data[11];
+float iGlobalTime = data[12];
+float EXPONENT = data[13];
 
 const int MAX_ITERATIONS = 255;
+const float pi = 3.1415926;
 
 float X_RANGE = X_MAX - X_MIN;
 float Y_RANGE = Y_MAX - Y_MIN;
@@ -36,15 +39,34 @@ struct complex {
   float imaginary;
 };
 
+complex complexExp(complex z, float exponent) {
+  float magnitude = sqrt(z.real * z.real + z.imaginary * z.imaginary);
+
+  float theta;
+  if (z.real == 0.0) {
+    theta = pi / 2.0 * sign(z.imaginary);
+  } else {
+    theta = atan(z.imaginary, z.real);
+  }
+
+  float newMagnitude = pow(magnitude, exponent);
+  float newTheta = theta * exponent;
+
+  complex newZ;
+  newZ.real      = newMagnitude * cos(newTheta);
+  newZ.imaginary = newMagnitude * sin(newTheta);
+
+  return newZ;
+}
+
 vec2 fractal(complex c, complex z) {
   for (int iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
 
     // z <- z^2 + c
-    float real = z.real * z.real - z.imaginary * z.imaginary + c.real;
-    float imaginary = 2.0 * z.real * z.imaginary + c.imaginary;
+    complex z2 = complexExp(z, EXPONENT);
 
-    z.real = real;
-    z.imaginary = imaginary;
+    z.real = z2.real + c.real;
+    z.imaginary = z2.imaginary + c.imaginary;
 
     if (z.real * z.real + z.imaginary * z.imaginary > 4.0) {
       int N = iteration;
