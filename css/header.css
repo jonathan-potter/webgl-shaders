@@ -18,10 +18,8 @@ header {
 }
 
 header * {
-  margin: 0;
   text-decoration: none;
   color: inherit;
-  height: inherit;
 }
 
 heading {
@@ -57,5 +55,11 @@ nav > ul > li {
   height: 0;
   line-height: 0;
 
+  border: 0;
+
   padding: 30px 5px;
+}
+
+.reset-zoom-button {
+  line-height: 0; /* huge bandaid */;
 }

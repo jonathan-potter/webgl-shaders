@@ -35,9 +35,19 @@ Viewport.create({
 //   Fractal.MAX_ITERATIONS = getConfig().iterations
 //   renderer.render()
 // })
+const resetZoomButton = document.getElementsByClassName('reset-zoom-button')[0]
 const sliders = Array.from(document.getElementsByTagName('input'))
 const selects = Array.from(document.getElementsByTagName('select'))
 const inputs = sliders.concat(selects)
+
+resetZoomButton.addEventListener('click', () => {
+  Config.setConfig({
+    x_min: Config.defaults.x_min,
+    x_max: Config.defaults.x_max,
+    y_min: Config.defaults.y_min,
+    y_max: Config.defaults.y_max
+  })
+})
 
 inputs.forEach(slider => {
   slider.addEventListener('input', inputEventHandler.bind(null, slider))
