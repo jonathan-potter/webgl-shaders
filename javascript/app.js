@@ -24,7 +24,7 @@ canvas.height = HEIGHT
 
 const context = canvas.getContext('webgl')
 
-Viewport.create({
+const viewport = Viewport.create({
   canvas: canvas,
   getConfig: Config.getConfig,
   setConfig: Config.setConfig
@@ -63,6 +63,11 @@ function setConfigValues() {
   x_max = config.x_max
   y_min = config.y_min
   y_max = config.y_max
+
+  viewport.setBounds({
+    x: {min: x_min, max: x_max},
+    y: {min: y_min, max: y_max}
+  })
 
   brightness = config.brightness
   colorset = config.colorset
