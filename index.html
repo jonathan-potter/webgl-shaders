@@ -34,13 +34,23 @@
       <ul class="menu-items">
         <li class="menu-item">
           <div class="menu-item-label left">
-            <label for="supersamples">supersamples</label>
+            <label for="fractal">fractal</label>
           </div>
           <div class="menu-item-range left">
-            <select type="select" name="supersamples" id="supersamples">
-              <option value="0">1x</option>
-              <option value="1">4x</option>
-              <option value="2">16x</option>
+            <select type="select" name="fractal">
+              <option value="0">Julia Set</option>
+              <option value="1">Mandelbrot Set</option>
+            </select>
+          </div>
+        </li>
+        <li class="menu-item">
+          <div class="menu-item-label left">
+            <label for="colorset">colorset</label>
+          </div>
+          <div class="menu-item-range left">
+            <select type="select" name="colorset">
+              <option value="0">linear</option>
+              <option value="1">squared periodic</option>
             </select>
           </div>
         </li>
@@ -62,23 +72,13 @@
         </li>
         <li class="menu-item">
           <div class="menu-item-label left">
-            <label for="colorset">colorset</label>
+            <label for="supersamples">supersamples</label>
           </div>
           <div class="menu-item-range left">
-            <select type="select" name="colorset">
-              <option value="0">linear</option>
-              <option value="1">squared periodic</option>
-            </select>
-          </div>
-        </li>
-        <li class="menu-item">
-          <div class="menu-item-label left">
-            <label for="fractal">fractal</label>
-          </div>
-          <div class="menu-item-range left">
-            <select type="select" name="fractal">
-              <option value="0">Julia Set</option>
-              <option value="1">Mandelbrot Set</option>
+            <select type="select" name="supersamples" id="supersamples">
+              <option value="1">1x</option>
+              <option value="4">4x</option>
+              <option value="16">16x</option>
             </select>
           </div>
         </li>

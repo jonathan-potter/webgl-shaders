@@ -37,16 +37,14 @@ Viewport.create({
 // })
 const sliders = Array.from(document.getElementsByTagName('input'))
 const selects = Array.from(document.getElementsByTagName('select'))
-sliders.concat(selects).forEach(slider => {
-  slider.addEventListener('input', sliderEventHandler.bind(null, slider))
+const inputs = sliders.concat(selects)
+
+inputs.forEach(slider => {
+  slider.addEventListener('input', inputEventHandler.bind(null, slider))
 })
 
 let brightness, colorset, fractal, speed, supersamples, x_min, x_max, y_min, y_max
 HashSubscriber.subscribe(['brightness', 'colorset', 'fractal', 'speed', 'supersamples', 'x_min', 'x_max', 'y_min', 'y_max'], setConfigValues)
-
-const SLIDER_VALUES = {
-  supersamples: [1, 4, 16]
-}
 
 function setConfigValues() {
   const config = Config.getConfig()
@@ -63,30 +61,16 @@ function setConfigValues() {
 
   supersamples = config.supersamples
 
-  Array.from(sliders).forEach(slider => {
-    const currentValue = config[slider.name]
-    const values = SLIDER_VALUES[slider.name]
-
-    let valueIndex
-    if (values) {
-      valueIndex = values.indexOf(currentValue)
-    }
-
-    if (valueIndex === undefined) {
-      slider.value = currentValue
-    } else {
-      slider.value = valueIndex
-    }
+  inputs.forEach(input => {
+    input.value = config[input.name]
   })
 }
 
 setConfigValues()
 
-function sliderEventHandler(slider) {
-  const values = SLIDER_VALUES[slider.name]
-
+function inputEventHandler(input) {
   Config.setConfig({
-    [slider.name]: values && values[slider.value] || slider.value
+    [input.name]: input.value
   })
 }
 
