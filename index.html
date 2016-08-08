@@ -2,9 +2,10 @@
 <html>
   <head>
     <meta name="viewport" content="initial-scale=1">
-    <title>WebGL Fractals!</title>
+    <title>WebGL Fractal Renderer</title>
     <link rel="icon" href="assets/favicon.ico">
     <link rel="stylesheet" href="assets/fontello/css/fontello.css">
+    <link rel="stylesheet" href="dependencies/social-share-kit/dist/css/social-share-kit.css" type="text/css">
 
     <link rel="stylesheet" href="css/skeleton/skeleton.css">
     <link rel="stylesheet" href="css/skeleton/normalize.css">
@@ -14,24 +15,35 @@
 
     <link rel="stylesheet" type="text/css" href="css/app.css">
 
+    <!-- facebook -->
+    <meta property="fb:app_id"      content="285261565166104" />
+
     <!-- facebook/pinterest -->
     <meta property="og:url"         content="https://jonathan-potter.github.io/webgl-shaders/" />
-    <meta property="og:title"       content="WebGL Julia Set" />
+    <meta property="og:title"       content="WebGL Fractal Renderer" />
     <meta property="og:description" content="built by Jonathan Potter" />
-    <meta property="og:site_name"   content="WebGL Julia Set" />
+    <meta property="og:site_name"   content="WebGL Fractal Renderer" />
     <meta property="og:image"       content="http://jonathan-potter.github.io/webgl-shaders/assets/julia-set.png" />
-    <meta property="og:app_id"      content="285261565166104" />
 
     <!-- twitter -->
     <meta name="twitter:card"        content="summary_large_image">
     <meta name="twitter:site"        content="@PotterRawr">
-    <meta name="twitter:title"       content="WebGL Julia Set">
+    <meta name="twitter:title"       content="WebGL Fractal Renderer">
     <meta name="twitter:description" content="built by Jonathan Potter">
     <meta name="twitter:image"       content="http://jonathan-potter.github.io/webgl-shaders/assets/julia-set.png">
   </head>
   <body>
     <menu class="slide-out-menu">
       <ul class="menu-items">
+        <li class="menu-item share-group">
+          <div class="ssk-group ssk-lg">
+            <a href="" class="ssk menu-size-mod ssk-facebook"></a>
+            <a href="" class="ssk menu-size-mod ssk-twitter"></a>
+            <a href="" class="ssk menu-size-mod ssk-google-plus"></a>
+            <a href="" class="ssk menu-size-mod ssk-pinterest"></a>
+            <a href="" class="ssk menu-size-mod ssk-tumblr"></a>
+          </div>
+        </li>
         <li class="menu-item">
           <div class="menu-item-label left">
             <label for="fractal">fractal</label>
@@ -100,7 +112,7 @@
               <i class="header-icon icon-menu"></i>
             </button>
             <a class="header-block-button" href="https://jonathan-potter.github.io/webgl-shaders/">
-              WebGL Julia Set
+              WebGL Fractal Renderer
             </a>
             <button class="reset-zoom-button button-primary">
               reset zoom
@@ -119,7 +131,7 @@
                 </a>
               </li>
               <li>
-                <a class="header-block-button" href="https://en.wikipedia.org/wiki/Julia_set" title="Wikipedia: Julia Set">
+                <a class="header-block-button" href="https://en.wikipedia.org/wiki/Fractal" title="Wikipedia: Fractal">
                   <i class="header-icon icon-wikipedia"></i>
                 </a>
               </li>
@@ -134,6 +146,10 @@
       </section>
     </section>
 
+    <script type="text/javascript" src="dependencies/social-share-kit/dist/js/social-share-kit.js"></script>
+    <script type="text/javascript">
+      SocialShareKit.init();
+    </script>
     <script src="build/bundle.js"></script>
   </body>
 </html>

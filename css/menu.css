@@ -80,4 +80,12 @@ datalist, datalist * {
   display: none;
 }
 
+.menu-size-mod {
+  width: 20%;
+
+  margin: 0;
+  border: 0;
+  padding: 5px 0 !important;
+}
+
 
