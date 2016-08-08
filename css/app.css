@@ -1,3 +1,7 @@
+* {
+  transition: 0.1s;
+}
+
 html, body, ul, li, menu, label {
   padding: 0;
   border: 0;
