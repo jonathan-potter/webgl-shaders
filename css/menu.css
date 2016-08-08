@@ -3,6 +3,8 @@
   top: 60px;
   left: 0;
 
+  overflow: scroll;
+
   z-index: 0;
 
   width: 100%;
