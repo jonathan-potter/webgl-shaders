@@ -59,7 +59,7 @@ vec2 cexp(vec2 c) {
 vec2 ccos(vec2 c) {
   vec2 ci = cmult(c, vec2(0, 1));
 
-  return (cexp(ci) + cexp(-c)) / 2.0;
+  return (cexp(ci) + cexp(-ci)) / 2.0;
 }
 
 float collatz(vec2 position) {
