@@ -30,8 +30,7 @@ const Config = {
     config = assign({}, Config.getConfig(), configChanges)
 
     setLocationHash(config)
-  },
-  defaults: DEFAULT_CONFIG
+  }
 }
 
 export default Config

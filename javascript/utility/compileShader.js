@@ -1,4 +1,4 @@
-export default function(shaderSource, shaderType, context) {
+export default function({shaderSource, shaderType, context}) {
   const shader = context.createShader(shaderType)
 
   context.shaderSource(shader, shaderSource)

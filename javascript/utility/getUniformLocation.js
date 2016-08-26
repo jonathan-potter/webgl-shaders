@@ -1,4 +1,4 @@
-export default function(program, name, context) {
+export default function({program, name, context}) {
   const uniformLocation = context.getUniformLocation(program, name)
 
   if (uniformLocation === -1) {
