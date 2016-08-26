@@ -1,11 +1,11 @@
 /* core */
-import Config from 'javascript/config'
+import Config, { keys as ConfigKeys } from 'javascript/config'
 import Viewport from 'javascript/viewport'
 
 /* utility */
-import compileShader from 'javascript/utility/compileShader'
-import getAttribLocation from 'javascript/utility/getAttribLocation'
-import getUniformLocation from 'javascript/utility/getUniformLocation'
+import compileShader from 'utility/compileShader'
+import getAttribLocation from 'utility/getAttribLocation'
+import getUniformLocation from 'utility/getUniformLocation'
 
 /* shaders */
 import vertexShaderSource from 'shaders/vertexShader.glsl'
@@ -25,7 +25,7 @@ canvas.height = HEIGHT
 
 const context = canvas.getContext('webgl')
 
-const viewport = Viewport.create({
+Viewport.create({
   canvas: canvas,
   getConfig: Config.getConfig,
   setConfig: Config.setConfig
@@ -50,11 +50,11 @@ resetZoomButton.addEventListener('click', () => {
   })
 })
 
-inputs.forEach(slider => {
-  slider.addEventListener('input', inputEventHandler.bind(null, slider))
+inputs.forEach(input => {
+  input.addEventListener('input', inputEventHandler.bind(null, input))
 })
 
-HashSubscriber.subscribe(['brightness', 'colorset', 'fractal', 'exponent', 'speed', 'supersamples', 'x_min', 'x_max', 'y_min', 'y_max'], setConfigValues)
+HashSubscriber.subscribe(ConfigKeys, setConfigValues)
 
 let config
 function setConfigValues() {
@@ -143,7 +143,8 @@ function drawFrame() {
   time += config.speed
 
   forEach(config, (value, name) => setUniformValue(name, value))
-  setUniformValue('WIDTH',  WIDTH)
+
+  setUniformValue('WIDTH', WIDTH)
   setUniformValue('HEIGHT', HEIGHT)
   setUniformValue('C_REAL', -0.795 + Math.sin(time / 2000) / 40)
   setUniformValue('C_IMAG', 0.2321 + Math.cos(time / 1330) / 40)

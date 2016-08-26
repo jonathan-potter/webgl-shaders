@@ -3,7 +3,7 @@ import setLocationHash from 'javascript/utility/setLocationHash'
 
 import assign from 'lodash/assign'
 
-const DEFAULT_CONFIG = {
+export const DEFAULT_CONFIG = {
   x_min: -2.0,
   x_max:  2.0,
   y_min: -1.25,
@@ -16,6 +16,8 @@ const DEFAULT_CONFIG = {
   speed: 16,
   supersamples: 1
 }
+
+export const keys = Object.keys(DEFAULT_CONFIG)
 
 const Config = {
   getConfig(locationHash = parseLocationHash()) {

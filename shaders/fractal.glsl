@@ -77,8 +77,6 @@ vec2 fractal(complex c, complex z) {
 }
 
 vec4 colorize(vec2 fractalValue) {
-  /* save for later */
-
   float N = float(fractalValue.x / 4.0);
   float value = float(fractalValue.y / 4.0);
 
