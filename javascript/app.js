@@ -92,6 +92,8 @@ function drawFrame() {
   requestAnimationFrame(drawFrame)
 }
 
+requestAnimationFrame(drawFrame)
+
 function setUniformValue(name, value) {
   let dataPointer = getUniformLocation({
     program,
@@ -102,28 +104,15 @@ function setUniformValue(name, value) {
   context.uniform1fv(dataPointer, new Float32Array([value]))
 }
 
-requestAnimationFrame(drawFrame)
-
 function resize(context) {
   /* http://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html */
-  var realToCSSPixels = window.devicePixelRatio || 1;
-
-  // Lookup the size the browser is displaying the canvas in CSS pixels
-  // and compute a size needed to make our drawingbuffer match it in
-  // device pixels.
-  var displayWidth  = Math.floor(window.innerWidth  * realToCSSPixels);
-  var displayHeight = Math.floor(window.innerHeight * realToCSSPixels);
-
   WIDTH = window.innerWidth
   HEIGHT = window.innerHeight
 
-  // Check if the canvas is not the same size.
-  if (context.canvas.width  !== displayWidth || context.canvas.height !== displayHeight) {
-    // Make the canvas the same size
-    context.canvas.width  = displayWidth;
-    context.canvas.height = displayHeight;
+  if (context.canvas.width  !== WIDTH || context.canvas.height !== HEIGHT) {
+    canvas.width  = WIDTH;
+    canvas.height = HEIGHT;
 
-    // Set the viewport to match
-    context.viewport(0, 0, context.canvas.width, context.canvas.height);
+    context.viewport(0, 0, WIDTH, HEIGHT);
   }
 }
