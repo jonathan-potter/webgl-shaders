@@ -25,17 +25,12 @@ canvas.height = HEIGHT
 
 const context = canvas.getContext('webgl')
 
-Viewport.create({
+const viewport = Viewport.create({
   canvas: canvas,
   getConfig: Config.getConfig,
   setConfig: Config.setConfig
 })
 
-/* IGNORING 'ITERATIONS' FOR NOW */
-// HashSubscriber.subscribe(['iterations'], () => {
-//   Fractal.MAX_ITERATIONS = getConfig().iterations
-//   renderer.render()
-// })
 const resetZoomButton = document.getElementsByClassName('reset-zoom-button')[0]
 const sliders = Array.from(document.getElementsByTagName('input'))
 const selects = Array.from(document.getElementsByTagName('select'))
@@ -48,6 +43,8 @@ resetZoomButton.addEventListener('click', () => {
     y_min: Config.defaults.y_min,
     y_max: Config.defaults.y_max
   })
+
+  viewport.update()
 })
 
 inputs.forEach(input => {

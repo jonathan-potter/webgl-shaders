@@ -1,5 +1,5 @@
-import parseLocationHash from 'javascript/utility/parseLocationHash'
-import setLocationHash from 'javascript/utility/setLocationHash'
+import parseLocationHash from 'utility/parseLocationHash'
+import setLocationHash from 'utility/setLocationHash'
 
 import assign from 'lodash/assign'
 
@@ -19,14 +19,17 @@ export const DEFAULT_CONFIG = {
 
 export const keys = Object.keys(DEFAULT_CONFIG)
 
+let config
 const Config = {
-  getConfig(locationHash = parseLocationHash()) {
-    return assign({}, DEFAULT_CONFIG, locationHash)
+  getConfig() {
+    config = config || assign({}, DEFAULT_CONFIG, parseLocationHash())
+
+    return config
   },
   setConfig(configChanges) {
-    const newConfig = assign({}, Config.getConfig(), configChanges)
+    config = assign({}, Config.getConfig(), configChanges)
 
-    setLocationHash(newConfig)
+    setLocationHash(config)
   },
   defaults: DEFAULT_CONFIG
 }
