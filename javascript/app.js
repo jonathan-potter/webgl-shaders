@@ -18,8 +18,8 @@ import forEach from 'lodash/forEach'
 
 const canvas  = document.getElementById("main")
 
-const WIDTH  = window.innerWidth
-const HEIGHT = window.innerHeight
+let WIDTH  = window.innerWidth
+let HEIGHT = window.innerHeight
 
 canvas.width  = WIDTH
 canvas.height = HEIGHT
@@ -87,6 +87,8 @@ function drawFrame() {
 
   context.drawArrays(context.TRIANGLE_STRIP, 0, 4)
 
+  resize(context)
+
   requestAnimationFrame(drawFrame)
 }
 
@@ -102,3 +104,26 @@ function setUniformValue(name, value) {
 
 requestAnimationFrame(drawFrame)
 
+function resize(context) {
+  /* http://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html */
+  var realToCSSPixels = window.devicePixelRatio || 1;
+
+  // Lookup the size the browser is displaying the canvas in CSS pixels
+  // and compute a size needed to make our drawingbuffer match it in
+  // device pixels.
+  var displayWidth  = Math.floor(window.innerWidth  * realToCSSPixels);
+  var displayHeight = Math.floor(window.innerHeight * realToCSSPixels);
+
+  WIDTH = window.innerWidth
+  HEIGHT = window.innerHeight
+
+  // Check if the canvas is not the same size.
+  if (context.canvas.width  !== displayWidth || context.canvas.height !== displayHeight) {
+    // Make the canvas the same size
+    context.canvas.width  = displayWidth;
+    context.canvas.height = displayHeight;
+
+    // Set the viewport to match
+    context.viewport(0, 0, context.canvas.width, context.canvas.height);
+  }
+}
