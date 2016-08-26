@@ -9,10 +9,11 @@ import getUniformLocation from 'javascript/utility/getUniformLocation'
 
 /* shaders */
 import vertexShaderSource from 'shaders/vertexShader.glsl'
-import shaderSource from 'shaders/fractal.glsl'
+import fragmentShaderSource from 'shaders/fractal.glsl'
 
 /* libraries */
 import HashSubscriber from 'hash-subscriber'
+import forEach from 'lodash/forEach'
 
 const canvas  = document.getElementById("main")
 
@@ -53,29 +54,11 @@ inputs.forEach(slider => {
   slider.addEventListener('input', inputEventHandler.bind(null, slider))
 })
 
-let brightness, colorset, exponent, fractal, speed, supersamples, x_min, x_max, y_min, y_max
 HashSubscriber.subscribe(['brightness', 'colorset', 'fractal', 'exponent', 'speed', 'supersamples', 'x_min', 'x_max', 'y_min', 'y_max'], setConfigValues)
 
+let config
 function setConfigValues() {
-  const config = Config.getConfig()
-
-  x_min = config.x_min
-  x_max = config.x_max
-  y_min = config.y_min
-  y_max = config.y_max
-
-  viewport.setBounds({
-    x: {min: x_min, max: x_max},
-    y: {min: y_min, max: y_max}
-  })
-
-  brightness = config.brightness
-  colorset = config.colorset
-  exponent = config.exponent
-  fractal = config.fractal
-  speed = config.speed
-
-  supersamples = config.supersamples
+  config = Config.getConfig()
 
   inputs.forEach(input => {
     input.value = config[input.name]
@@ -102,7 +85,7 @@ hambergerMenu.addEventListener('click', () => {
  */
 
 const vertexShader = compileShader(vertexShaderSource, context.VERTEX_SHADER, context)
-const fragmentShader = compileShader(shaderSource, context.FRAGMENT_SHADER, context)
+const fragmentShader = compileShader(fragmentShaderSource, context.FRAGMENT_SHADER, context)
 
 const program = context.createProgram()
 context.attachShader(program, vertexShader)
@@ -157,31 +140,22 @@ context.vertexAttribPointer(positionHandle,
 
 let time = Date.now()
 function drawFrame() {
-  const dataToSendToGPU = new Float32Array(14)
+  time += config.speed
 
-  time += speed
-
-  dataToSendToGPU[0] = WIDTH
-  dataToSendToGPU[1] = HEIGHT
-  dataToSendToGPU[2] = -0.795 + Math.sin(time / 2000) / 40
-  dataToSendToGPU[3] = 0.2321 + Math.cos(time / 1330) / 40
-  dataToSendToGPU[4] = brightness
-  dataToSendToGPU[5] = x_min
-  dataToSendToGPU[6] = x_max
-  dataToSendToGPU[7] = y_min
-  dataToSendToGPU[8] = y_max
-  dataToSendToGPU[9] = supersamples
-  dataToSendToGPU[10] = colorset
-  dataToSendToGPU[11] = fractal
-  dataToSendToGPU[12] = time
-  dataToSendToGPU[13] = exponent
-
-  const dataPointer = getUniformLocation(program, 'data', context)
-  context.uniform1fv(dataPointer, dataToSendToGPU)
+  forEach(config, (value, name) => setUniformValue(name, value))
+  setUniformValue('WIDTH',  WIDTH)
+  setUniformValue('HEIGHT', HEIGHT)
+  setUniformValue('C_REAL', -0.795 + Math.sin(time / 2000) / 40)
+  setUniformValue('C_IMAG', 0.2321 + Math.cos(time / 1330) / 40)
 
   context.drawArrays(context.TRIANGLE_STRIP, 0, 4)
 
   requestAnimationFrame(drawFrame)
+}
+
+function setUniformValue(name, value) {
+  let dataPointer = getUniformLocation(program, name.toUpperCase(), context)
+  context.uniform1fv(dataPointer, new Float32Array([value]))
 }
 
 requestAnimationFrame(drawFrame)

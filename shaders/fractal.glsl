@@ -1,27 +1,24 @@
 precision highp float;
 
-// WIDTH, HEIGHT, C_REAL, C_IMAGINARY, X_MIN, X_MAX, Y_MIN, Y_MAX
-uniform float data[14];
+uniform float WIDTH;
+uniform float HEIGHT;
 
-float WIDTH      = data[0];
-float HEIGHT     = data[1];
+uniform float C_REAL;
+uniform float C_IMAG;
 
-float C_REAL     = data[2];
-float C_IMAG     = data[3];
+uniform float BRIGHTNESS;
 
-float BRIGHTNESS = data[4];
+uniform float X_MIN;
+uniform float X_MAX;
+uniform float Y_MIN;
+uniform float Y_MAX;
 
-float X_MIN      = data[5];
-float X_MAX      = data[6];
-float Y_MIN      = data[7];
-float Y_MAX      = data[8];
+uniform float SUPERSAMPLES;
 
-float SUPERSAMPLES = data[9];
-
-float COLORSET = data[10];
-float FRACTAL = data[11];
-float iGlobalTime = data[12];
-float EXPONENT = data[13];
+uniform float COLORSET;
+uniform float FRACTAL;
+uniform float iGlobalTime;
+uniform float EXPONENT;
 
 const int MAX_ITERATIONS = 255;
 const float pi = 3.1415926;
