@@ -1,10 +1,10 @@
 export default function ({ store, viewport }) {
-  const resetZoomButton = document.getElementsByClassName('reset-button')[0]
+  const resetButton = document.getElementsByClassName('reset-button')[0]
   const sliders = Array.from(document.getElementsByTagName('input'))
   const selects = Array.from(document.getElementsByTagName('select'))
   const inputs = sliders.concat(selects)
 
-  resetZoomButton.addEventListener('click', () => {
+  resetButton.addEventListener('click', () => {
     store.dispatch({
       type: 'RESET'
     })

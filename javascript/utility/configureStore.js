@@ -8,7 +8,7 @@ import rootReducer from 'reducers'
 import throttle from 'lodash/throttle'
 
 export default function configureStore() {
-  const middlewares = [createLogger()]
+  const middlewares = [/* createLogger() */]
 
   const initialState = loadState()
   const store = createStore(rootReducer, initialState, applyMiddleware(...middlewares))
