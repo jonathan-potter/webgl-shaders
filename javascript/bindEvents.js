@@ -1,6 +1,3 @@
-import Config, { keys as ConfigKeys, DEFAULT_CONFIG } from 'javascript/config'
-import HashSubscriber from 'hash-subscriber'
-
 export default function ({ store, viewport }) {
   const resetZoomButton = document.getElementsByClassName('reset-button')[0]
   const sliders = Array.from(document.getElementsByTagName('input'))
@@ -23,7 +20,7 @@ export default function ({ store, viewport }) {
 
   let state
   function setInputValuesToStateValues() {
-    state = store.getState()
+    state = store.getState().config
 
     inputs.forEach(input => {
       input.value = state[input.name]

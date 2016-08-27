@@ -1,14 +1,17 @@
 import { combineReducers } from 'redux'
-
 import { DEFAULT_CONFIG } from 'javascript/config'
+import bounds from 'reducers/bounds'
 
 import mapValues from 'lodash/mapValues'
 
-const reducers = mapValues(DEFAULT_CONFIG, (defaultValue, name) => {
+const config = mapValues(DEFAULT_CONFIG, (defaultValue, name) => {
   return createReducer(name, defaultValue)
 })
 
-export default combineReducers(reducers)
+export default combineReducers({
+  config: combineReducers(config),
+  bounds
+})
 
 function createReducer(name, defaultValue) {
   return function (state = defaultValue, action) {

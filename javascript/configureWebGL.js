@@ -26,7 +26,7 @@ export default function ({store}) {
 
   const viewport = Viewport.create({
     canvas: canvas,
-    getConfig: store.getState, /* UPDATE */
+    getConfig: () => store.getState().bounds, /* UPDATE */
     setConfig: store.dispatch /* UPDATE */
   })
 
@@ -74,11 +74,13 @@ export default function ({store}) {
 
   let time = Date.now()
   function drawFrame(store) {
-    const state = store.getState()
+    const config = store.getState().config
+    const bounds = store.getState().bounds
 
-    time += parseFloat(state.speed)
+    time += parseFloat(config.speed)
 
-    forEach(state, (value, name) => setUniformValue(name, value))
+    forEach(config, (value, name) => setUniformValue(name, value))
+    forEach(bounds, (value, name) => setUniformValue(name, value))
 
     setUniformValue('WIDTH', WIDTH)
     setUniformValue('HEIGHT', HEIGHT)
