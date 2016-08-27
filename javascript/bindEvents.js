@@ -1,18 +1,15 @@
 import Config, { keys as ConfigKeys, DEFAULT_CONFIG } from 'javascript/config'
 import HashSubscriber from 'hash-subscriber'
 
-export default function ({ viewport }) {
-  const resetZoomButton = document.getElementsByClassName('reset-zoom-button')[0]
+export default function ({ store, viewport }) {
+  const resetZoomButton = document.getElementsByClassName('reset-button')[0]
   const sliders = Array.from(document.getElementsByTagName('input'))
   const selects = Array.from(document.getElementsByTagName('select'))
   const inputs = sliders.concat(selects)
 
   resetZoomButton.addEventListener('click', () => {
-    Config.setConfig({
-      x_min: DEFAULT_CONFIG.x_min,
-      x_max: DEFAULT_CONFIG.x_max,
-      y_min: DEFAULT_CONFIG.y_min,
-      y_max: DEFAULT_CONFIG.y_max
+    store.dispatch({
+      type: 'RESET'
     })
 
     viewport.update()
@@ -22,22 +19,23 @@ export default function ({ viewport }) {
     input.addEventListener('input', inputEventHandler.bind(null, input))
   })
 
-  HashSubscriber.subscribe(ConfigKeys, setInputValuesToConfigValues)
+  store.subscribe(setInputValuesToStateValues)
 
-  let config
-  function setInputValuesToConfigValues() {
-    config = Config.getConfig()
+  let state
+  function setInputValuesToStateValues() {
+    state = store.getState()
 
     inputs.forEach(input => {
-      input.value = config[input.name]
+      input.value = state[input.name]
     })
   }
 
-  setInputValuesToConfigValues()
+  setInputValuesToStateValues()
 
   function inputEventHandler(input) {
-    Config.setConfig({
-      [input.name]: input.value
+    store.dispatch({
+      type: `SET_${input.name.toUpperCase()}`,
+      value: input.value
     })
   }
 

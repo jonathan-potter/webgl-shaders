@@ -61,14 +61,14 @@ nav > ul > li {
   padding: 30px 5px;
 }
 
-.reset-zoom-button {
+.reset-button {
   line-height: 0; /* huge bandaid */;
   padding-left: 10px;
   padding-right: 10px;
 }
 
 @media (min-width: 550px) {
-  .reset-zoom-button {
+  .reset-button {
     padding-left: 30px;
     padding-right: 30px;
   }
