@@ -6,3 +6,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 ### 2016-08-26
 - Improves Canvas and WebGL context behavior on window resize
 - Replaces HashSubscriber with Redux for state management
+
+### 2016-08-27
+- configuration values in the menu can now be set and reset by fractal
