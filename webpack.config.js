@@ -14,6 +14,7 @@ module.exports = {
       assets:     path.resolve(__dirname, 'assets'),
       javascript: path.resolve(__dirname, 'javascript'),
       shaders:    path.resolve(__dirname, 'shaders'),
+      reducers:   path.resolve(__dirname, 'javascript', 'reducers'),
       utility:    path.resolve(__dirname, 'javascript', 'utility')
     }
   },

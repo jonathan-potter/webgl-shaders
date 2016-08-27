@@ -93,7 +93,13 @@ const VIEWPORT_PROTOTYPE = {
       }
     })
 
-    this.setConfig(this.locationHash())
+    this.setConfig({
+      type: 'SET_BOUNDS',
+      x_min: this.xBounds.min,
+      x_max: this.xBounds.max,
+      y_min: this.yBounds.min,
+      y_max: this.yBounds.max
+    })
   },
   zoomOut(location) {
     const center = this.center()
