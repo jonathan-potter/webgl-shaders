@@ -49,7 +49,7 @@
             <label for="fractal">fractal</label>
           </div>
           <div class="menu-item-range left">
-            <select type="select" name="fractal">
+            <select type="select" name="fractal" class="fractal-selector" class="fractal-selector">
               <option value="0">Julia Set</option>
               <option value="1">Mandelbrot Set</option>
             </select>
@@ -60,7 +60,7 @@
             <label for="colorset">colorset</label>
           </div>
           <div class="menu-item-range left">
-            <select type="select" name="colorset">
+            <select type="select" name="colorset" class="config-selector">
               <option value="0">linear</option>
               <option value="1">squared periodic</option>
             </select>
@@ -71,7 +71,7 @@
             <label for="brightness">brightness</label>
           </div>
           <div class="menu-item-range left">
-            <input type="range" name="brightness" min="1" max="8" step="0.001" value="4">
+            <input type="range" name="brightness" min="1" max="8" step="0.001" value="4" class="config-input">
           </div>
         </li>
         <li class="menu-item">
@@ -79,7 +79,7 @@
             <label for="speed">speed</label>
           </div>
           <div class="menu-item-range left">
-            <input type="range" name="speed" min="0" max="320" step="0.001" value="30">
+            <input type="range" name="speed" min="0" max="320" step="0.001" value="30" class="config-input">
           </div>
         </li>
         <li class="menu-item">
@@ -87,7 +87,7 @@
             <label for="exponent">exponent</label>
           </div>
           <div class="menu-item-range left">
-            <input type="range" name="exponent" min="0" max="10" step="0.001" value="2">
+            <input type="range" name="exponent" min="0" max="10" step="0.001" value="2" class="config-input">
           </div>
         </li>
         <li class="menu-item">
@@ -95,7 +95,7 @@
             <label for="supersamples">supersamples</label>
           </div>
           <div class="menu-item-range left">
-            <select type="select" name="supersamples" id="supersamples">
+            <select type="select" name="supersamples" id="supersamples" class="config-selector">
               <option value="1">1x</option>
               <option value="4">4x</option>
               <option value="16">16x</option>

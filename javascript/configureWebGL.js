@@ -24,10 +24,19 @@ export default function ({store}) {
   canvas.width  = WIDTH
   canvas.height = HEIGHT
 
+  const state = store.getState()
+  const currentFractal = state.fractal
+  const bounds = state.propertiesByFractal[currentFractal].bounds
   const viewport = Viewport.create({
     canvas: canvas,
-    getConfig: () => store.getState().bounds, /* UPDATE */
-    setConfig: store.dispatch /* UPDATE */
+    getConfig: () => bounds, /* UPDATE */
+    setConfig: bounds => { /* UPDATE */
+      store.dispatch({
+        type: 'SET_BOUNDS',
+        fractal: store.getState().fractal,
+        bounds
+      })
+    }
   })
 
   bindEvents({ store, viewport })
@@ -74,11 +83,16 @@ export default function ({store}) {
 
   let time = Date.now()
   function drawFrame(store) {
-    const config = store.getState().config
-    const bounds = store.getState().bounds
+    const state = store.getState()
+    const currentFractal = state.fractal
+    const properties = state.propertiesByFractal[currentFractal]
+
+    const config = properties.config
+    const bounds = properties.bounds
 
     time += parseFloat(config.speed)
 
+    setUniformValue('fractal', currentFractal)
     forEach(config, (value, name) => setUniformValue(name, value))
     forEach(bounds, (value, name) => setUniformValue(name, value))
 
