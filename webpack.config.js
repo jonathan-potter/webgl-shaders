@@ -9,7 +9,7 @@ module.exports = {
   },
   resolve: {
     // Allow to omit extensions when requiring these files
-    extensions: ['', '.js'],
+    extensions: ['', '.js', '.jsx'],
     alias: {
       assets:     path.resolve(__dirname, 'assets'),
       javascript: path.resolve(__dirname, 'javascript'),
@@ -22,7 +22,7 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.js$/,
+        test: /\.js$|.jsx$/,
         exclude: /node_modules/,
         loader: "babel-loader"
       },
