@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 import map from 'lodash/map'
 
@@ -51,13 +52,26 @@ const SelectMenuItem = ({ name, options }) => {
   )
 }
 
-const RangeMenuItem = ({ name, min, max, value }) => (
-  <li className="menu-item">
-    <div className="menu-item-label left">
-        <label htmlFor={name}>{name}</label>
-    </div>
-    <div className="menu-item-range left">
-      <input type="range" name={name} min={min} max={max} step="0.001" value={value} className="config-input" />
-    </div>
-  </li>
-)
+const mapStateToProps = (state) => ({
+  config: state.propertiesByFractal[state.fractal].config,
+  fractal: state.fractal
+})
+
+const RangeMenuItem = connect(mapStateToProps)(({ config, dispatch, fractal, name, min, max }) => {
+  return (
+    <li className="menu-item">
+      <div className="menu-item-label left">
+          <label htmlFor={name}>{name}</label>
+      </div>
+      <div className="menu-item-range left">
+        <input type="range" name={name} min={min} max={max} step="0.001" value={config[name]} className="config-input"
+          onChange={event => dispatch({
+          type: 'SET_CONFIG_VALUE',
+          value: event.currentTarget.value,
+          name,
+          fractal
+        })}/>
+      </div>
+    </li>
+  )
+})
