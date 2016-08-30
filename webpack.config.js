@@ -1,7 +1,7 @@
 var path = require('path');
 
 module.exports = {
-  entry: "./javascript/app",
+  entry: "./javascript/index",
   output: {
     path: __dirname,
     filename: "build/bundle.js",
@@ -14,6 +14,7 @@ module.exports = {
       assets:     path.resolve(__dirname, 'assets'),
       javascript: path.resolve(__dirname, 'javascript'),
       shaders:    path.resolve(__dirname, 'shaders'),
+      components: path.resolve(__dirname, 'javascript', 'components'),
       reducers:   path.resolve(__dirname, 'javascript', 'reducers'),
       utility:    path.resolve(__dirname, 'javascript', 'utility')
     }

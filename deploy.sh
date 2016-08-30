@@ -1,6 +1,6 @@
 git branch gh-pages
 git checkout gh-pages
-webpack
+webpack -p
 git add .
 git commit -m "prep for deployment"
 git push -f origin gh-pages
