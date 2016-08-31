@@ -3,7 +3,7 @@
   "parser": "babel-eslint",
   "parserOptions": {
     "ecmaFeatures": {
-      "jsx": true                             // enable JSX
+      "jsx": true,                                // enable JSX
       "binaryLiterals": false,                    // enable binary literals
       "blockBindings": false,                     // enable let and const (aka block bindings)
       "defaultParams": false,                     // enable default function parameters

@@ -6,9 +6,8 @@ import configureStore from 'utility/configureStore'
 import configureWebGL from 'javascript/configureWebGL'
 
 const store = configureStore()
-// configureWebGL({store})
 
 ReactDOM.render(
-  <Root store={store} />,
+  <Root store={store} configureWebGL={configureWebGL.bind(null, {store})} />,
   document.getElementById('root')
 )

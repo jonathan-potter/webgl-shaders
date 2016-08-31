@@ -1,29 +1,11 @@
 import React from 'react'
-import { connect, Provider } from 'react-redux'
-import Header from 'components/Header'
-import Menu from 'components/Menu'
-import classnames from 'classnames'
+import { Provider } from 'react-redux'
+import App from 'components/App'
 
-export default ({ store }) => {
+export default ({ store, configureWebGL }) => {
   return (
     <Provider store={store}>
-      <App />
+      <App configureWebGL={configureWebGL} />
     </Provider>
   )
 }
-
-const mapStateToProps = ({ menuOpen }) => ({ menuOpen })
-
-const App = connect(mapStateToProps)(({ menuOpen }) => {
-  const className = classnames({
-    'menu-open': menuOpen
-  })
-
-  return (
-    <div>
-      <Menu />
-      <Header />
-      <canvas id="main" className={className}></canvas>
-    </div>
-  )
-})
