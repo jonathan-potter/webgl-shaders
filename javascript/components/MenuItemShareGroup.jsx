@@ -3,9 +3,11 @@ import 'social-share-kit' // exposes global
 
 export default class MenuItemShareGroup extends Component {
   componentDidMount() {
+    /* eslint-disable no-undef */
     SocialShareKit.init({
       url: 'https://jonathan-potter.github.io/webgl-shaders/'
     });
+    /* eslint-enable no-undef */
   }
 
   render() {

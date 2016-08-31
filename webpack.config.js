@@ -1,4 +1,5 @@
 var path = require('path');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
   entry: "./javascript/index",
@@ -12,6 +13,7 @@ module.exports = {
     extensions: ['', '.js', '.jsx'],
     alias: {
       assets:     path.resolve(__dirname, 'assets'),
+      css:        path.resolve(__dirname, 'css'),
       javascript: path.resolve(__dirname, 'javascript'),
       shaders:    path.resolve(__dirname, 'shaders'),
       actions:    path.resolve(__dirname, 'javascript', 'actions'),
@@ -31,8 +33,17 @@ module.exports = {
         test: /\.glsl$/,
         exclude: /node_modules/,
         loader: "raw-loader"
+      },
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract("style-loader", "css-loader")
       }
     ]
   },
-  devtool: "#inline-source-map"
+  devtool: "#inline-source-map",
+  plugins: [
+    new ExtractTextPlugin("build/style.css", {
+      allChunks: true
+    })
+  ]
 };

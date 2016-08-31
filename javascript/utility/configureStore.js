@@ -13,7 +13,12 @@ export default function configureStore() {
   const store = createStore(rootReducer, initialState, applyMiddleware(...middlewares))
 
   store.subscribe(throttle(() => {
-    saveState(store.getState())
+    const state = store.getState()
+
+    saveState({
+      fractal: state.fractal,
+      propertiesByFractal: state.propertiesByFractal
+    })
   }, 1000))
 
   return store
