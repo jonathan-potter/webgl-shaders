@@ -64,13 +64,19 @@ const RangeMenuItem = connect(mapStateToProps)(({ config, dispatch, fractal, nam
           <label htmlFor={name}>{name}</label>
       </div>
       <div className="menu-item-range left">
-        <input type="range" name={name} min={min} max={max} step="0.001" value={config[name]} className="config-input"
+        <input type="range"
+          name={name}
+          min={min}
+          max={max}
+          step="0.001"
+          value={config[name]}
+          className="config-input"
           onChange={event => dispatch({
-          type: 'SET_CONFIG_VALUE',
-          value: event.currentTarget.value,
-          name,
-          fractal
-        })}/>
+            type: 'SET_CONFIG_VALUE',
+            value: event.currentTarget.value,
+            name,
+            fractal
+          })}/>
       </div>
     </li>
   )
