@@ -36,6 +36,7 @@ export function propertiesByFractal(state = DEFAULT_FRACTALS, action) {
   }
 }
 
-export function getPropertiesByFractal(state, fractal) {
-  return state[fractal]
-}
+export const getCurrentFractal = (state) => state.fractal
+export const getFractalConfig = (state, fractal) => state.propertiesByFractal[fractal].config
+export const getFractalBounds = (state, fractal) => state.propertiesByFractal[fractal].bounds
+

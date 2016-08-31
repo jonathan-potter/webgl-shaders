@@ -1,8 +1,8 @@
 * {
-  transition: 0.1s;
+  transition: 0.2s;
 }
 
-html, body, ul, li, menu, label {
+html, body, ul, li, menu, label, button {
   padding: 0;
   border: 0;
   margin: 0;
@@ -10,6 +10,7 @@ html, body, ul, li, menu, label {
   text-align: left;
 
   font-weight: lighter;
+  font-size: inherit;
   font-family: HelveticaNeue, arial, sans-serif;
 }
 
