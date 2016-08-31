@@ -9,11 +9,11 @@ export default () => {
     <menu className="slide-out-menu">
       <ul className="menu-items">
         <ShareGroup />
-        <SelectMenuItem name="fractal" options={['Julia Set', 'Mandelbrot Set']} />
+        <SelectFractalItem name="fractal" options={['Julia Set', 'Mandelbrot Set']} />
         <SelectMenuItem name="colorset" options={['linear', 'squared periodic']} />
-        <RangeMenuItem name="brightness" min="1" max="8" value="4" />
-        <RangeMenuItem name="speed" min="0" max="320" value="30" />
-        <RangeMenuItem name="exponent" min="0" max="10" value="2" />
+        <RangeMenuItem name="brightness" min="1" max="8" />
+        <RangeMenuItem name="speed" min="0" max="320" />
+        <RangeMenuItem name="exponent" min="0" max="10" />
         <SelectMenuItem name="supersamples" options={{ 1: '1x', 4: '4x', 16: '16x' }} />
       </ul>
     </menu>
@@ -32,7 +32,12 @@ const ShareGroup = () => (
   </li>
 )
 
-const SelectMenuItem = ({ name, options }) => {
+const mapStateToProps = (state) => ({
+  config: getFractalConfig(state, getCurrentFractal(state)),
+  currentFractal: getCurrentFractal(state)
+})
+
+const SelectFractalItem = connect(mapStateToProps, actions)(({ currentFractal, name, options, setCurrentFractal }) => {
   const optionElements = map(options, (name, key) => (
     <option key={key} value={key}>
       {name}
@@ -45,36 +50,68 @@ const SelectMenuItem = ({ name, options }) => {
         <label htmlFor={name}>{name}</label>
       </div>
       <div className="menu-item-range left">
-        <select type="select" name={name} className={`${name}-selector`} className={`${name}-selector`}>
+        <select
+          className={`${name}-selector`}
+          type="select"
+          name={name}
+          value={currentFractal}
+          onChange={event => setCurrentFractal({
+            fractal: event.currentTarget.value
+          })}>
           {optionElements}
         </select>
       </div>
     </li>
   )
-}
+})
 
-const mapStateToProps = (state) => ({
-  config: getFractalConfig(state, getCurrentFractal(state))
+const SelectMenuItem = connect(mapStateToProps, actions)(({ config, name, options, setConfigValue }) => {
+  const optionElements = map(options, (name, key) => (
+    <option key={key} value={key}>
+      {name}
+    </option>
+  ))
+
+  return (
+    <li className="menu-item">
+      <div className="menu-item-label left">
+        <label htmlFor={name}>{name}</label>
+      </div>
+      <div className="menu-item-range left">
+        <select
+          className={`${name}-selector`}
+          type="select"
+          name={name}
+          value={config[name]}
+          onChange={event => setConfigValue({
+            value: event.currentTarget.value,
+            name
+          })}>
+          {optionElements}
+        </select>
+      </div>
+    </li>
+  )
 })
 
 const RangeMenuItem = connect(mapStateToProps, actions)(({ config, name, min, max, setConfigValue }) => {
   return (
     <li className="menu-item">
       <div className="menu-item-label left">
-          <label htmlFor={name}>{name}</label>
+        <label htmlFor={name}>{name}</label>
       </div>
       <div className="menu-item-range left">
         <input type="range"
+          className="config-input"
           name={name}
           min={min}
           max={max}
           step="0.001"
           value={config[name]}
-          className="config-input"
           onChange={event => setConfigValue({
             value: event.currentTarget.value,
             name
-          })}/>
+          })} />
       </div>
     </li>
   )
