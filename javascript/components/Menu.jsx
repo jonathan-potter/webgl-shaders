@@ -3,10 +3,6 @@ import MenuItemFractalSelect from 'components/MenuItemFractalSelect'
 import MenuItemRange from 'components/MenuItemRange'
 import MenuItemSelect from 'components/MenuItemSelect'
 import MenuItemShareGroup from 'components/MenuItemShareGroup'
-import { connect } from 'react-redux'
-import * as actions from 'actions'
-import { getCurrentFractal, getFractalConfig } from 'reducers'
-import map from 'lodash/map'
 
 export default () => {
   return (

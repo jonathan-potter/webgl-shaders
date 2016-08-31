@@ -1,22 +1,24 @@
 {
   // http://eslint.org/docs/rules/
   "parser": "babel-eslint",
-  "ecmaFeatures": {
-    "binaryLiterals": false,                    // enable binary literals
-    "blockBindings": false,                     // enable let and const (aka block bindings)
-    "defaultParams": false,                     // enable default function parameters
-    "forOf": false,                             // enable for-of loops
-    "generators": false,                        // enable generators
-    "objectLiteralComputedProperties": false,   // enable computed object literal property names
-    "objectLiteralDuplicateProperties": false,  // enable duplicate object literal properties in strict mode
-    "objectLiteralShorthandMethods": false,     // enable object literal shorthand methods
-    "objectLiteralShorthandProperties": false,  // enable object literal shorthand properties
-    "octalLiterals": false,                     // enable octal literals
-    "regexUFlag": false,                        // enable the regular expression u flag
-    "regexYFlag": false,                        // enable the regular expression y flag
-    "templateStrings": false,                   // enable template strings
-    "unicodeCodePointEscapes": false,           // enable code point escapes
-    "jsx": false                                // enable JSX
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true                             // enable JSX
+      "binaryLiterals": false,                    // enable binary literals
+      "blockBindings": false,                     // enable let and const (aka block bindings)
+      "defaultParams": false,                     // enable default function parameters
+      "forOf": false,                             // enable for-of loops
+      "generators": false,                        // enable generators
+      "objectLiteralComputedProperties": false,   // enable computed object literal property names
+      "objectLiteralDuplicateProperties": false,  // enable duplicate object literal properties in strict mode
+      "objectLiteralShorthandMethods": false,     // enable object literal shorthand methods
+      "objectLiteralShorthandProperties": false,  // enable object literal shorthand properties
+      "octalLiterals": false,                     // enable octal literals
+      "regexUFlag": false,                        // enable the regular expression u flag
+      "regexYFlag": false,                        // enable the regular expression y flag
+      "templateStrings": false,                   // enable template strings
+      "unicodeCodePointEscapes": false            // enable code point escapes
+    }
   },
 
   "env": {
@@ -212,6 +214,9 @@
     "max-params": 0,      // limits the number of parameters that can be used in the function declaration. (off by default)
     "max-statements": 0,  // specify the maximum number of statement allowed in a function (off by default)
     "no-bitwise": 0,      // disallow use of bitwise operators (off by default)
-    "no-plusplus": 0      // disallow use of unary operators, ++ and -- (off by default)
+    "no-plusplus": 0,      // disallow use of unary operators, ++ and -- (off by default)
+
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
   }
 }
