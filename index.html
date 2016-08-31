@@ -29,7 +29,49 @@
     <link rel="stylesheet" type="text/css" href="build/style.css">
   </head>
   <body>
-    <main id="root"></main>
+    <main id="root">
+      <section class="content">
+        <header>
+          <div class="container">
+            <heading>
+              <button class="hamberger-menu header-block-button">
+                <i class="header-icon icon-menu"></i>
+              </button>
+              <a class="header-block-button" href="https://jonathan-potter.github.io/webgl-shaders/">
+                WebGL Fractal Renderer
+              </a>
+              <button class="reset-button button-primary">
+                reset
+              </button>
+            </heading>
+            <nav class="right">
+              <ul>
+                <li>
+                  <a class="header-block-button" href="https://github.com/jonathan-potter/webgl-shaders" title="Github repo">
+                    <i class="header-icon icon-github-circled"></i>
+                  </a>
+                </li>
+                <li>
+                  <a class="header-block-button" href="https://twitter.com/PotterRawr" title="Twitter: @potterrawr">
+                    <i class="header-icon icon-twitter"></i>
+                  </a>
+                </li>
+                <li>
+                  <a class="header-block-button" href="https://en.wikipedia.org/wiki/Fractal" title="Wikipedia: Fractal">
+                    <i class="header-icon icon-wikipedia"></i>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </header>
+        <section>
+          <div>
+            <canvas id="main"></canvas>
+          </div>
+        </section>
+      </section>
+    </main>
 
     <script src="build/bundle.js"></script>
   </body>
