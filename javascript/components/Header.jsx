@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import * as actions from 'actions'
+import classnames from 'classnames'
 
 export default () => {
   return (
@@ -53,8 +54,7 @@ const NavGroup = () => (
 )
 
 const NavGroupLink = ({ href, iconClass, title }) => {
-  // const className = classnames('header-icon', iconClass) // NPM NEEDED
-  const className = ['header-icon', iconClass].join(' ')
+  const className = classnames('header-icon', iconClass)
 
   return (
     <li>

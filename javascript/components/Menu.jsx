@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-
+import * as actions from 'actions'
+import { getCurrentFractal, getFractalConfig } from 'reducers'
 import map from 'lodash/map'
 
 export default () => {
@@ -53,11 +54,10 @@ const SelectMenuItem = ({ name, options }) => {
 }
 
 const mapStateToProps = (state) => ({
-  config: state.propertiesByFractal[state.fractal].config,
-  fractal: state.fractal
+  config: getFractalConfig(state, getCurrentFractal(state))
 })
 
-const RangeMenuItem = connect(mapStateToProps)(({ config, dispatch, fractal, name, min, max }) => {
+const RangeMenuItem = connect(mapStateToProps, actions)(({ config, name, min, max, setConfigValue }) => {
   return (
     <li className="menu-item">
       <div className="menu-item-label left">
@@ -71,11 +71,9 @@ const RangeMenuItem = connect(mapStateToProps)(({ config, dispatch, fractal, nam
           step="0.001"
           value={config[name]}
           className="config-input"
-          onChange={event => dispatch({
-            type: 'SET_CONFIG_VALUE',
+          onChange={event => setConfigValue({
             value: event.currentTarget.value,
-            name,
-            fractal
+            name
           })}/>
       </div>
     </li>
