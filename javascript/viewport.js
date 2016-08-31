@@ -1,7 +1,7 @@
 const ZOOM_SIZE = 0.5
 
 const VIEWPORT_PROTOTYPE = {
-  update() {
+  update () {
     const currentConfig = this.getConfig()
 
     this.setBounds({
@@ -11,7 +11,7 @@ const VIEWPORT_PROTOTYPE = {
 
     this.growToAspectRatio()
   },
-  init({canvas, getConfig, setConfig}) {
+  init ({canvas, getConfig, setConfig}) {
     this.getConfig = getConfig
     this.setConfig = setConfig
     this.bindToCanvas(canvas)
@@ -20,11 +20,11 @@ const VIEWPORT_PROTOTYPE = {
   },
   xBounds: {min: 0, max: 0},
   yBounds: {min: 0, max: 0},
-  setBounds(bounds) {
+  setBounds (bounds) {
     this.xBounds = bounds.x
     this.yBounds = bounds.y
   },
-  locationHash() {
+  locationHash () {
     return {
       x_min: this.xBounds.min,
       x_max: this.xBounds.max,
@@ -32,37 +32,37 @@ const VIEWPORT_PROTOTYPE = {
       y_max: this.yBounds.max
     }
   },
-  center() {
+  center () {
     return {
       x: (this.xBounds.max + this.xBounds.min) / 2,
       y: (this.yBounds.max + this.yBounds.min) / 2
     }
   },
-  range() {
+  range () {
     return {
       x: this.xBounds.max - this.xBounds.min,
       y: this.yBounds.max - this.yBounds.min
     }
   },
-  delta() {
+  delta () {
     return {
       x: this.range().x / this.width,
       y: this.range().y / this.height
     }
   },
-  topLeft() {
+  topLeft () {
     return {
       x: this.xBounds.min,
       y: this.yBounds.min
     }
   },
-  canvasSize() {
+  canvasSize () {
     return {
       x: this.canvas.offsetWidth,
       y: this.canvas.offsetHeight
     }
   },
-  canvasClickLocation(event) {
+  canvasClickLocation (event) {
     const currentCanvasSize = this.canvasSize()
 
     return {
@@ -70,7 +70,7 @@ const VIEWPORT_PROTOTYPE = {
       y: event.offsetY / currentCanvasSize.y * this.height
     }
   },
-  cartesianClickLocation(canvasClickLocation) {
+  cartesianClickLocation (canvasClickLocation) {
     const range = this.range()
     const topLeft = this.topLeft()
 
@@ -79,7 +79,7 @@ const VIEWPORT_PROTOTYPE = {
       y: topLeft.y + range.y * canvasClickLocation.y / this.height
     }
   },
-  zoomToLocation(location) {
+  zoomToLocation (location) {
     const range = this.range()
 
     this.setBounds({
@@ -100,7 +100,7 @@ const VIEWPORT_PROTOTYPE = {
       y_max: this.yBounds.max
     })
   },
-  zoomOut(location) {
+  zoomOut (location) {
     const center = this.center()
     const range = this.range()
 
@@ -117,7 +117,7 @@ const VIEWPORT_PROTOTYPE = {
 
     this.setConfig(this.locationHash())
   },
-  bindToCanvas(canvas) {
+  bindToCanvas (canvas) {
     this.canvas = canvas
     this.canvas.width = this.canvas.offsetWidth
     this.canvas.height = this.canvas.offsetHeight
@@ -126,13 +126,13 @@ const VIEWPORT_PROTOTYPE = {
     this.height = this.canvas.height
 
     this.canvas.addEventListener('click', event => {
-      const canvasClickLocation    = this.canvasClickLocation(event)
+      const canvasClickLocation = this.canvasClickLocation(event)
       const cartesianClickLocation = this.cartesianClickLocation(canvasClickLocation)
 
       this.zoomToLocation(cartesianClickLocation)
     })
   },
-  growToAspectRatio() {
+  growToAspectRatio () {
     const canvasAspectRatio = this.canvas.width / this.canvas.height
 
     const range = this.range()
@@ -170,7 +170,7 @@ const VIEWPORT_PROTOTYPE = {
 }
 
 export default {
-  create({canvas, getConfig, setConfig}) {
+  create ({canvas, getConfig, setConfig}) {
     const viewport = Object.create(VIEWPORT_PROTOTYPE)
 
     viewport.init({canvas, getConfig, setConfig})

@@ -8,27 +8,26 @@ import './Header.css'
 export default () => {
   return (
     <header>
-      <div className="container">
+      <div className='container'>
         <MenuGroup />
         <NavGroup />
       </div>
     </header>
   )
 }
-const mapStateToProps = ({ fractal }) => ({ fractal })
-const MenuGroup = connect(mapStateToProps, actions)(({ fractal, toggleMenu, resetFractal }) => {
+const MenuGroup = connect(() => ({}), actions)(({ toggleMenu, resetFractal }) => {
   return (
     <heading>
       <button
-        className="hamberger-menu header-block-button"
+        className='hamberger-menu header-block-button'
         onClick={toggleMenu}>
-        <i className="header-icon icon-menu"></i>
+        <i className='header-icon icon-menu' />
       </button>
-      <a className="header-block-button" href="https://jonathan-potter.github.io/webgl-shaders/">
+      <a className='header-block-button' href='https://jonathan-potter.github.io/webgl-shaders/'>
         WebGL Fractal Renderer
       </a>
       <button
-        className="reset-button button-primary"
+        className='reset-button button-primary'
         onClick={resetFractal}>
         reset
       </button>
@@ -37,20 +36,20 @@ const MenuGroup = connect(mapStateToProps, actions)(({ fractal, toggleMenu, rese
 })
 
 const NavGroup = () => (
-  <nav className="right">
+  <nav className='right'>
     <ul>
       <NavGroupLink
-        href="https://github.com/jonathan-potter/webgl-shaders"
-        title="Github repo"
-        iconClass="icon-github-circled" />
+        href='https://github.com/jonathan-potter/webgl-shaders'
+        title='Github repo'
+        iconClass='icon-github-circled' />
       <NavGroupLink
-        href="https://twitter.com/PotterRawr"
-        title="Twitter: @potterrawr"
-        iconClass="icon-twitter" />
+        href='https://twitter.com/PotterRawr'
+        title='Twitter: @potterrawr'
+        iconClass='icon-twitter' />
       <NavGroupLink
-        href="https://en.wikipedia.org/wiki/Fractal"
-        title="Wikipedia: Fractal"
-        iconClass="icon-wikipedia" />
+        href='https://en.wikipedia.org/wiki/Fractal'
+        title='Wikipedia: Fractal'
+        iconClass='icon-wikipedia' />
     </ul>
   </nav>
 )
@@ -60,8 +59,8 @@ const NavGroupLink = ({ href, iconClass, title }) => {
 
   return (
     <li>
-      <a className="header-block-button" href={href} title={title}>
-        <i className={className}></i>
+      <a className='header-block-button' href={href} title={title}>
+        <i className={className} />
       </a>
     </li>
   )

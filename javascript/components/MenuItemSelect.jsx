@@ -16,14 +16,14 @@ export default connect(mapStateToProps, actions)(({ config, name, options, setCo
   ))
 
   return (
-    <li className="menu-item">
-      <div className="menu-item-label left">
+    <li className='menu-item'>
+      <div className='menu-item-label left'>
         <label htmlFor={name}>{name}</label>
       </div>
-      <div className="menu-item-range left">
+      <div className='menu-item-range left'>
         <select
           className={`${name}-selector`}
-          type="select"
+          type='select'
           name={name}
           value={config[name]}
           onChange={event => setConfigValue({

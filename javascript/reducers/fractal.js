@@ -3,10 +3,10 @@ import { DEFAULT_FRACTALS } from 'javascript/config'
 
 export default createReducer('fractal', 0)
 
-export function propertiesByFractal(state = DEFAULT_FRACTALS, action) {
+export function propertiesByFractal (state = DEFAULT_FRACTALS, action) {
   const properties = state[action.fractal]
 
-  switch(action.type) {
+  switch (action.type) {
     case 'SET_CONFIG_VALUE':
       return {
         ...state,

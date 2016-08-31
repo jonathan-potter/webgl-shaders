@@ -5,17 +5,17 @@ import Menu from 'components/Menu'
 import './App.css'
 
 export default class App extends Component {
-  componentDidMount() {
+  componentDidMount () {
     this.props.configureWebGL()
   }
 
-  render() {
+  render () {
     return (
       <div>
         <Menu />
-        <div className="content">
+        <div className='content'>
           <Header />
-          <canvas id="main"></canvas>
+          <canvas id='main' />
         </div>
       </div>
     )

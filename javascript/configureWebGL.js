@@ -14,13 +14,15 @@ import fragmentShaderSource from 'shaders/fractal.glsl'
 /* libraries */
 import forEach from 'lodash/forEach'
 
-export default function ({store}) {
-  const canvas  = document.getElementById("main")
+const { Float32Array, requestAnimationFrame } = window
 
-  let WIDTH  = window.innerWidth
+export default function ({ store }) {
+  const canvas = document.getElementById('main')
+
+  let WIDTH = window.innerWidth
   let HEIGHT = window.innerHeight
 
-  canvas.width  = WIDTH
+  canvas.width = WIDTH
   canvas.height = HEIGHT
 
   const state = store.getState()
@@ -65,12 +67,14 @@ export default function ({store}) {
    * Geometry
    */
 
+  /* eslint-disable no-multi-spaces, indent */
   const vertices = new Float32Array([
     -1.0,  1.0, // top left
     -1.0, -1.0, // bottom left
      1.0,  1.0, // top right
      1.0, -1.0  // bottom right
   ])
+  /* eslint-enable no-multi-spaces, indent */
 
   prepareGeometry({context, program, vertices})
 
@@ -79,7 +83,7 @@ export default function ({store}) {
    */
 
   let time = Date.now()
-  function drawFrame(store) {
+  function drawFrame (store) {
     const state = store.getState()
     const currentFractal = state.fractal
     const properties = state.propertiesByFractal[currentFractal]
@@ -107,7 +111,7 @@ export default function ({store}) {
 
   requestAnimationFrame(drawFrame.bind(null, store))
 
-  function setUniformValue(name, value) {
+  function setUniformValue (name, value) {
     let dataPointer = getUniformLocation({
       program,
       name: name.toUpperCase(),
@@ -117,16 +121,16 @@ export default function ({store}) {
     context.uniform1fv(dataPointer, new Float32Array([value]))
   }
 
-  function resize(context) {
+  function resize (context) {
     /* http://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html */
     WIDTH = window.innerWidth
     HEIGHT = window.innerHeight
 
-    if (context.canvas.width  !== WIDTH || context.canvas.height !== HEIGHT) {
-      canvas.width  = WIDTH;
-      canvas.height = HEIGHT;
+    if (context.canvas.width !== WIDTH || context.canvas.height !== HEIGHT) {
+      canvas.width = WIDTH
+      canvas.height = HEIGHT
 
-      context.viewport(0, 0, WIDTH, HEIGHT);
+      context.viewport(0, 0, WIDTH, HEIGHT)
     }
   }
 }

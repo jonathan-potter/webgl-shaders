@@ -1,7 +1,7 @@
 import { DEFAULT_BOUNDS } from 'javascript/config'
 
 export default function (state = DEFAULT_BOUNDS, action) {
-  switch(action.type) {
+  switch (action.type) {
     case 'SET_BOUNDS':
       return {
         x_min: action.x_min,

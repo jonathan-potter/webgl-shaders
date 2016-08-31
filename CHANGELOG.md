@@ -9,3 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 
 ### 2016-08-27
 - configuration values in the menu can now be set and reset by fractal
+
+### 2016-08-30
+- rebuilt interface in React
+- switched to using [Standard](http://standardjs.com/) style

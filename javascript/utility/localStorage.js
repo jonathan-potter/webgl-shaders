@@ -1,6 +1,8 @@
 const STORAGE_KEY = 'WEBGL_STUFF!'
 
-export function loadState() {
+const { localStorage } = window
+
+export function loadState () {
   try {
     const serializedState = localStorage.getItem(STORAGE_KEY)
 
@@ -14,7 +16,7 @@ export function loadState() {
   }
 }
 
-export function saveState(state) {
+export function saveState (state) {
   try {
     const serializedState = JSON.stringify(state)
 

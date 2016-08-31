@@ -6,7 +6,7 @@ import throttle from 'lodash/throttle'
 import createLogger from 'redux-logger'
 import thunk from 'redux-thunk'
 
-export default function configureStore() {
+export default function configureStore () {
   const middlewares = [thunk, createLogger()]
 
   const initialState = loadState()

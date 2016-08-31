@@ -35,13 +35,14 @@
     "eslint-plugin-react": "^6.2.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "raw-loader": "^0.5.1",
+    "standard": "^8.0.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.15.0"
   },
   "scripts": {
     "deploy": "source ./deploy.sh",
-    "lint": "eslint ./javascript",
+    "lint": "standard",
     "start": "webpack-dev-server"
   }
 }
