@@ -18,3 +18,8 @@ Acknowledgement:
 --------
 
 a big thanks to [Jamie Wong](http://jamie-wong.com/) for his post here: [http://jamie-wong.com/2016/07/06/metaballs-and-webgl/](http://jamie-wong.com/2016/07/06/metaballs-and-webgl/)
+
+Licenses:
+________
+
+[Social Share Kit](http://socialsharekit.com/) - [Creative Commons Attribution-NonCommercial 3.0](https://creativecommons.org/licenses/by-nc/3.0/)
