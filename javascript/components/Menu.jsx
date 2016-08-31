@@ -1,12 +1,16 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import MenuItemFractalSelect from 'components/MenuItemFractalSelect'
 import MenuItemRange from 'components/MenuItemRange'
 import MenuItemSelect from 'components/MenuItemSelect'
 import MenuItemShareGroup from 'components/MenuItemShareGroup'
+import cn from 'classnames'
 
-export default () => {
+const mapStateToProps = ({ menuOpen }) => ({ menuOpen })
+
+export default connect(mapStateToProps)(({ menuOpen}) => {
   return (
-    <menu className="slide-out-menu">
+    <menu className={cn('slide-out-menu', { 'menu-open': menuOpen })}>
       <ul className="menu-items">
         <MenuItemShareGroup />
         <MenuItemFractalSelect name="fractal" options={['Julia Set', 'Mandelbrot Set']} />
@@ -18,4 +22,4 @@ export default () => {
       </ul>
     </menu>
   )
-}
+})

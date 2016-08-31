@@ -1,7 +1,7 @@
 .slide-out-menu {
   position: fixed;
   top: 60px;
-  left: 0;
+  left: -100%;
 
   overflow: scroll;
 
@@ -13,17 +13,13 @@
   background-color: white;
 }
 
-.content.menu-open {
-  margin-left: 100%;
+.slide-out-menu.menu-open {
+  left: 0;
 }
 
 @media (min-width: 550px) {
   .slide-out-menu {
     width: 400px;
-  }
-
-  .content.menu-open {
-    margin-left: 400px;
   }
 }
 
