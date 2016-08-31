@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import * as actions from 'actions'
 import classnames from 'classnames'
 
-import 'css/header.css'
+import './Header.css'
 
 export default () => {
   return (

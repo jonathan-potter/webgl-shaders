@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import Header from 'components/Header'
 import Menu from 'components/Menu'
 
-import 'css/skeleton/skeleton.css'
-import 'css/skeleton/normalize.css'
-import 'css/app.css'
+import './App.css'
 
 export default class App extends Component {
   componentDidMount() {

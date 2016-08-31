@@ -6,7 +6,7 @@ import MenuItemSelect from 'components/MenuItemSelect'
 import MenuItemShareGroup from 'components/MenuItemShareGroup'
 import cn from 'classnames'
 
-import 'css/menu.css'
+import './menu.css'
 
 const mapStateToProps = ({ menuOpen }) => ({ menuOpen })
 
