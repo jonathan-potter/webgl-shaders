@@ -1,6 +1,5 @@
 /* core */
 import Viewport from 'javascript/viewport'
-import bindEvents from 'javascript/bindEvents'
 
 /* utility */
 import compileShader from 'utility/compileShader'
@@ -27,7 +26,7 @@ export default function ({store}) {
   const state = store.getState()
   const currentFractal = state.fractal
   const bounds = state.propertiesByFractal[currentFractal].bounds
-  const viewport = Viewport.create({
+  Viewport.create({
     canvas: canvas,
     getConfig: () => bounds, /* UPDATE */
     setConfig: bounds => { /* UPDATE */
@@ -38,8 +37,6 @@ export default function ({store}) {
       })
     }
   })
-
-  bindEvents({ store, viewport })
 
   const context = canvas.getContext('webgl')
 
