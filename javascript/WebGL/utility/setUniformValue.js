@@ -1,4 +1,4 @@
-import getUniformLocation from 'utility/getUniformLocation'
+import getUniformLocation from 'webgl-utilities/getUniformLocation'
 
 export default (name, value, context, program) => {
   let dataPointer = getUniformLocation({

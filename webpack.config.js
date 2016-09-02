@@ -12,14 +12,19 @@ module.exports = {
     // Allow to omit extensions when requiring these files
     extensions: ['', '.js', '.jsx'],
     alias: {
-      assets: path.resolve(__dirname, 'assets'),
-      css: path.resolve(__dirname, 'css'),
-      javascript: path.resolve(__dirname, 'javascript'),
-      shaders: path.resolve(__dirname, 'shaders'),
-      actions: path.resolve(__dirname, 'javascript', 'actions'),
-      components: path.resolve(__dirname, 'javascript', 'components'),
-      reducers: path.resolve(__dirname, 'javascript', 'reducers'),
-      utility: path.resolve(__dirname, 'javascript', 'utility')
+      /* eslint-disable key-spacing */
+      assets:            path.resolve(__dirname, 'assets'),
+      css:               path.resolve(__dirname, 'css'),
+      shaders:           path.resolve(__dirname, 'shaders'),
+      javascript:        path.resolve(__dirname, 'javascript'),
+      actions:           path.resolve(__dirname, 'javascript', 'actions'),
+      components:        path.resolve(__dirname, 'javascript', 'components'),
+      reducers:          path.resolve(__dirname, 'javascript', 'reducers'),
+      utility:           path.resolve(__dirname, 'javascript', 'utility'),
+
+      webgl:             path.resolve(__dirname, 'javascript', 'webgl'),
+      'webgl-utilities': path.resolve(__dirname, 'javascript', 'webgl', 'utility')
+      /* eslint-enable key-spacing */
     }
   },
   module: {

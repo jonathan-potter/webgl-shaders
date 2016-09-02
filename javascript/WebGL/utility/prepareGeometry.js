@@ -1,4 +1,4 @@
-import getAttribLocation from 'utility/getAttribLocation'
+import getAttribLocation from 'webgl-utilities/getAttribLocation'
 
 export default function ({context, program, vertices}) {
   const vertexDataBuffer = context.createBuffer()

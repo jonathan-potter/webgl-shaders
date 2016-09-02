@@ -7,7 +7,7 @@ import './App.css'
 
 export default class App extends Component {
   componentDidMount () {
-    this.props.configureWebGL()
+    this.props.initializeWebGL()
   }
 
   render () {
