@@ -17,7 +17,8 @@ export default function configureStore () {
 
     saveState({
       fractal: state.fractal,
-      propertiesByFractal: state.propertiesByFractal
+      propertiesByFractal: state.propertiesByFractal,
+      viewports: state.viewports
     })
   }, 1000))
 

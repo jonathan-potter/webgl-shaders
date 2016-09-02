@@ -1,5 +1,5 @@
 export const DEFAULT_FRACTALS = {
-  '0': {
+  'julia set': {
     config: {
       brightness: 4.0,
       colorset: 0,
@@ -14,7 +14,7 @@ export const DEFAULT_FRACTALS = {
       y_max: 1.25
     }
   },
-  '1': {
+  'mandelbrot set': {
     config: {
       brightness: 4.0,
       colorset: 0,

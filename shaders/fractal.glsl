@@ -109,7 +109,7 @@ vec2 fragCoordToXY(vec4 fragCoord) {
 
   vec2 cartesianPosition = (relativePosition - 0.5) * (X_MAX - X_MIN);
   cartesianPosition.x += center.x;
-  cartesianPosition.y -= center.y;
+  cartesianPosition.y += center.y;
   cartesianPosition.x *= aspectRatio;
 
   return cartesianPosition;

@@ -1,6 +1,3 @@
-/* core */
-import Viewport from 'javascript/viewport'
-
 /* utility */
 import compileShader from 'utility/compileShader'
 import prepareGeometry from 'utility/prepareGeometry'
@@ -14,32 +11,15 @@ import fragmentShaderSource from 'shaders/fractal.glsl'
 /* libraries */
 import forEach from 'lodash/forEach'
 
+const FRACTAL_ENUM = {
+  'julia set': 0,
+  'mandelbrot set': 1
+}
+
 const { Float32Array, requestAnimationFrame } = window
 
 export default function ({ store }) {
   const canvas = document.getElementById('main')
-
-  let WIDTH = window.innerWidth
-  let HEIGHT = window.innerHeight
-
-  canvas.width = WIDTH
-  canvas.height = HEIGHT
-
-  const state = store.getState()
-  const currentFractal = state.fractal
-  const bounds = state.propertiesByFractal[currentFractal].bounds
-  Viewport.create({
-    canvas: canvas,
-    getConfig: () => bounds, /* UPDATE */
-    setConfig: bounds => { /* UPDATE */
-      store.dispatch({
-        type: 'SET_BOUNDS',
-        fractal: store.getState().fractal,
-        bounds
-      })
-    }
-  })
-
   const context = canvas.getContext('webgl')
 
   /**
@@ -86,6 +66,7 @@ export default function ({ store }) {
   function drawFrame (store) {
     const state = store.getState()
     const currentFractal = state.fractal
+    const { center, range } = state.viewports[currentFractal].viewport
     const properties = state.propertiesByFractal[currentFractal]
 
     const config = properties.config
@@ -93,12 +74,16 @@ export default function ({ store }) {
 
     time += parseFloat(config.speed)
 
-    setUniformValue('fractal', currentFractal)
+    setUniformValue('fractal', FRACTAL_ENUM[currentFractal])
     forEach(config, (value, name) => setUniformValue(name, value))
     forEach(bounds, (value, name) => setUniformValue(name, value))
+    setUniformValue('x_min', center.x - range.x / 2)
+    setUniformValue('x_max', center.x + range.x / 2)
+    setUniformValue('y_min', center.y - range.y / 2)
+    setUniformValue('y_max', center.y + range.y / 2)
 
-    setUniformValue('WIDTH', WIDTH)
-    setUniformValue('HEIGHT', HEIGHT)
+    setUniformValue('WIDTH', window.innerWidth)
+    setUniformValue('HEIGHT', window.innerHeight)
     setUniformValue('C_REAL', -0.795 + Math.sin(time / 2000) / 40)
     setUniformValue('C_IMAG', 0.2321 + Math.cos(time / 1330) / 40)
 
@@ -123,8 +108,8 @@ export default function ({ store }) {
 
   function resize (context) {
     /* http://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html */
-    WIDTH = window.innerWidth
-    HEIGHT = window.innerHeight
+    const WIDTH = window.innerWidth
+    const HEIGHT = window.innerHeight
 
     if (context.canvas.width !== WIDTH || context.canvas.height !== HEIGHT) {
       canvas.width = WIDTH
