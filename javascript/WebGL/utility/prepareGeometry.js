@@ -1,6 +1,6 @@
 import getAttribLocation from 'webgl-utilities/getAttribLocation'
 
-export default function ({context, program, vertices}) {
+export default function ({ context, program, vertices }) {
   const vertexDataBuffer = context.createBuffer()
   context.bindBuffer(context.ARRAY_BUFFER, vertexDataBuffer)
   context.bufferData(context.ARRAY_BUFFER, vertices, context.STATIC_DRAW)
