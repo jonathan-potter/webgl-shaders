@@ -3,13 +3,13 @@ import { DEFAULT_CONFIG } from 'javascript/config'
 import currentFractal, * as fromCurrentFractal from 'reducers/currentFractal'
 import createFractal, * as Fractal from 'reducers/createFractal'
 import menuOpen from 'reducers/menuOpen'
+import mapValues from 'lodash/mapValues'
 
 export default combineReducers({
   currentFractal,
-  fractals: combineReducers({
-    'julia set': createFractal('julia set', DEFAULT_CONFIG['julia set']),
-    'mandelbrot set': createFractal('mandelbrot set', DEFAULT_CONFIG['mandelbrot set'])
-  }),
+  fractals: combineReducers(mapValues(DEFAULT_CONFIG, (fractalConfig, fractalName) => (
+    createFractal(fractalName, fractalConfig)
+  ))),
   menuOpen
 })
 

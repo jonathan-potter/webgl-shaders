@@ -2,7 +2,7 @@
 import compileShader from 'utility/compileShader'
 import prepareGeometry from 'utility/prepareGeometry'
 import createProgram from 'utility/createProgram'
-import getUniformLocation from 'utility/getUniformLocation'
+import setUniformValue from 'utility/setUniformValue'
 
 /* state accessors */
 import { getCurrentFractal, getFractalConfig, getFractalViewport } from 'reducers'
@@ -74,17 +74,15 @@ export default function ({ store }) {
 
     time += parseFloat(config.speed)
 
-    setUniformValue('fractal', FRACTAL_ENUM[currentFractal])
-    forEach(config, (value, name) => setUniformValue(name, value))
-    setUniformValue('x_min', center.x - range.x / 2)
-    setUniformValue('x_max', center.x + range.x / 2)
-    setUniformValue('y_min', center.y - range.y / 2)
-    setUniformValue('y_max', center.y + range.y / 2)
+    setUniformValue('fractal', FRACTAL_ENUM[currentFractal], context, program)
+    forEach(config, (value, name) => setUniformValue(name, value, context, program))
+    setUniformValue('center', [center.x, center.y], context, program)
+    setUniformValue('range', [range.x, range.y], context, program)
 
-    setUniformValue('WIDTH', window.innerWidth)
-    setUniformValue('HEIGHT', window.innerHeight)
-    setUniformValue('C_REAL', -0.795 + Math.sin(time / 2000) / 40)
-    setUniformValue('C_IMAG', 0.2321 + Math.cos(time / 1330) / 40)
+    setUniformValue('WIDTH', window.innerWidth, context, program)
+    setUniformValue('HEIGHT', window.innerHeight, context, program)
+    setUniformValue('C_REAL', -0.795 + Math.sin(time / 2000) / 40, context, program)
+    setUniformValue('C_IMAG', 0.2321 + Math.cos(time / 1330) / 40, context, program)
 
     context.drawArrays(context.TRIANGLE_STRIP, 0, 4)
 
@@ -94,16 +92,6 @@ export default function ({ store }) {
   }
 
   requestAnimationFrame(drawFrame.bind(null, store))
-
-  function setUniformValue (name, value) {
-    let dataPointer = getUniformLocation({
-      program,
-      name: name.toUpperCase(),
-      context
-    })
-
-    context.uniform1fv(dataPointer, new Float32Array([value]))
-  }
 
   function resize (context) {
     /* http://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html */

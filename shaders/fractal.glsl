@@ -8,6 +8,9 @@ uniform float C_IMAG;
 
 uniform float BRIGHTNESS;
 
+uniform vec2 CENTER;
+uniform vec2 RANGE;
+
 uniform float X_MIN;
 uniform float X_MAX;
 uniform float Y_MIN;
@@ -22,11 +25,8 @@ uniform float EXPONENT;
 const int MAX_ITERATIONS = 255;
 const float pi = 3.1415926;
 
-float X_RANGE = X_MAX - X_MIN;
-float Y_RANGE = Y_MAX - Y_MIN;
-
 vec2 iResolution = vec2(WIDTH, HEIGHT);
-vec2 iPixelSize  = vec2(X_RANGE / WIDTH, Y_RANGE / HEIGHT);
+vec2 iPixelSize  = vec2(RANGE.x / WIDTH, RANGE.y / HEIGHT);
 
 vec2 msaaCoords[16];
 
@@ -104,11 +104,9 @@ vec2 fragCoordToXY(vec4 fragCoord) {
   vec2 relativePosition = fragCoord.xy / iResolution.xy;
   float aspectRatio = iResolution.x / HEIGHT;
 
-  vec2 center = vec2((X_MAX + X_MIN) / 2.0, (Y_MAX + Y_MIN) / 2.0);
-
-  vec2 cartesianPosition = (relativePosition - 0.5) * (X_MAX - X_MIN);
-  cartesianPosition.x += center.x;
-  cartesianPosition.y += center.y;
+  vec2 cartesianPosition = (relativePosition - 0.5) * RANGE.x;
+  cartesianPosition.x += CENTER.x;
+  cartesianPosition.y += CENTER.y;
   cartesianPosition.x *= aspectRatio;
 
   return cartesianPosition;
