@@ -13,3 +13,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 ### 2016-08-30
 - rebuilt interface in React
 - switched to using [Standard](http://standardjs.com/) style
+
+### 2015-09-02
+- rewrote Viewport so that its internal state held center and range rather than bounds
+- significantly simplified reducers

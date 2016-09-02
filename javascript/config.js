@@ -1,5 +1,5 @@
-export const DEFAULT_FRACTALS = {
-  '0': {
+export const DEFAULT_CONFIG = {
+  'julia set': {
     config: {
       brightness: 4.0,
       colorset: 0,
@@ -7,14 +7,12 @@ export const DEFAULT_FRACTALS = {
       speed: 16,
       supersamples: 1
     },
-    bounds: {
-      x_min: -2.0,
-      x_max: 2.0,
-      y_min: -1.25,
-      y_max: 1.25
+    viewport: {
+      center: { x: 0, y: 0 },
+      range: { x: 4, y: 4 }
     }
   },
-  '1': {
+  'mandelbrot set': {
     config: {
       brightness: 4.0,
       colorset: 0,
@@ -22,11 +20,9 @@ export const DEFAULT_FRACTALS = {
       speed: 16,
       supersamples: 1
     },
-    bounds: {
-      x_min: -2.0,
-      x_max: 2.0,
-      y_min: -1.25,
-      y_max: 1.25
+    viewport: {
+      center: { x: 0, y: 0 },
+      range: { x: 4, y: 4 }
     }
   }
 }

@@ -10,8 +10,8 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, actions)(
   ({ currentFractal, name, options, setCurrentFractal }) => {
-    const optionElements = map(options, (name, key) => (
-      <option key={key} value={key}>
+    const optionElements = map(options, name => (
+      <option key={name} value={name.toLowerCase()}>
         {name}
       </option>
     ))
