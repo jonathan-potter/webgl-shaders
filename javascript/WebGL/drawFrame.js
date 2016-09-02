@@ -1,4 +1,5 @@
 import { getCurrentFractal, getFractalConfig, getFractalViewport } from 'reducers'
+import { FRACTAL_ENUM } from 'javascript/config'
 import setUniformValue from 'webgl-utilities/setUniformValue'
 
 /* libraries */
@@ -6,11 +7,6 @@ import assign from 'lodash/assign'
 import forEach from 'lodash/forEach'
 
 const { requestAnimationFrame } = window
-
-const FRACTAL_ENUM = {
-  'julia set': 0,
-  'mandelbrot set': 1
-}
 
 let time = Date.now()
 export default function drawFrame ({ canvas, context, program, store }) {
@@ -21,7 +17,9 @@ export default function drawFrame ({ canvas, context, program, store }) {
   const { center, range } = getFractalViewport(state, currentFractal)
   const config            = getFractalConfig(state, currentFractal)
 
-  time += parseFloat(config.speed)
+  if (config.speed) {
+    time += parseFloat(config.speed)
+  }
 
   const uniformValues = assign({}, config, {
     fractal: FRACTAL_ENUM[currentFractal],

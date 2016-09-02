@@ -16,7 +16,7 @@ export default function configureStore () {
     const state = store.getState()
 
     saveState({
-      fractal: state.fractal,
+      currentFractal: state.currentFractal,
       fractals: state.fractals,
       viewports: state.viewports
     })
