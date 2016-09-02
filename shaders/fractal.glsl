@@ -17,7 +17,6 @@ uniform float SUPERSAMPLES;
 
 uniform float COLORSET;
 uniform float FRACTAL;
-uniform float iGlobalTime;
 uniform float EXPONENT;
 
 const int MAX_ITERATIONS = 255;

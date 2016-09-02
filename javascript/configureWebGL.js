@@ -4,6 +4,9 @@ import prepareGeometry from 'utility/prepareGeometry'
 import createProgram from 'utility/createProgram'
 import getUniformLocation from 'utility/getUniformLocation'
 
+/* state accessors */
+import { getCurrentFractal, getFractalConfig, getFractalViewport } from 'reducers'
+
 /* shaders */
 import vertexShaderSource from 'shaders/vertexShader.glsl'
 import fragmentShaderSource from 'shaders/fractal.glsl'
@@ -65,11 +68,9 @@ export default function ({ store }) {
   let time = Date.now()
   function drawFrame (store) {
     const state = store.getState()
-    const currentFractal = state.fractal
-    const { center, range } = state.viewports[currentFractal].viewport
-    const properties = state.propertiesByFractal[currentFractal]
-
-    const config = properties.config
+    const currentFractal = getCurrentFractal(state)
+    const { center, range } = getFractalViewport(state, currentFractal)
+    const config = getFractalConfig(state, currentFractal)
 
     time += parseFloat(config.speed)
 
