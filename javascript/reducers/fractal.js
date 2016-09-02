@@ -18,14 +18,6 @@ export function propertiesByFractal (state = DEFAULT_FRACTALS, action) {
           }
         }
       }
-    case 'SET_BOUNDS':
-      return {
-        ...state,
-        [action.fractal]: {
-          ...properties,
-          bounds: action.bounds
-        }
-      }
     case 'RESET_FRACTAL_CONFIG':
       return {
         ...state,
@@ -39,5 +31,4 @@ export function propertiesByFractal (state = DEFAULT_FRACTALS, action) {
 
 export const getCurrentFractal = (state) => state.fractal
 export const getFractalConfig = (state, fractal) => state.propertiesByFractal[fractal].config
-export const getFractalBounds = (state, fractal) => state.propertiesByFractal[fractal].bounds
 

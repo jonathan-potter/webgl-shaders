@@ -70,13 +70,11 @@ export default function ({ store }) {
     const properties = state.propertiesByFractal[currentFractal]
 
     const config = properties.config
-    const bounds = properties.bounds
 
     time += parseFloat(config.speed)
 
     setUniformValue('fractal', FRACTAL_ENUM[currentFractal])
     forEach(config, (value, name) => setUniformValue(name, value))
-    forEach(bounds, (value, name) => setUniformValue(name, value))
     setUniformValue('x_min', center.x - range.x / 2)
     setUniformValue('x_max', center.x + range.x / 2)
     setUniformValue('y_min', center.y - range.y / 2)

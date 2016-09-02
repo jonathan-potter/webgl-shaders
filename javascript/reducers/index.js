@@ -15,4 +15,3 @@ export default combineReducers({
 
 export const getCurrentFractal = state => fromFractal.getCurrentFractal(state)
 export const getFractalConfig = (state, fractal) => fromFractal.getFractalConfig(state, fractal)
-export const getFractalBounds = (state, fractal) => fromFractal.getFractalBounds(state, fractal)
