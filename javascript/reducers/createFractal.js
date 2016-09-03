@@ -6,15 +6,17 @@ export default function (FRACTAL, DEFAULT_PROPERTIES) {
     viewport (state = DEFAULT_PROPERTIES.viewport, action) {
       if (action.fractal !== FRACTAL) { return state }
 
+      const viewport = Viewport.create({ center: state.center, range: state.range })
+
       switch (action.type) {
         case 'RESET_FRACTAL_CONFIG':
           return DEFAULT_PROPERTIES.viewport
         case 'ZOOM_TO_LOCATION':
-          const viewport = Viewport.create({ center: state.center, range: state.range })
-
           const location = viewport.cartesianLocation(action.location)
 
           return viewport.zoomToLocation(location).serialize()
+        case 'ZOOM_OUT':
+          return viewport.zoomOut(location).serialize()
         default:
           return state
       }

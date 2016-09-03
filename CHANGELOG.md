@@ -18,3 +18,4 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 - rewrote Viewport so that its internal state held center and range rather than bounds
 - significantly simplified reducers
 - adds 'modified collatz' fractal to be selected
+- adds 'zoom in' and 'zoom out' buttons

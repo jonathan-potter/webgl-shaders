@@ -5,6 +5,7 @@ import MenuItemFractalSelect from 'components/MenuItemFractalSelect'
 import MenuItemRange from 'components/MenuItemRange'
 import MenuItemSelect from 'components/MenuItemSelect'
 import MenuItemShareGroup from 'components/MenuItemShareGroup'
+import * as actions from 'actions'
 import map from 'lodash/map'
 import cn from 'classnames'
 
@@ -12,27 +13,46 @@ import './menu.css'
 
 const mapStateToProps = ({ currentFractal, menuOpen }) => ({ currentFractal, menuOpen })
 
-export default connect(mapStateToProps)(({ currentFractal, menuOpen }) => {
-  const { menuOrder: MENU_ORDER, controls: CONTROLS } = DEFAULT_MENU_CONFIG[currentFractal]
+export default connect(mapStateToProps, actions)(
+  ({ currentFractal, menuOpen, resetFractal, zoomOut, zoomToLocation }) => {
+    const { menuOrder: MENU_ORDER, controls: CONTROLS } = DEFAULT_MENU_CONFIG[currentFractal]
 
-  const controls = map(MENU_ORDER, (name) => {
-    const {min, max, options, type} = CONTROLS[name]
+    const controls = map(MENU_ORDER, (name) => {
+      const {min, max, options, type} = CONTROLS[name]
 
-    switch (type) {
-      case 'range':
-        return <MenuItemRange key={name} name={name} min={min} max={max} />
-      case 'select':
-        return <MenuItemSelect key={name} name={name} options={options} />
-    }
-  })
+      switch (type) {
+        case 'range':
+          return <MenuItemRange key={name} name={name} min={min} max={max} />
+        case 'select':
+          return <MenuItemSelect key={name} name={name} options={options} />
+      }
+    })
 
-  return (
-    <menu className={cn('slide-out-menu', { 'menu-open': menuOpen })}>
-      <ul className='menu-items'>
-        <MenuItemShareGroup />
-        <MenuItemFractalSelect name='fractal' options={Object.keys(DEFAULT_MENU_CONFIG)} />
-        { controls }
-      </ul>
-    </menu>
-  )
-})
+    return (
+      <menu className={cn('slide-out-menu', { 'menu-open': menuOpen })}>
+        <ul className='menu-items'>
+          <MenuItemShareGroup />
+          <li className='menu-item zoom-button-group'>
+            <button
+              className='reset-button button-primary'
+              onClick={zoomOut}>
+              zoom out
+            </button>
+            <button
+              className='reset-button button-primary'
+              onClick={zoomToLocation}>
+              zoom in
+            </button>
+            <button
+              className='reset-button button-primary'
+              onClick={resetFractal}>
+              reset
+            </button>
+          </li>
+          <MenuItemFractalSelect name='fractal' options={Object.keys(DEFAULT_MENU_CONFIG)} />
+          { controls }
+        </ul>
+      </menu>
+    )
+  }
+)

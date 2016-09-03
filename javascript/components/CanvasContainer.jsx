@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import * as actions from 'actions/viewport'
+import * as actions from 'actions'
 
 class CanvasContainer extends Component {
   componentDidMount () {

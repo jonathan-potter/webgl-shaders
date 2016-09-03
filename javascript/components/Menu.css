@@ -84,3 +84,11 @@ datalist, datalist * {
   padding: 5px 0 !important;
 }
 
+.zoom-button-group button {
+  width: 25%;
+  padding: 0;
+  text-align: center;
+  margin-left: 6.25%;
+  font-size: 12px;
+}
+

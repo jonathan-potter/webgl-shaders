@@ -28,6 +28,8 @@ const VIEWPORT_PROTOTYPE = {
   },
 
   cartesianLocation (normalizedLocation) {
+    if (!normalizedLocation) { return }
+
     const topLeft = this.topLeft()
 
     return {
@@ -36,7 +38,7 @@ const VIEWPORT_PROTOTYPE = {
     }
   },
 
-  zoomToLocation (location) {
+  zoomToLocation (location = this.center) {
     const newRange = {
       x: this.range.x * ZOOM_SIZE,
       y: this.range.y * ZOOM_SIZE
@@ -48,7 +50,7 @@ const VIEWPORT_PROTOTYPE = {
     })
   },
 
-  zoomOut (location) {
+  zoomOut (location = this.center) {
     const newRange = {
       x: this.range.x / ZOOM_SIZE,
       y: this.range.y / ZOOM_SIZE

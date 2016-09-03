@@ -15,7 +15,7 @@ export default () => {
     </header>
   )
 }
-const MenuGroup = connect(() => ({}), actions)(({ toggleMenu, resetFractal }) => {
+const MenuGroup = connect(() => ({}), actions)(({ toggleMenu }) => {
   return (
     <heading>
       <button
@@ -26,11 +26,6 @@ const MenuGroup = connect(() => ({}), actions)(({ toggleMenu, resetFractal }) =>
       <a className='header-block-button' href='https://jonathan-potter.github.io/webgl-shaders/'>
         WebGL Fractal Renderer
       </a>
-      <button
-        className='reset-button button-primary'
-        onClick={resetFractal}>
-        reset
-      </button>
     </heading>
   )
 })
