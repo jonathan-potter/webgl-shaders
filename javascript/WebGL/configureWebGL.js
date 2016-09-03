@@ -5,7 +5,7 @@ import createProgram from 'webgl-utilities/createProgram'
 
 /* shaders */
 import vertexShaderSource from 'shaders/vertexShader.glsl'
-import fragmentShaderSource from 'shaders/fractal.glsl'
+import fragmentShaderSource from 'shaders/julia.glsl'
 
 const { Float32Array } = window
 

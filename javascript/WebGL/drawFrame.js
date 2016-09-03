@@ -2,7 +2,6 @@ import { getCurrentFractal, getFractalConfig, getFractalViewport } from 'reducer
 import { FRACTAL_ENUM } from 'javascript/config'
 import setUniformValue from 'webgl-utilities/setUniformValue'
 
-/* libraries */
 import assign from 'lodash/assign'
 import forEach from 'lodash/forEach'
 
@@ -23,8 +22,8 @@ export default function drawFrame ({ canvas, context, program, store }) {
 
   const uniformValues = assign({}, config, {
     fractal: FRACTAL_ENUM[currentFractal],
-    center:  [center.x, center.y],
-    range:   [range.x, range.y],
+    center: [center.x, center.y],
+    range:  [range.x, range.y],
     resolution: [
       window.innerWidth,
       window.innerHeight
