@@ -1,45 +1,101 @@
 import { getCurrentFractal } from 'reducers'
+import registerEvent from 'utility/registerEvent'
+import throttle from 'lodash/throttle'
+
+const throttledRegisterEvent = throttle(registerEvent, 1000)
 
 export const resetFractal = () => (dispatch, getState) => {
+  const currentFractal = getCurrentFractal(getState())
+  const action = 'RESET_FRACTAL_CONFIG'
+
+  registerEvent({
+    category: currentFractal,
+    action: action
+  })
+
   dispatch({
-    type: 'RESET_FRACTAL_CONFIG',
-    fractal: getCurrentFractal(getState())
+    type: action,
+    fractal: currentFractal
   })
 }
 
 export const zoomToLocation = ({ location, fractal }) => (dispatch, getState) => {
+  const currentFractal = getCurrentFractal(getState())
+  const action = 'ZOOM_TO_LOCATION'
+
+  registerEvent({
+    category: currentFractal,
+    action: action
+  })
+
   dispatch({
-    type: 'ZOOM_TO_LOCATION',
-    fractal: getCurrentFractal(getState()),
+    type: action,
+    fractal: currentFractal,
     location
   })
 }
 
 export const zoomOut = () => (dispatch, getState) => {
+  const currentFractal = getCurrentFractal(getState())
+  const action = 'ZOOM_OUT'
+
+  registerEvent({
+    category: currentFractal,
+    action: action
+  })
+
   dispatch({
-    type: 'ZOOM_OUT',
-    fractal: getCurrentFractal(getState())
+    type: action,
+    fractal: currentFractal
   })
 }
 
 export const setConfigValue = ({ name, value }) => (dispatch, getState) => {
+  const currentFractal = getCurrentFractal(getState())
+  const action = 'SET_CONFIG_VALUE'
+
+  throttledRegisterEvent({
+    category: currentFractal,
+    action: action,
+    label: name,
+    value
+  })
+
   dispatch({
-    type: 'SET_CONFIG_VALUE',
+    type: action,
     fractal: getCurrentFractal(getState()),
     name,
     value
   })
 }
 
-export const setCurrentFractal = ({fractal}) => dispatch => {
+export const setCurrentFractal = ({fractal}) => (dispatch, getState) => {
+  const currentFractal = getCurrentFractal(getState())
+  const action = 'SET_FRACTAL'
+
+  throttledRegisterEvent({
+    category: currentFractal,
+    action: action,
+    label: fractal
+  })
+
   dispatch({
-    type: 'SET_FRACTAL',
+    type: action,
     value: fractal
   })
 }
 
-export const toggleMenu = () => dispatch => {
+export const toggleMenu = () => (dispatch, getState) => {
+  const currentFractal = getCurrentFractal(getState())
+  const action = 'TOGGLE_MENU'
+
+  throttledRegisterEvent({
+    category: currentFractal,
+    action: action
+  })
+
   dispatch({
-    type: 'TOGGLE_MENU'
+    type: action
   })
 }
+

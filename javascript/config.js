@@ -20,12 +20,13 @@ export const DEFAULT_MENU_CONFIG = {
     }
   },
   'modified collatz': {
-    menuOrder: ['depth', 'constant_1', 'angle1', 'angle2'],
+    menuOrder: ['depth', 'constant_1', 'angle1', 'angle2', 'supersamples'],
     controls: {
       depth:      { type: 'range', min: 1, max: 800 },
       constant_1: { type: 'range', min: 1, max: 10 },
       angle1:     { type: 'range', min: 0, max: Math.PI * 2 },
-      angle2:     { type: 'range', min: 0, max: Math.PI * 2 }
+      angle2:     { type: 'range', min: 0, max: Math.PI * 2 },
+      supersamples: { type: 'select', options: { 1: '1x', 4: '4x', 16: '16x' } }
     }
   }
 }
@@ -62,9 +63,9 @@ export const DEFAULT_STORE = {
       constant_1: 4,
       angle1: Math.PI,
       angle2: Math.PI,
+      supersamples: 1,
       // not configurable
       colorset: 0,
-      supersamples: 1,
       exponent: 2,
       brightness: 4
     },
