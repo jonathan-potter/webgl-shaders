@@ -6,17 +6,60 @@ uniform vec2 RANGE;
 uniform vec2 JULIA_C;
 
 uniform float FRACTAL;
+
+/* julia */
 uniform float BRIGHTNESS;
 uniform float COLORSET;
 uniform float EXPONENT;
 uniform float SUPERSAMPLES;
 
+/* collatz */
+uniform float DEPTH;
+uniform float CONSTANT_1;
+uniform float ANGLE1;
+uniform float ANGLE2;
+
 const int MAX_ITERATIONS = 255;
 const float pi = 3.1415926;
+vec2 msaaCoords[16];
 
 vec2 PIXEL_SIZE = RANGE / RESOLUTION;
 float ASPECT_RATIO = RESOLUTION.x / RESOLUTION.y;
-vec2 msaaCoords[16];
+
+vec2 cmult(vec2 a, vec2 b) {
+  return vec2(
+    a.x * b.x - a.y * b.y,
+    a.x * b.y + a.y * b.x
+  );
+}
+
+vec2 cexp(vec2 vector) {
+  float magnitude = exp(vector.x);
+  float argument  = vector.y;
+
+  float real = magnitude * cos(argument);
+  float imag = magnitude * sin(argument);
+
+  return vec2(real, imag);
+}
+
+vec2 rotate(vec2 vector, float theta) {
+  float magnitude = length(vector);
+  float argument  = atan(vector.y, vector.x);
+
+  float real = magnitude * cos(argument + theta);
+  float imag = magnitude * sin(argument + theta);
+
+  return vec2(real, imag);
+}
+
+vec2 ccos(vec2 c) {
+  vec2 ci = cmult(c, vec2(0, 1));
+  vec2 c1 = rotate(ci, ANGLE1);
+  vec2 c2 = -rotate(ci, ANGLE2);
+
+  return (cexp(c1) + cexp(c2)) / 2.0;
+}
 
 float amd_atan (float y, float x) {
   /* this was written to make AMD cards happy */
@@ -39,6 +82,20 @@ vec2 lazy_cpow(vec2 z, float exponent) {
     magnitude * cos(argument),
     magnitude * sin(argument)
   );
+}
+
+float collatz(vec2 position) {
+  vec2 z = position;
+
+  for (int iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
+    z = (vec2(1.0, 0.0) + CONSTANT_1 * z - cmult(vec2(1.0,0.0) + 2.0 * z, ccos(pi * z))) / 4.0;
+
+    if (length(z) > DEPTH) {
+      return float(iteration);
+    }
+  }
+
+  return 0.0;
 }
 
 vec2 fractal(vec2 c, vec2 z) {
@@ -122,8 +179,10 @@ vec2 msaa(vec2 coordinate) {
 
     if (FRACTAL == 0.0) {
       fractalValue += julia(msaaCoordinate, JULIA_C);
-    } else {
+    } else if (FRACTAL == 1.0) {
       fractalValue += mandelbrot(msaaCoordinate);
+    } else if (FRACTAL == 2.0) {
+      fractalValue += collatz(msaaCoordinate);
     }
 
     if (SUPERSAMPLES <= float(index + 1)) {
@@ -135,18 +194,18 @@ vec2 msaa(vec2 coordinate) {
 }
 
 void main() {
-  if (FRACTAL < 1.5) {
-    vec2 coordinate = fragCoordToXY(gl_FragCoord);
+  vec2 coordinate = fragCoordToXY(gl_FragCoord);
 
-    vec2 fractalValue = msaa(coordinate);
+  vec2 fractalValue = msaa(coordinate);
 
+  if (FRACTAL == 2.0) {
+    gl_FragColor = vec4(sin(fractalValue.x / 1.0), sin(fractalValue.x / 3.0), sin(fractalValue.x / 5.0), 1.0);
+  } else {
     if (COLORSET == 0.0) {
       float color = BRIGHTNESS * fractalValue.x / float(MAX_ITERATIONS);
       gl_FragColor = vec4(color, color, color, 0.0);
     } else if (COLORSET == 1.0) {
       gl_FragColor = BRIGHTNESS * colorize(fractalValue);
     }
-  } else {
-    gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
   }
 }

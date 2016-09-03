@@ -5,7 +5,7 @@ import createProgram from 'webgl-utilities/createProgram'
 
 /* shaders */
 import vertexShaderSource from 'shaders/vertexShader.glsl'
-import fragmentShaderSource from 'shaders/julia.glsl'
+import fragmentShaderSource from 'shaders/combined.glsl'
 
 const { Float32Array } = window
 
@@ -37,7 +37,7 @@ export default function ({ context }) {
   ])
   /* eslint-enable no-multi-spaces, indent */
 
-  prepareGeometry({context, program, vertices})
+  prepareGeometry({ context, program, vertices })
 
   return { program }
 }

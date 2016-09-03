@@ -30,7 +30,7 @@ export default connect(mapStateToProps)(({ currentFractal, menuOpen }) => {
     <menu className={cn('slide-out-menu', { 'menu-open': menuOpen })}>
       <ul className='menu-items'>
         <MenuItemShareGroup />
-        <MenuItemFractalSelect name='fractal' options={['Julia Set', 'Mandelbrot Set']} />
+        <MenuItemFractalSelect name='fractal' options={Object.keys(DEFAULT_MENU_CONFIG)} />
         { controls }
       </ul>
     </menu>

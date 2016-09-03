@@ -1,3 +1,4 @@
+/* eslint-disable key-spacing */
 export const DEFAULT_MENU_CONFIG = {
   'julia set': {
     menuOrder: ['colorset', 'brightness', 'speed', 'exponent', 'supersamples'],
@@ -12,10 +13,19 @@ export const DEFAULT_MENU_CONFIG = {
   'mandelbrot set': {
     menuOrder: ['colorset', 'brightness', 'exponent', 'supersamples'],
     controls: {
-      brightness: { type: 'range', min: 1, max: 8 },
-      colorset: { type: 'select', options: ['linear', 'squared periodic'] },
-      exponent: { type: 'range', min: 0, max: 10 },
+      brightness:   { type: 'range', min: 1, max: 8 },
+      exponent:     { type: 'range', min: 0, max: 10 },
+      colorset:     { type: 'select', options: ['linear', 'squared periodic'] },
       supersamples: { type: 'select', options: { 1: '1x', 4: '4x', 16: '16x' } }
+    }
+  },
+  'modified collatz': {
+    menuOrder: ['depth', 'constant_1', 'angle1', 'angle2'],
+    controls: {
+      depth:      { type: 'range', min: 1, max: 800 },
+      constant_1: { type: 'range', min: 1, max: 10 },
+      angle1:     { type: 'range', min: 0, max: Math.PI * 2 },
+      angle2:     { type: 'range', min: 0, max: Math.PI * 2 }
     }
   }
 }
@@ -45,10 +55,28 @@ export const DEFAULT_STORE = {
       center: { x: 0, y: 0 },
       range: { x: 4, y: 4 }
     }
+  },
+  'modified collatz': {
+    config: {
+      depth: 200,
+      constant_1: 4,
+      angle1: Math.PI,
+      angle2: Math.PI,
+      // not configurable
+      colorset: 0,
+      supersamples: 1,
+      exponent: 2,
+      brightness: 4
+    },
+    viewport: {
+      center: { x: 0, y: 0 },
+      range: { x: 100, y: 100 }
+    }
   }
 }
 
 export const FRACTAL_ENUM = {
   'julia set': 0,
-  'mandelbrot set': 1
+  'mandelbrot set': 1,
+  'modified collatz': 2
 }
