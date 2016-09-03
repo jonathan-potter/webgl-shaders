@@ -15,47 +15,41 @@ const int MAX_ITERATIONS = 255;
 const float pi = 3.1415926;
 
 vec2 PIXEL_SIZE = RANGE / RESOLUTION;
+float ASPECT_RATIO = RESOLUTION.x / RESOLUTION.y;
 vec2 msaaCoords[16];
 
-struct complex {
-  float real;
-  float imaginary;
-};
-
-complex complexExp(complex z, float exponent) {
-  float magnitude = sqrt(z.real * z.real + z.imaginary * z.imaginary);
+float amd_atan (float y, float x) {
+  /* this was written to make AMD cards happy */
 
   float theta;
-  if (z.real == 0.0) {
-    theta = pi / 2.0 * sign(z.imaginary);
+  if (x == 0.0) {
+    theta = pi / 2.0 * sign(y);
   } else {
-    theta = atan(z.imaginary, z.real);
+    theta = atan(y, x);
   }
 
-  float newMagnitude = pow(magnitude, exponent);
-  float newTheta = theta * exponent;
-
-  complex newZ;
-  newZ.real      = newMagnitude * cos(newTheta);
-  newZ.imaginary = newMagnitude * sin(newTheta);
-
-  return newZ;
+  return theta;
 }
 
-vec2 fractal(complex c, complex z) {
+vec2 lazy_cpow(vec2 z, float exponent) {
+  float magnitude = pow(length(z), exponent);
+  float argument = amd_atan(z.y, z.x) * exponent;
+
+  return vec2(
+    magnitude * cos(argument),
+    magnitude * sin(argument)
+  );
+}
+
+vec2 fractal(vec2 c, vec2 z) {
   for (int iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
 
     // z <- z^2 + c
-    complex z2 = complexExp(z, EXPONENT);
+    z = lazy_cpow(z, EXPONENT) + c;
 
-    z.real = z2.real + c.real;
-    z.imaginary = z2.imaginary + c.imaginary;
-
-    if (z.real * z.real + z.imaginary * z.imaginary > 4.0) {
-      int N = iteration;
-      float value = (z.real * z.real + z.imaginary * z.imaginary);
-
-      return vec2(float(N), value);
+    float magnitude = length(z);
+    if (magnitude > 2.0) {
+      return vec2(float(iteration), magnitude);
     }
   }
 
@@ -74,27 +68,20 @@ vec4 colorize(vec2 fractalValue) {
 }
 
 vec2 mandelbrot(vec2 coordinate) {
-  complex c = complex(coordinate.x, coordinate.y);
-  complex z = complex(0.0, 0.0);
-
-  return fractal(c, z);
+  return fractal(coordinate, vec2(0.0, 0.0));
 }
 
 vec2 julia(vec2 coordinate, vec2 offset) {
-  complex c = complex(offset.x, offset.y);
-  complex z = complex(coordinate.x, coordinate.y);
-
-  return fractal(c, z);
+  return fractal(offset, coordinate);
 }
 
 vec2 fragCoordToXY(vec4 fragCoord) {
   vec2 relativePosition = fragCoord.xy / RESOLUTION;
-  float aspectRatio = RESOLUTION.x / RESOLUTION.y;
 
   vec2 cartesianPosition = (relativePosition - 0.5) * RANGE.x;
   cartesianPosition.x += CENTER.x;
   cartesianPosition.y += CENTER.y;
-  cartesianPosition.x *= aspectRatio;
+  cartesianPosition.x *= ASPECT_RATIO;
 
   return cartesianPosition;
 }
