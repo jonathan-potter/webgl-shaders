@@ -1,33 +1,20 @@
 precision highp float;
 
-uniform float WIDTH;
-uniform float HEIGHT;
-
-uniform float C_REAL;
-uniform float C_IMAG;
-
-uniform float BRIGHTNESS;
-
 uniform vec2 CENTER;
 uniform vec2 RANGE;
+uniform vec2 RESOLUTION;
+uniform vec2 JULIA_C;
 
-uniform float X_MIN;
-uniform float X_MAX;
-uniform float Y_MIN;
-uniform float Y_MAX;
-
-uniform float SUPERSAMPLES;
-
-uniform float COLORSET;
 uniform float FRACTAL;
+uniform float BRIGHTNESS;
+uniform float COLORSET;
 uniform float EXPONENT;
+uniform float SUPERSAMPLES;
 
 const int MAX_ITERATIONS = 255;
 const float pi = 3.1415926;
 
-vec2 iResolution = vec2(WIDTH, HEIGHT);
-vec2 iPixelSize  = vec2(RANGE.x / WIDTH, RANGE.y / HEIGHT);
-
+vec2 PIXEL_SIZE = RANGE / RESOLUTION;
 vec2 msaaCoords[16];
 
 struct complex {
@@ -101,8 +88,8 @@ vec2 julia(vec2 coordinate, vec2 offset) {
 }
 
 vec2 fragCoordToXY(vec4 fragCoord) {
-  vec2 relativePosition = fragCoord.xy / iResolution.xy;
-  float aspectRatio = iResolution.x / HEIGHT;
+  vec2 relativePosition = fragCoord.xy / RESOLUTION;
+  float aspectRatio = RESOLUTION.x / RESOLUTION.y;
 
   vec2 cartesianPosition = (relativePosition - 0.5) * RANGE.x;
   cartesianPosition.x += CENTER.x;
@@ -146,10 +133,10 @@ vec2 msaa(vec2 coordinate) {
   initializeMSAA();
 
   for (int index = 0; index < 16; index++) {
-    vec2 msaaCoordinate = coordinate + iPixelSize * msaaCoords[index];
+    vec2 msaaCoordinate = coordinate + PIXEL_SIZE * msaaCoords[index];
 
     if (FRACTAL == 0.0) {
-      fractalValue += julia(msaaCoordinate, vec2(C_REAL, C_IMAG));
+      fractalValue += julia(msaaCoordinate, JULIA_C);
     } else {
       fractalValue += mandelbrot(msaaCoordinate);
     }

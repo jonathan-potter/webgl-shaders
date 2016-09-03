@@ -25,10 +25,14 @@ export default function drawFrame ({ canvas, context, program, store }) {
     fractal: FRACTAL_ENUM[currentFractal],
     center:  [center.x, center.y],
     range:   [range.x, range.y],
-    width:   window.innerWidth,
-    height:  window.innerHeight,
-    c_real:  -0.795 + Math.sin(time / 2000) / 40,
-    c_imag:  0.2321 + Math.cos(time / 1330) / 40
+    resolution: [
+      window.innerWidth,
+      window.innerHeight
+    ],
+    julia_c: [
+      -0.795 + Math.sin(time / 2000) / 40,
+      0.2321 + Math.cos(time / 1330) / 40
+    ]
   })
 
   forEach(uniformValues, (uniformValue, uniformName) => {
