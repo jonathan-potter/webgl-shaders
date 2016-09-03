@@ -19,3 +19,4 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 - significantly simplified reducers
 - adds 'modified collatz' fractal to be selected
 - adds 'zoom in' and 'zoom out' buttons
+- adds basic google analytics script
