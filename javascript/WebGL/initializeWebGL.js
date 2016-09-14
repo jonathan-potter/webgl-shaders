@@ -1,5 +1,5 @@
 import { getCurrentFractal } from 'reducers'
-import configureWebGL from 'webgl/configureWebGL'
+import configureProgram from 'webgl-utilities/configureProgram'
 import drawFrame from 'webgl/drawFrame'
 
 /* shaders */
@@ -14,17 +14,17 @@ export default ({ store }) => {
   const context = canvas.getContext('webgl')
 
   const programs = {
-    'julia set': configureWebGL({
+    'julia set': configureProgram({
       context,
       vertexShaderSource: vertexShaderSource,
       fragmentShaderSource: juliaShaderSource
     }),
-    'mandelbrot set': configureWebGL({
+    'mandelbrot set': configureProgram({
       context,
       vertexShaderSource: vertexShaderSource,
       fragmentShaderSource: juliaShaderSource
     }),
-    'modified collatz': configureWebGL({
+    'modified collatz': configureProgram({
       context,
       vertexShaderSource: vertexShaderSource,
       fragmentShaderSource: collatzShaderSource

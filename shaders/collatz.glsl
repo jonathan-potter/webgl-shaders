@@ -71,10 +71,15 @@ vec2 fragCoordToXY(vec4 fragCoord) {
 
   return cartesianPosition;
 }
+
+float quickColorize(float value, float rate) {
+  return pow(sin(value / rate), 2.0);
+}
+
 void main() {
   vec2 coordinate = fragCoordToXY(gl_FragCoord);
 
   float color = collatz(coordinate);
 
-  gl_FragColor =  vec4(sin(color / 1.0), sin(color / 3.0), sin(color / 5.0), 1.0);
+  gl_FragColor =  vec4(quickColorize(color, 1.0), quickColorize(color, 3.0), quickColorize(color, 5.0), 1.0);
 }
