@@ -13,10 +13,10 @@ uniform float SUPERSAMPLES;
 
 const int MAX_ITERATIONS = 255;
 const float pi = 3.1415926;
+vec2 msaaCoords[16];
 
 vec2 PIXEL_SIZE = RANGE / RESOLUTION;
 float ASPECT_RATIO = RESOLUTION.x / RESOLUTION.y;
-vec2 msaaCoords[16];
 
 float amd_atan (float y, float x) {
   /* this was written to make AMD cards happy */
@@ -135,18 +135,14 @@ vec2 msaa(vec2 coordinate) {
 }
 
 void main() {
-  if (FRACTAL < 1.5) {
-    vec2 coordinate = fragCoordToXY(gl_FragCoord);
+  vec2 coordinate = fragCoordToXY(gl_FragCoord);
 
-    vec2 fractalValue = msaa(coordinate);
+  vec2 fractalValue = msaa(coordinate);
 
-    if (COLORSET == 0.0) {
-      float color = BRIGHTNESS * fractalValue.x / float(MAX_ITERATIONS);
-      gl_FragColor = vec4(color, color, color, 0.0);
-    } else if (COLORSET == 1.0) {
-      gl_FragColor = BRIGHTNESS * colorize(fractalValue);
-    }
-  } else {
-    gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
+  if (COLORSET == 0.0) {
+    float color = BRIGHTNESS * fractalValue.x / float(MAX_ITERATIONS);
+    gl_FragColor = vec4(color, color, color, 0.0);
+  } else if (COLORSET == 1.0) {
+    gl_FragColor = BRIGHTNESS * colorize(fractalValue);
   }
 }

@@ -1,11 +1,8 @@
-export default function ({ context, vertexShaders, fragmentShaders }) {
+export default function ({ context, vertexShader, fragmentShader }) {
   const program = context.createProgram()
 
-  vertexShaders.forEach(vertexShader => context.attachShader(program, vertexShader))
-  fragmentShaders.forEach(fragmentShader => context.attachShader(program, fragmentShader))
-
-  context.linkProgram(program)
-  context.useProgram(program)
+  context.attachShader(program, vertexShader)
+  context.attachShader(program, fragmentShader)
 
   return program
 }

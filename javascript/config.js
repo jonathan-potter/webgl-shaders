@@ -62,12 +62,7 @@ export const DEFAULT_STORE = {
       depth: 200,
       constant_1: 4,
       angle1: Math.PI,
-      angle2: Math.PI,
-      supersamples: 1,
-      // not configurable
-      colorset: 0,
-      exponent: 2,
-      brightness: 4
+      angle2: Math.PI
     },
     viewport: {
       center: { x: 0, y: 0 },

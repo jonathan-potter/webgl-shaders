@@ -22,8 +22,8 @@ module.exports = {
       reducers:          path.resolve(__dirname, 'javascript', 'reducers'),
       utility:           path.resolve(__dirname, 'javascript', 'utility'),
 
-      webgl:             path.resolve(__dirname, 'javascript', 'webgl'),
-      'webgl-utilities': path.resolve(__dirname, 'javascript', 'webgl', 'utility')
+      webgl:             path.resolve(__dirname, 'javascript', 'WebGL'),
+      'webgl-utilities': path.resolve(__dirname, 'javascript', 'WebGL', 'utility')
       /* eslint-enable key-spacing */
     }
   },

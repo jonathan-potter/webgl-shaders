@@ -4,7 +4,6 @@ uniform vec2 RESOLUTION;
 uniform vec2 CENTER;
 uniform vec2 RANGE;
 
-uniform float FRACTAL;
 uniform float DEPTH;
 uniform float CONSTANT_1;
 uniform float ANGLE1;
