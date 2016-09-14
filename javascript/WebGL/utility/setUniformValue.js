@@ -7,11 +7,10 @@ export default (name, value, context, program) => {
     context
   })
 
-  switch (value.length) {
-    case 2:
-      return setUniformVec2(dataPointer, value, context)
-    default:
-      return setUniformFloat(dataPointer, value, context)
+  if (value instanceof Array) {
+    return setUniformVec2(dataPointer, value, context)
+  } else {
+    return setUniformFloat(dataPointer, value, context)
   }
 }
 

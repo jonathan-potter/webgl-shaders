@@ -4,6 +4,7 @@ uniform vec2 RESOLUTION;
 uniform vec2 CENTER;
 uniform vec2 RANGE;
 uniform vec2 JULIA_C;
+uniform vec2 MSAA_COORDINATES[16];
 
 uniform float FRACTAL;
 uniform float BRIGHTNESS;
@@ -13,7 +14,6 @@ uniform float SUPERSAMPLES;
 
 const int MAX_ITERATIONS = 255;
 const float pi = 3.1415926;
-vec2 msaaCoords[16];
 
 vec2 PIXEL_SIZE = RANGE / RESOLUTION;
 float ASPECT_RATIO = RESOLUTION.x / RESOLUTION.y;
@@ -84,41 +84,11 @@ vec2 fragCoordToXY(vec4 fragCoord) {
   return cartesianPosition;
 }
 
-void initializeMSAA() {
-  if (SUPERSAMPLES == 1.0) {
-    msaaCoords[0] = vec2(0.5, 0.5);
-  } else if (SUPERSAMPLES == 4.0) {
-    msaaCoords[0] = vec2(0.25, 0.25);
-    msaaCoords[1] = vec2(0.25, 0.75);
-    msaaCoords[2] = vec2(0.75, 0.25);
-    msaaCoords[3] = vec2(0.75, 0.75);
-  } else {
-    msaaCoords[0]  = vec2(0.125 + 0.0 * 0.25 + -0.0375, 0.125 + 0.0 * 0.25 + -0.0375);
-    msaaCoords[1]  = vec2(0.125 + 0.0 * 0.25 + -0.0125, 0.125 + 1.0 * 0.25 + -0.0375);
-    msaaCoords[2]  = vec2(0.125 + 0.0 * 0.25 +  0.0125, 0.125 + 2.0 * 0.25 + -0.0375);
-    msaaCoords[3]  = vec2(0.125 + 0.0 * 0.25 +  0.0375, 0.125 + 3.0 * 0.25 + -0.0375);
-    msaaCoords[4]  = vec2(0.125 + 1.0 * 0.25 + -0.0375, 0.125 + 0.0 * 0.25 + -0.0125);
-    msaaCoords[5]  = vec2(0.125 + 1.0 * 0.25 + -0.0125, 0.125 + 1.0 * 0.25 + -0.0125);
-    msaaCoords[6]  = vec2(0.125 + 1.0 * 0.25 +  0.0125, 0.125 + 2.0 * 0.25 + -0.0125);
-    msaaCoords[7]  = vec2(0.125 + 1.0 * 0.25 +  0.0375, 0.125 + 3.0 * 0.25 + -0.0125);
-    msaaCoords[8]  = vec2(0.125 + 2.0 * 0.25 + -0.0375, 0.125 + 0.0 * 0.25 +  0.0125);
-    msaaCoords[9]  = vec2(0.125 + 2.0 * 0.25 + -0.0125, 0.125 + 1.0 * 0.25 +  0.0125);
-    msaaCoords[10] = vec2(0.125 + 2.0 * 0.25 +  0.0125, 0.125 + 2.0 * 0.25 +  0.0125);
-    msaaCoords[11] = vec2(0.125 + 2.0 * 0.25 +  0.0375, 0.125 + 3.0 * 0.25 +  0.0125);
-    msaaCoords[12] = vec2(0.125 + 3.0 * 0.25 + -0.0375, 0.125 + 0.0 * 0.25 +  0.0375);
-    msaaCoords[13] = vec2(0.125 + 3.0 * 0.25 + -0.0125, 0.125 + 1.0 * 0.25 +  0.0375);
-    msaaCoords[14] = vec2(0.125 + 3.0 * 0.25 +  0.0125, 0.125 + 2.0 * 0.25 +  0.0375);
-    msaaCoords[15] = vec2(0.125 + 3.0 * 0.25 +  0.0375, 0.125 + 3.0 * 0.25 +  0.0375);
-  }
-}
-
 vec2 msaa(vec2 coordinate) {
   vec2 fractalValue = vec2(0.0, 0.0);
 
-  initializeMSAA();
-
   for (int index = 0; index < 16; index++) {
-    vec2 msaaCoordinate = coordinate + PIXEL_SIZE * msaaCoords[index];
+    vec2 msaaCoordinate = coordinate + PIXEL_SIZE * MSAA_COORDINATES[index];
 
     if (FRACTAL == 0.0) {
       fractalValue += julia(msaaCoordinate, JULIA_C);

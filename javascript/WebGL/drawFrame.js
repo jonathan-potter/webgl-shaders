@@ -1,6 +1,7 @@
 import { getCurrentFractal, getFractalConfig, getFractalViewport } from 'reducers'
 import { FRACTAL_ENUM } from 'javascript/config'
 import setUniformValue from 'webgl-utilities/setUniformValue'
+import msaaCoordinates from 'webgl-utilities/msaaCoordinates'
 
 import assign from 'lodash/assign'
 import forEach from 'lodash/forEach'
@@ -32,7 +33,8 @@ export default function drawFrame ({ canvas, context, fractal, program, store })
       julia_c: [
         -0.795 + Math.sin(time / 2000) / 40,
         0.2321 + Math.cos(time / 1330) / 40
-      ]
+      ],
+      msaa_coordinates: msaaCoordinates[config.supersamples]
     })
 
     forEach(uniformValues, (uniformValue, uniformName) => {
