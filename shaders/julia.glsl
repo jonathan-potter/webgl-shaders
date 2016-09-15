@@ -57,10 +57,10 @@ vec2 fractal(vec2 c, vec2 z) {
 }
 
 vec4 colorize(vec2 fractalValue) {
-  float N = float(fractalValue.x / 4.0);
-  float value = float(fractalValue.y / 4.0);
+  float depth = fractalValue.x / 4.0;
+  float value = pow(fractalValue.y, 2.0) / 4.0;
 
-  float mu = (N - log(log(sqrt(value))) / log(2.0));
+  float mu = (depth - log(log(sqrt(value))) / log(2.0));
 
   mu = sin(mu / 20.0) * sin(mu / 20.0);
 
