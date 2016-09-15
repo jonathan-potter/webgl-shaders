@@ -9,7 +9,7 @@ import forEach from 'lodash/forEach'
 const { requestAnimationFrame } = window
 
 let time = Date.now()
-export default function drawFrame ({ canvas, context, fractal, program, store }) {
+export default ({ canvas, context, fractal, program, store }) => function renderFrame () {
   /* eslint-disable no-multi-spaces, key-spacing */
   const state = store.getState()
 
@@ -37,6 +37,7 @@ export default function drawFrame ({ canvas, context, fractal, program, store })
       msaa_coordinates: msaaCoordinates[config.supersamples]
     })
 
+    context.useProgram(program)
     forEach(uniformValues, (uniformValue, uniformName) => {
       setUniformValue(uniformName, uniformValue, context, program)
     })
@@ -45,7 +46,7 @@ export default function drawFrame ({ canvas, context, fractal, program, store })
 
     resize({ canvas, context })
 
-    requestAnimationFrame(drawFrame.bind(null, { canvas, context, fractal, program, store }))
+    requestAnimationFrame(renderFrame)
   }
   /* eslint-enable no-multi-spaces, key-spacing */
 }
