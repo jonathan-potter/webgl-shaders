@@ -1,5 +1,5 @@
 import { getCurrentFractal } from 'reducers'
-import drawFrame from 'webgl/drawFrame'
+import createFrameRenderer from 'webgl/createFrameRenderer'
 import programForFractal from 'webgl-utilities/programForFractal'
 
 const { requestAnimationFrame } = window
@@ -30,6 +30,6 @@ const createRunLoop = ({ canvas, context, fractal, store, firstRun = true }) => 
     const program = programForFractal({ context, fractal })
 
     context.useProgram(program)
-    requestAnimationFrame(drawFrame({ canvas, context, fractal, program, store }))
+    requestAnimationFrame(createFrameRenderer({ canvas, context, fractal, program, store }))
   }
 }
