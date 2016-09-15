@@ -13,7 +13,7 @@ export default function drawFrame ({ canvas, context, fractal, program, store })
   /* eslint-disable no-multi-spaces, key-spacing */
   const state = store.getState()
 
-  const currentFractal    = getCurrentFractal(state)
+  const currentFractal = getCurrentFractal(state)
   if (fractal === currentFractal) {
     const { center, range } = getFractalViewport(state, currentFractal)
     const config            = getFractalConfig(state, currentFractal)

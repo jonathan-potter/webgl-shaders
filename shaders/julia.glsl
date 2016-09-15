@@ -32,6 +32,8 @@ float amd_atan (float y, float x) {
 }
 
 vec2 lazy_cpow(vec2 z, float exponent) {
+  /* lazy because the exponent is always real */
+
   float magnitude = pow(length(z), exponent);
   float argument = amd_atan(z.y, z.x) * exponent;
 
