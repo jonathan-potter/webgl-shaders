@@ -19,6 +19,15 @@ export const DEFAULT_MENU_CONFIG = {
       supersamples: { type: 'select', options: { 1: '1x', 4: '4x', 16: '16x' } }
     }
   },
+  'burning ship': {
+    menuOrder: ['colorset', 'brightness', 'exponent', 'supersamples'],
+    controls: {
+      brightness:   { type: 'range', min: 1, max: 8 },
+      exponent:     { type: 'range', min: 0, max: 10 },
+      colorset:     { type: 'select', options: ['linear', 'squared periodic'] },
+      supersamples: { type: 'select', options: { 1: '1x', 4: '4x', 16: '16x' } }
+    }
+  },
   'modified collatz': {
     menuOrder: ['depth', 'constant_1', 'angle1', 'angle2', 'supersamples'],
     controls: {
@@ -57,6 +66,18 @@ export const DEFAULT_STORE = {
       range: { x: 4, y: 4 }
     }
   },
+  'burning ship': {
+    config: {
+      brightness: 4,
+      colorset: 0,
+      exponent: 2,
+      supersamples: 1
+    },
+    viewport: {
+      center: { x: 0, y: 0 },
+      range: { x: 4, y: 4 }
+    }
+  },
   'modified collatz': {
     config: {
       depth: 200,
@@ -74,5 +95,6 @@ export const DEFAULT_STORE = {
 export const FRACTAL_ENUM = {
   'julia set': 0,
   'mandelbrot set': 1,
-  'modified collatz': 2
+  'burning ship': 2,
+  'modified collatz': 3
 }
