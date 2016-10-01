@@ -66,7 +66,7 @@ vec4 colorize(vec2 fractalValue) {
 
   mu = sin(mu / 20.0) * sin(mu / 20.0);
 
-  return vec4(mu, mu, mu, 0.0);
+  return vec4(mu, mu, mu, 1.0);
 }
 
 vec2 mandelbrot(vec2 coordinate) {
