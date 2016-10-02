@@ -11,8 +11,11 @@ export default function configureStore () {
 
   const initialState = loadState()
 
-  const { version } = initialState
-  delete initialState['version']
+  let version
+  if (initialState && initialState.version) {
+    version = initialState.version
+    delete initialState['version']
+  }
 
   let store
   if (version && version >= '0.2.0') {
