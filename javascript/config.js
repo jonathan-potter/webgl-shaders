@@ -37,6 +37,12 @@ export const DEFAULT_MENU_CONFIG = {
       angle2:     { type: 'range', min: 0, max: Math.PI * 2 },
       supersamples: { type: 'select', options: { 1: '1x', 4: '4x', 16: '16x' } }
     }
+  },
+  'box thing': {
+    menuOrder: ['rotation'],
+    controls: {
+      rotation: { type: 'range', min: 0, max: 3 * Math.PI }
+    }
   }
 }
 
@@ -89,6 +95,15 @@ export const DEFAULT_STORE = {
       center: { x: 0, y: 0 },
       range: { x: 100, y: 100 }
     }
+  },
+  'box thing': {
+    config: {
+      rotation: 0
+    },
+    viewport: {
+      center: { x: 0.25, y: 0.25 },
+      range: { x: 1, y: 1 }
+    }
   }
 }
 
@@ -96,5 +111,6 @@ export const FRACTAL_ENUM = {
   'julia set': 0,
   'mandelbrot set': 1,
   'burning ship': 2,
-  'modified collatz': 3
+  'modified collatz': 3,
+  'box thing': 4
 }

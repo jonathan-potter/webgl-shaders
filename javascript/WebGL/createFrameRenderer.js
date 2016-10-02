@@ -8,7 +8,7 @@ import forEach from 'lodash/forEach'
 
 const { requestAnimationFrame } = window
 
-let time = Date.now()
+let time = 0 // Date.now() & Math.pow(2, 21) - 1;
 export default ({ canvas, context, fractal, program, store }) => function renderFrame () {
   /* eslint-disable no-multi-spaces, key-spacing */
   const state = store.getState()
@@ -20,6 +20,8 @@ export default ({ canvas, context, fractal, program, store }) => function render
 
     if (config.speed) {
       time += parseFloat(config.speed)
+    } else {
+      time += 0.016
     }
 
     const uniformValues = assign({}, config, {
@@ -34,7 +36,8 @@ export default ({ canvas, context, fractal, program, store }) => function render
         -0.795 + Math.sin(time / 2000) / 40,
         0.2321 + Math.cos(time / 1330) / 40
       ],
-      msaa_coordinates: msaaCoordinates[config.supersamples]
+      msaa_coordinates: msaaCoordinates[config.supersamples],
+      time: time
     })
 
     context.useProgram(program)
