@@ -83,7 +83,7 @@ vec3 rayCollision(Ray ray, vec3 p0, vec3 pn) {
   return d * l + l0;
 }
 
-vec4 rayColidesWithBox(Ray ray) {
+vec4 boxCollisionAndNormal(Ray ray) {
   vec2 xy = vec2(1.0, 0.0);
 
   // w is negative flag for later
@@ -114,13 +114,14 @@ vec4 rayColidesWithBox(Ray ray) {
   }
 
   vec4 cp = closestPoint;
-  float x = closestPoint.x;
-  float y = closestPoint.y;
-  float z = closestPoint.z;
+  float x = abs(closestPoint.x);
+  float y = abs(closestPoint.y);
+  float z = abs(closestPoint.z);
   bool negative = closestPoint.w == 1.0;
 
   vec3 normal = vec3(0.0);
   if (collides) {
+    /* normalized values just didn't look right here :( */
     if (x > y && x > z) {
       normal = vec3(1.1, 0.0, 0.0);
     } else if (y > x && y > z) {
@@ -138,16 +139,16 @@ vec4 rayColidesWithBox(Ray ray) {
 }
 
 vec3 render(Ray ray) {
-  vec4 normalAndCollision = rayColidesWithBox(ray);
-  bool collides = normalAndCollision.w == 1.0;
+  vec4 collisionAndNormal = boxCollisionAndNormal(ray);
+  bool collides = collisionAndNormal.w == 1.0;
 
   if (collides) {
-    vec3 normalVector = normalAndCollision.xyz;
+    vec3 normalVector = collisionAndNormal.xyz;
 
     vec3 reflectionVector = reflect(ray.direction, normalVector);
     vec3 reflectionColor = checkerboard(reflectionVector);
 
-    float rf = pow(1.0 - 0.8 * abs(dot(ray.direction, normalVector)), 3.0) * 1.0;
+    float rf = (1.0 - abs(dot(ray.direction, normalVector))) * 0.25;
 
     return reflectionColor * rf;
   }
@@ -181,7 +182,7 @@ vec3 cameraPosition() {
   return vec3(
     10.0 * sin(TIME / 6.0),
     10.0 * cos(TIME / 6.0),
-    1.0 * sin(TIME / 2.0)
+    10.0 * sin(TIME / 2.0)
   );
 }
 
