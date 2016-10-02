@@ -10,7 +10,16 @@ export default function configureStore () {
   const middlewares = [thunk, createLogger()]
 
   const initialState = loadState()
-  const store = createStore(rootReducer, initialState, applyMiddleware(...middlewares))
+
+  const { version } = initialState
+  delete initialState['version']
+
+  let store
+  if (version && version >= '0.2.0') {
+    store = createStore(rootReducer, initialState, applyMiddleware(...middlewares))
+  } else {
+    store = createStore(rootReducer, applyMiddleware(...middlewares))
+  }
 
   store.subscribe(throttle(() => {
     const state = store.getState()
@@ -18,7 +27,8 @@ export default function configureStore () {
     saveState({
       currentShader: state.currentShader,
       shaders: state.shaders,
-      viewports: state.viewports
+      viewports: state.viewports,
+      version: '0.2.0'
     })
   }, 1000))
 
