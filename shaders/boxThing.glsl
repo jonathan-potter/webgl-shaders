@@ -1,15 +1,13 @@
 precision highp float;
 
 uniform vec2 RESOLUTION;
-uniform vec2 CENTER;
-uniform vec2 RANGE;
 
 uniform float TIME;
-uniform float ROTATION;
+uniform float COLORSET;
+uniform float FOV;
+uniform float WOBBLE;
 
 const float pi = 3.1415926;
-const float FOV = 90.0;
-const float BOX_SIZE = 2.0;
 float CHECK_SIZE = pi / 32.0;
 float ASPECT_RATIO = RESOLUTION.x / RESOLUTION.y;
 
@@ -43,13 +41,13 @@ mat3 rotateY(float angle) {
   );
 }
 
-// float sineSquared(float number) {
-//   return pow(sin(number), 2.0);
-// }
+float sineSquared(float number) {
+  return pow(sin(number), 2.0);
+}
 
-// float cosineSquared(float number) {
-//   return pow(cos(number), 2.0);
-// }
+float cosineSquared(float number) {
+  return pow(cos(number), 2.0);
+}
 
 vec3 checkerboard(vec3 direction) {
   float theta = atan(direction.y, direction.x);
@@ -63,8 +61,11 @@ vec3 checkerboard(vec3 direction) {
 
   vec3 color;
   if (condition1 || condition2) {
-    // color = vec3(sineSquared(theta * 16.0), cosineSquared(theta * 13.0), cosineSquared(phi * 7.0));
-    color = vec3(1.0, 1.0, 1.0);
+    if (COLORSET == 0.0) {
+      color = vec3(1.0, 1.0, 1.0);
+    } else if (COLORSET == 1.0) {
+      color = vec3(sineSquared(theta * 16.0), cosineSquared(theta * 13.0), cosineSquared(phi * 7.0));
+    }
   } else {
     color = vec3(0.0, 0.0, 0.0);
   }
@@ -72,7 +73,7 @@ vec3 checkerboard(vec3 direction) {
   return color;
 }
 
-vec3 rayCollision(Ray ray, vec3 p0, vec3 pn) {
+vec3 rayPlaneCollisionPoint(Ray ray, vec3 p0, vec3 pn) {
   // p0: point on plane, pn: plane normal
 
   vec3 l0 = ray.origin;
@@ -88,12 +89,12 @@ vec4 boxCollisionAndNormal(Ray ray) {
 
   // w is negative flag for later
   vec4 colisionPoints[6];
-  colisionPoints[0] = vec4(rayCollision(ray,  xy.xyy,  xy.xyy), 0.0);
-  colisionPoints[1] = vec4(rayCollision(ray, -xy.xyy, -xy.xyy), 1.0);
-  colisionPoints[2] = vec4(rayCollision(ray,  xy.yxy,  xy.yxy), 0.0);
-  colisionPoints[3] = vec4(rayCollision(ray, -xy.yxy, -xy.yxy), 1.0);
-  colisionPoints[4] = vec4(rayCollision(ray,  xy.yyx,  xy.yyx), 0.0);
-  colisionPoints[5] = vec4(rayCollision(ray, -xy.yyx, -xy.yyx), 1.0);
+  colisionPoints[0] = vec4(rayPlaneCollisionPoint(ray,  xy.xyy,  xy.xyy), 0.0);
+  colisionPoints[1] = vec4(rayPlaneCollisionPoint(ray, -xy.xyy, -xy.xyy), 1.0);
+  colisionPoints[2] = vec4(rayPlaneCollisionPoint(ray,  xy.yxy,  xy.yxy), 0.0);
+  colisionPoints[3] = vec4(rayPlaneCollisionPoint(ray, -xy.yxy, -xy.yxy), 1.0);
+  colisionPoints[4] = vec4(rayPlaneCollisionPoint(ray,  xy.yyx,  xy.yyx), 0.0);
+  colisionPoints[5] = vec4(rayPlaneCollisionPoint(ray, -xy.yyx, -xy.yyx), 1.0);
 
   float minDistance = 100000.0;
   bool collides = false;
@@ -192,7 +193,7 @@ void main() {
   // camera
   vec3 origin = cameraPosition();
   vec3 lookVector = normalize(-origin); // look toward 0, 0, 0
-  vec3 up = rotateX(0.2 * sin(TIME / 0.50)) * UP;
+  vec3 up = rotateX(WOBBLE * sin(TIME / 0.50)) * UP; // wobble camera
 
   Ray ray = createRay(origin, lookVector, up, uv, FOV * pi / 180.0);
 

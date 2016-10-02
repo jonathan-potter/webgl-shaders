@@ -39,9 +39,11 @@ export const DEFAULT_MENU_CONFIG = {
     }
   },
   'box thing': {
-    menuOrder: ['rotation'],
+    menuOrder: ['colorset', 'FOV', 'wobble'],
     controls: {
-      rotation: { type: 'range', min: 0, max: 3 * Math.PI }
+      colorset: { type: 'select', options: ['grey', 'colors'] },
+      FOV: { type: 'range', min: 0.001, max: 180 },
+      wobble: { type: 'range', min: 0, max: 1 }
     }
   }
 }
@@ -98,7 +100,9 @@ export const DEFAULT_STORE = {
   },
   'box thing': {
     config: {
-      rotation: 0
+      colorset: 0,
+      FOV: 90,
+      wobble: 0.2
     },
     viewport: {
       center: { x: 0.25, y: 0.25 },
