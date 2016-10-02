@@ -38,7 +38,7 @@ export const DEFAULT_MENU_CONFIG = {
       supersamples: { type: 'select', options: { 1: '1x', 4: '4x', 16: '16x' } }
     }
   },
-  'box thing': {
+  'spinning cube': {
     menuOrder: ['colorset', 'FOV', 'wobble'],
     controls: {
       colorset: { type: 'select', options: ['grey', 'colors'] },
@@ -98,7 +98,7 @@ export const DEFAULT_STORE = {
       range: { x: 100, y: 100 }
     }
   },
-  'box thing': {
+  'spinning cube': {
     config: {
       colorset: 0,
       FOV: 90,
@@ -116,5 +116,5 @@ export const SHADER_ENUM = {
   'mandelbrot set': 1,
   'burning ship': 2,
   'modified collatz': 3,
-  'box thing': 4
+  'spinning cube': 4
 }
