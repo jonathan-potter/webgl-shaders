@@ -8,8 +8,8 @@ import forEach from 'lodash/forEach'
 
 const { requestAnimationFrame } = window
 
-let time = 0 // Date.now() & Math.pow(2, 21) - 1;
-export default ({ canvas, context, shader, program, store }) => function renderFrame () {
+let time = Date.now()
+export default ({ canvas, context, shader, program, store, startTime = Date.now() }) => function renderFrame () {
   /* eslint-disable no-multi-spaces, key-spacing */
   const state = store.getState()
 
@@ -37,7 +37,7 @@ export default ({ canvas, context, shader, program, store }) => function renderF
         0.2321 + Math.cos(time / 1330) / 40
       ],
       msaa_coordinates: msaaCoordinates[config.supersamples],
-      time: time
+      time: time - startTime // large times won't convert to float 32 well
     })
 
     context.useProgram(program)
