@@ -1,10 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import * as actions from 'actions'
-import { getCurrentFractal, getFractalConfig } from 'reducers'
+import { getCurrentShader, getShaderConfig } from 'reducers'
 
 const mapStateToProps = (state) => ({
-  config: getFractalConfig(state, getCurrentFractal(state))
+  config: getShaderConfig(state, getCurrentShader(state))
 })
 
 export default connect(mapStateToProps, actions)(({ config, name, min, max, setConfigValue }) => {

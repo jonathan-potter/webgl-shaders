@@ -1,5 +1,5 @@
-import { getCurrentFractal, getFractalConfig, getFractalViewport } from 'reducers'
-import { FRACTAL_ENUM } from 'javascript/config'
+import { getCurrentShader, getShaderConfig, getShaderViewport } from 'reducers'
+import { SHADER_ENUM } from 'javascript/config'
 import setUniformValue from 'webgl-utilities/setUniformValue'
 import msaaCoordinates from 'webgl-utilities/msaaCoordinates'
 
@@ -9,14 +9,14 @@ import forEach from 'lodash/forEach'
 const { requestAnimationFrame } = window
 
 let time = 0 // Date.now() & Math.pow(2, 21) - 1;
-export default ({ canvas, context, fractal, program, store }) => function renderFrame () {
+export default ({ canvas, context, shader, program, store }) => function renderFrame () {
   /* eslint-disable no-multi-spaces, key-spacing */
   const state = store.getState()
 
-  const currentFractal = getCurrentFractal(state)
-  if (fractal === currentFractal) {
-    const { center, range } = getFractalViewport(state, currentFractal)
-    const config            = getFractalConfig(state, currentFractal)
+  const currentShader = getCurrentShader(state)
+  if (shader === currentShader) {
+    const { center, range } = getShaderViewport(state, currentShader)
+    const config            = getShaderConfig(state, currentShader)
 
     if (config.speed) {
       time += parseFloat(config.speed)
@@ -25,7 +25,7 @@ export default ({ canvas, context, fractal, program, store }) => function render
     }
 
     const uniformValues = assign({}, config, {
-      fractal: FRACTAL_ENUM[currentFractal],
+      shader: SHADER_ENUM[currentShader],
       center: [center.x, center.y],
       range:  [range.x, range.y],
       resolution: [

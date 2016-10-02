@@ -1,4 +1,4 @@
-WebGL Fractal Renderer
+WebGL Shaders
 --------
 ![main image](http://jonathan-potter.github.io/webgl-shaders/assets/julia-set.png "Julia Set")
 

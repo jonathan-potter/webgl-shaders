@@ -111,7 +111,7 @@ export const DEFAULT_STORE = {
   }
 }
 
-export const FRACTAL_ENUM = {
+export const SHADER_ENUM = {
   'julia set': 0,
   'mandelbrot set': 1,
   'burning ship': 2,

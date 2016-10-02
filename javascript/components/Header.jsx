@@ -24,7 +24,7 @@ const MenuGroup = connect(() => ({}), actions)(({ toggleMenu }) => {
         <i className='header-icon icon-menu' />
       </button>
       <a className='header-block-button' href='https://jonathan-potter.github.io/webgl-shaders/'>
-        WebGL Fractal Renderer
+        WebGL Shaders
       </a>
     </heading>
   )
