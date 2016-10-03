@@ -10,15 +10,28 @@ export default function configureStore () {
   const middlewares = [thunk, createLogger()]
 
   const initialState = loadState()
-  const store = createStore(rootReducer, initialState, applyMiddleware(...middlewares))
+
+  let version
+  if (initialState && initialState.version) {
+    version = initialState.version
+    delete initialState['version']
+  }
+
+  let store
+  if (version && version >= '0.2.0') {
+    store = createStore(rootReducer, initialState, applyMiddleware(...middlewares))
+  } else {
+    store = createStore(rootReducer, applyMiddleware(...middlewares))
+  }
 
   store.subscribe(throttle(() => {
     const state = store.getState()
 
     saveState({
-      currentFractal: state.currentFractal,
-      fractals: state.fractals,
-      viewports: state.viewports
+      currentShader: state.currentShader,
+      shaders: state.shaders,
+      viewports: state.viewports,
+      version: '0.2.0'
     })
   }, 1000))
 

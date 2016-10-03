@@ -1,6 +1,6 @@
-import { getCurrentFractal } from 'reducers'
+import { getCurrentShader } from 'reducers'
 import createFrameRenderer from 'webgl/createFrameRenderer'
-import programForFractal from 'webgl-utilities/programForFractal'
+import programForShader from 'webgl-utilities/programForShader'
 
 const { requestAnimationFrame } = window
 
@@ -10,7 +10,7 @@ export default ({ store }) => {
   const startRunLoop = createRunLoop({
     canvas,
     context: canvas.getContext('webgl'),
-    fractal: getCurrentFractal(store.getState()),
+    shader: getCurrentShader(store.getState()),
     store
   })
 
@@ -19,17 +19,17 @@ export default ({ store }) => {
   startRunLoop()
 }
 
-const createRunLoop = ({ canvas, context, fractal, store, firstRun = true }) => () => {
+const createRunLoop = ({ canvas, context, shader, store, firstRun = true }) => () => {
   const state = store.getState()
-  const currentFractal = getCurrentFractal(state)
+  const currentShader = getCurrentShader(state)
 
-  if (fractal !== currentFractal || firstRun) {
-    fractal = currentFractal
+  if (shader !== currentShader || firstRun) {
+    shader = currentShader
     firstRun = false
 
-    const program = programForFractal({ context, fractal })
+    const program = programForShader({ context, shader })
 
     context.useProgram(program)
-    requestAnimationFrame(createFrameRenderer({ canvas, context, fractal, program, store }))
+    requestAnimationFrame(createFrameRenderer({ canvas, context, shader, program, store }))
   }
 }

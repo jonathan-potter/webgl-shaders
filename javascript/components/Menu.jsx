@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { DEFAULT_MENU_CONFIG } from 'javascript/config'
-import MenuItemFractalSelect from 'components/MenuItemFractalSelect'
+import MenuItemShaderSelect from 'components/MenuItemShaderSelect'
 import MenuItemRange from 'components/MenuItemRange'
 import MenuItemSelect from 'components/MenuItemSelect'
 import MenuItemShareGroup from 'components/MenuItemShareGroup'
@@ -11,11 +11,11 @@ import cn from 'classnames'
 
 import './menu.css'
 
-const mapStateToProps = ({ currentFractal, menuOpen }) => ({ currentFractal, menuOpen })
+const mapStateToProps = ({ currentShader, menuOpen }) => ({ currentShader, menuOpen })
 
 export default connect(mapStateToProps, actions)(
-  ({ currentFractal, menuOpen, resetFractal, zoomOut, zoomToLocation }) => {
-    const { menuOrder: MENU_ORDER, controls: CONTROLS } = DEFAULT_MENU_CONFIG[currentFractal]
+  ({ currentShader, menuOpen, resetShader, zoomOut, zoomToLocation }) => {
+    const { menuOrder: MENU_ORDER, controls: CONTROLS } = DEFAULT_MENU_CONFIG[currentShader]
 
     const controls = map(MENU_ORDER, (name) => {
       const {min, max, options, type} = CONTROLS[name]
@@ -45,11 +45,11 @@ export default connect(mapStateToProps, actions)(
             </button>
             <button
               className='reset-button button-primary'
-              onClick={resetFractal}>
+              onClick={resetShader}>
               reset
             </button>
           </li>
-          <MenuItemFractalSelect name='fractal' options={Object.keys(DEFAULT_MENU_CONFIG)} />
+          <MenuItemShaderSelect name='shader' options={Object.keys(DEFAULT_MENU_CONFIG)} />
           { controls }
         </ul>
       </menu>
