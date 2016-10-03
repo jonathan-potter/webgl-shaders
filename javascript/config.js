@@ -37,6 +37,14 @@ export const DEFAULT_MENU_CONFIG = {
       angle2:     { type: 'range', min: 0, max: Math.PI * 2 },
       supersamples: { type: 'select', options: { 1: '1x', 4: '4x', 16: '16x' } }
     }
+  },
+  'spinning cube': {
+    menuOrder: ['colorset', 'FOV', 'wobble'],
+    controls: {
+      colorset: { type: 'select', options: ['grey', 'colors'] },
+      FOV: { type: 'range', min: 0.001, max: 180 },
+      wobble: { type: 'range', min: 0, max: 1 }
+    }
   }
 }
 
@@ -89,12 +97,24 @@ export const DEFAULT_STORE = {
       center: { x: 0, y: 0 },
       range: { x: 100, y: 100 }
     }
+  },
+  'spinning cube': {
+    config: {
+      colorset: 0,
+      FOV: 90,
+      wobble: 0.2
+    },
+    viewport: {
+      center: { x: 0.25, y: 0.25 },
+      range: { x: 1, y: 1 }
+    }
   }
 }
 
-export const FRACTAL_ENUM = {
+export const SHADER_ENUM = {
   'julia set': 0,
   'mandelbrot set': 1,
   'burning ship': 2,
-  'modified collatz': 3
+  'modified collatz': 3,
+  'spinning cube': 4
 }

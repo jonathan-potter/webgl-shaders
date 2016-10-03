@@ -1,61 +1,61 @@
-import { getCurrentFractal } from 'reducers'
+import { getCurrentShader } from 'reducers'
 import registerEvent from 'utility/registerEvent'
 import throttle from 'lodash/throttle'
 
 const throttledRegisterEvent = throttle(registerEvent, 1000)
 
-export const resetFractal = () => (dispatch, getState) => {
-  const currentFractal = getCurrentFractal(getState())
-  const action = 'RESET_FRACTAL_CONFIG'
+export const resetShader = () => (dispatch, getState) => {
+  const currentShader = getCurrentShader(getState())
+  const action = 'RESET_SHADER_CONFIG'
 
   registerEvent({
-    category: currentFractal,
+    category: currentShader,
     action: action
   })
 
   dispatch({
     type: action,
-    fractal: currentFractal
+    shader: currentShader
   })
 }
 
-export const zoomToLocation = ({ location, fractal }) => (dispatch, getState) => {
-  const currentFractal = getCurrentFractal(getState())
+export const zoomToLocation = ({ location, shader }) => (dispatch, getState) => {
+  const currentShader = getCurrentShader(getState())
   const action = 'ZOOM_TO_LOCATION'
 
   registerEvent({
-    category: currentFractal,
+    category: currentShader,
     action: action
   })
 
   dispatch({
     type: action,
-    fractal: currentFractal,
+    shader: currentShader,
     location
   })
 }
 
 export const zoomOut = () => (dispatch, getState) => {
-  const currentFractal = getCurrentFractal(getState())
+  const currentShader = getCurrentShader(getState())
   const action = 'ZOOM_OUT'
 
   registerEvent({
-    category: currentFractal,
+    category: currentShader,
     action: action
   })
 
   dispatch({
     type: action,
-    fractal: currentFractal
+    shader: currentShader
   })
 }
 
 export const setConfigValue = ({ name, value }) => (dispatch, getState) => {
-  const currentFractal = getCurrentFractal(getState())
+  const currentShader = getCurrentShader(getState())
   const action = 'SET_CONFIG_VALUE'
 
   throttledRegisterEvent({
-    category: currentFractal,
+    category: currentShader,
     action: action,
     label: name,
     value
@@ -63,34 +63,34 @@ export const setConfigValue = ({ name, value }) => (dispatch, getState) => {
 
   dispatch({
     type: action,
-    fractal: getCurrentFractal(getState()),
+    shader: getCurrentShader(getState()),
     name,
     value
   })
 }
 
-export const setCurrentFractal = ({fractal}) => (dispatch, getState) => {
-  const currentFractal = getCurrentFractal(getState())
-  const action = 'SET_FRACTAL'
+export const setCurrentShader = ({shader}) => (dispatch, getState) => {
+  const currentShader = getCurrentShader(getState())
+  const action = 'SET_SHADER'
 
   throttledRegisterEvent({
-    category: currentFractal,
+    category: currentShader,
     action: action,
-    label: fractal
+    label: shader
   })
 
   dispatch({
     type: action,
-    value: fractal
+    value: shader
   })
 }
 
 export const toggleMenu = () => (dispatch, getState) => {
-  const currentFractal = getCurrentFractal(getState())
+  const currentShader = getCurrentShader(getState())
   const action = 'TOGGLE_MENU'
 
   throttledRegisterEvent({
-    category: currentFractal,
+    category: currentShader,
     action: action
   })
 

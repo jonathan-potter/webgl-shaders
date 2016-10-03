@@ -14,9 +14,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 - rebuilt interface in React
 - switched to using [Standard](http://standardjs.com/) style
 
-### 2015-09-02
+### 2016-09-02
 - rewrote Viewport so that its internal state held center and range rather than bounds
 - significantly simplified reducers
 - adds 'modified collatz' fractal to be selected
 - adds 'zoom in' and 'zoom out' buttons
 - adds basic google analytics script
+
+### 2016-09-02 - 2016-10-02
+- allowed multiple shader files to be used
+- added 'burning ship' fractal
+- added 3D spinning cube
