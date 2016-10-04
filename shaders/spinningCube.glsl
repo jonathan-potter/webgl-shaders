@@ -6,9 +6,12 @@ uniform float TIME;
 uniform float COLORSET;
 uniform float FOV;
 uniform float WOBBLE;
+uniform float CHECK_SIZE;
+uniform float SHAPE;
+uniform float DISTANCE;
 
 const float pi = 3.1415926;
-float CHECK_SIZE = pi / 32.0;
+float CHECK_SIZE_1 = pi / CHECK_SIZE;
 float ASPECT_RATIO = RESOLUTION.x / RESOLUTION.y;
 
 const vec3 LOOK_AT = vec3(0.0, 0.0, 0.0);
@@ -53,8 +56,8 @@ vec3 checkerboard(vec3 direction) {
   float theta = atan(direction.y, direction.x);
   float phi = acos(direction.z);
 
-  float x_thing = step(CHECK_SIZE / 2.0, mod(theta, CHECK_SIZE));
-  float y_thing = step(CHECK_SIZE / 2.0, mod(phi, CHECK_SIZE));
+  float x_thing = step(CHECK_SIZE_1 / 2.0, mod(theta, CHECK_SIZE_1));
+  float y_thing = step(CHECK_SIZE_1 / 2.0, mod(phi, CHECK_SIZE_1));
 
   bool condition1 = x_thing > 0.5 && y_thing < 0.5;
   bool condition2 = x_thing < 0.5 && y_thing > 0.5;
@@ -82,6 +85,19 @@ vec3 rayPlaneCollisionPoint(Ray ray, vec3 p0, vec3 pn) {
   /* https://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection */
   float d = dot(p0 - l0, pn) / dot(l, pn);
   return d * l + l0;
+}
+
+vec4 raySphereCollisionPoint(Ray ray, vec3 c, float r) {
+  // c: center of sphere, r: radius of sphere
+
+  vec3 o = ray.origin;
+  vec3 l = ray.direction;
+
+  /* https://en.wikipedia.org/wiki/Line%E2%80%93sphere_intersection */
+  bool collision = pow(dot(l, o - c), 2.0) - pow(length(o - c), 2.0) + pow(r, 2.0) > 0.0;
+  float d = -dot(l, o - c) + sqrt(pow(dot(l, o - c), 2.0) - pow(length(o - c), 2.0) + pow(r, 2.0));
+
+  return vec4(d * l + o, float(collision));
 }
 
 vec4 boxCollisionAndNormal(Ray ray) {
@@ -139,12 +155,24 @@ vec4 boxCollisionAndNormal(Ray ray) {
   return vec4(normal, float(collides));
 }
 
+vec4 sphereCollisionAndNormal(Ray ray) {
+  return raySphereCollisionPoint(ray, vec3(0.0), 1.0);
+}
+
+vec4 collisionAndNormal(Ray ray) {
+  if (SHAPE == 0.0) {
+    return boxCollisionAndNormal(ray);
+  } else {
+    return sphereCollisionAndNormal(ray);
+  }
+}
+
 vec3 render(Ray ray) {
-  vec4 collisionAndNormal = boxCollisionAndNormal(ray);
-  bool collides = collisionAndNormal.w == 1.0;
+  vec4 cn = collisionAndNormal(ray);
+  bool collides = cn.w == 1.0;
 
   if (collides) {
-    vec3 normalVector = collisionAndNormal.xyz;
+    vec3 normalVector = cn.xyz;
 
     vec3 reflectionVector = reflect(ray.direction, normalVector);
     vec3 reflectionColor = checkerboard(reflectionVector);
@@ -154,7 +182,7 @@ vec3 render(Ray ray) {
     return reflectionColor * rf;
   }
 
-  return checkerboard(ray.direction) * 1.0;
+  return checkerboard(ray.direction);
 }
 
 Ray createRay(vec3 origin, vec3 lookVector, vec3 up, vec2 uv, float fov) {
@@ -181,9 +209,9 @@ float vignette(vec2 uv) {
 
 vec3 cameraPosition() {
   return vec3(
-    10.0 * sin(TIME / 6.0),
-    10.0 * cos(TIME / 6.0),
-    10.0 * sin(TIME / 2.0)
+    DISTANCE * sin(TIME / 6.0),
+    DISTANCE * cos(TIME / 6.0),
+    DISTANCE * sin(TIME / 2.0)
   );
 }
 

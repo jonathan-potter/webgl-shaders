@@ -25,3 +25,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 - allowed multiple shader files to be used
 - added 'burning ship' fractal
 - added 3D spinning cube
+
+### 2016-10-4
+- adds sphere to 'spinning cube' shader
+- adds 'distance', 'check_size' to 'spinning cube' shader

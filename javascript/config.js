@@ -39,10 +39,13 @@ export const DEFAULT_MENU_CONFIG = {
     }
   },
   'spinning cube': {
-    menuOrder: ['colorset', 'FOV', 'wobble'],
+    menuOrder: ['colorset', 'shape', 'distance', 'FOV', 'check_size', 'wobble'],
     controls: {
       colorset: { type: 'select', options: ['grey', 'colors'] },
+      shape: { type: 'select', options: ['cube', 'sphere'] },
+      distance: { type: 'range', min: 2, max: 20 },
       FOV: { type: 'range', min: 0.001, max: 180 },
+      'check_size': { type: 'range', min: 1, max: 50 },
       wobble: { type: 'range', min: 0, max: 1 }
     }
   }
@@ -101,7 +104,10 @@ export const DEFAULT_STORE = {
   'spinning cube': {
     config: {
       colorset: 0,
+      shape: 0,
+      distance: 10,
       FOV: 90,
+      'check_size': 32,
       wobble: 0.2
     },
     viewport: {
