@@ -6,7 +6,7 @@ uniform vec2 RANGE;
 uniform vec2 JULIA_C;
 uniform vec2 MSAA_COORDINATES[16];
 
-uniform float FRACTAL;
+uniform float SHADER;
 uniform float BRIGHTNESS;
 uniform float COLORSET;
 uniform float EXPONENT;
@@ -92,7 +92,7 @@ vec2 msaa(vec2 coordinate) {
   for (int index = 0; index < 16; index++) {
     vec2 msaaCoordinate = coordinate + PIXEL_SIZE * MSAA_COORDINATES[index];
 
-    if (FRACTAL == 0.0) {
+    if (SHADER == 0.0) {
       fractalValue += julia(msaaCoordinate, JULIA_C);
     } else {
       fractalValue += mandelbrot(msaaCoordinate);
