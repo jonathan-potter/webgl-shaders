@@ -9,6 +9,7 @@ uniform float WOBBLE;
 uniform float CHECK_SIZE;
 uniform float SHAPE;
 uniform float DISTANCE;
+uniform float REFLECTIVITY;
 
 const float pi = 3.1415926;
 float CHECK_SIZE_1 = pi / CHECK_SIZE;
@@ -67,7 +68,7 @@ vec3 checkerboard(vec3 direction) {
     if (COLORSET == 0.0) {
       color = vec3(1.0, 1.0, 1.0);
     } else if (COLORSET == 1.0) {
-      color = vec3(sineSquared(theta * 16.0), cosineSquared(theta * 13.0), cosineSquared(phi * 7.0));
+      color = vec3(cosineSquared(phi * theta * 16.0), cosineSquared(phi * theta * 13.0), cosineSquared(phi * theta * 7.0));
     }
   } else {
     color = vec3(0.0, 0.0, 0.0);
@@ -90,14 +91,14 @@ vec3 rayPlaneCollisionPoint(Ray ray, vec3 p0, vec3 pn) {
 vec4 raySphereCollisionPoint(Ray ray, vec3 c, float r) {
   // c: center of sphere, r: radius of sphere
 
-  vec3 o = ray.origin;
+  vec3 l0 = ray.origin;
   vec3 l = ray.direction;
 
   /* https://en.wikipedia.org/wiki/Line%E2%80%93sphere_intersection */
-  bool collision = pow(dot(l, o - c), 2.0) - pow(length(o - c), 2.0) + pow(r, 2.0) > 0.0;
-  float d = -dot(l, o - c) + sqrt(pow(dot(l, o - c), 2.0) - pow(length(o - c), 2.0) + pow(r, 2.0));
+  float collision = pow(dot(l, l0 - c), 2.0) - pow(length(l0 - c), 2.0) + pow(r, 2.0);
+  float d = -dot(l, l0 - c) - sqrt(collision);
 
-  return vec4(d * l + o, float(collision));
+  return vec4(d * l + l0, float(collision > 0.0));
 }
 
 vec4 boxCollisionAndNormal(Ray ray) {
@@ -130,7 +131,6 @@ vec4 boxCollisionAndNormal(Ray ray) {
     }
   }
 
-  vec4 cp = closestPoint;
   float x = abs(closestPoint.x);
   float y = abs(closestPoint.y);
   float z = abs(closestPoint.z);
@@ -138,13 +138,12 @@ vec4 boxCollisionAndNormal(Ray ray) {
 
   vec3 normal = vec3(0.0);
   if (collides) {
-    /* normalized values just didn't look right here :( */
     if (x > y && x > z) {
-      normal = vec3(1.1, 0.0, 0.0);
+      normal = vec3(1.0, 0.0, 0.0);
     } else if (y > x && y > z) {
-      normal = vec3(0.0, 1.1, 0.0);
+      normal = vec3(0.0, 1.0, 0.0);
     } else {
-      normal = vec3(0.0, 0.0, 1.1);
+      normal = vec3(0.0, 0.0, 1.0);
     }
 
     if (negative) {
@@ -177,9 +176,9 @@ vec3 render(Ray ray) {
     vec3 reflectionVector = reflect(ray.direction, normalVector);
     vec3 reflectionColor = checkerboard(reflectionVector);
 
-    float rf = (1.0 - abs(dot(ray.direction, normalVector))) * 0.25;
+    float rf = (1.0 - abs(dot(ray.direction, normalVector)));
 
-    return reflectionColor * rf;
+    return reflectionColor * rf * REFLECTIVITY;
   }
 
   return checkerboard(ray.direction);

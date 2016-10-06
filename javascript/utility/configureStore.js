@@ -18,7 +18,7 @@ export default function configureStore () {
   }
 
   let store
-  if (version && version >= '0.2.1') {
+  if (version && version >= '0.2.2') {
     store = createStore(rootReducer, initialState, applyMiddleware(...middlewares))
   } else {
     store = createStore(rootReducer, applyMiddleware(...middlewares))
@@ -31,7 +31,7 @@ export default function configureStore () {
       currentShader: state.currentShader,
       shaders: state.shaders,
       viewports: state.viewports,
-      version: '0.2.1'
+      version: '0.2.2'
     })
   }, 1000))
 

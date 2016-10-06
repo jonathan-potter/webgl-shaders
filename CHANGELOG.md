@@ -26,6 +26,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 - added 'burning ship' fractal
 - added 3D spinning cube
 
-### 2016-10-4
+### 2016-10-04
 - adds sphere to 'spinning cube' shader
 - adds 'distance', 'check_size' to 'spinning cube' shader
+
+### 2016-10-06
+- plays with coloration in 'spinning cube' shader
+- adds reflectivity to 'spinning cube' shader
