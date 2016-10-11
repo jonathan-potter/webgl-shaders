@@ -15,7 +15,7 @@ export default ({ canvas, context, shader, program, store, startTime = Date.now(
 
   const currentShader = getCurrentShader(state)
   if (shader === currentShader) {
-    const { center, range } = getShaderViewport(state, currentShader)
+    const { center, range, rotation } = getShaderViewport(state, currentShader)
     const config            = getShaderConfig(state, currentShader)
 
     if (config.speed) {
@@ -28,6 +28,7 @@ export default ({ canvas, context, shader, program, store, startTime = Date.now(
       shader: SHADER_ENUM[currentShader],
       center: [center.x, center.y],
       range:  [range.x, range.y],
+      rotation: rotation || 0,
       resolution: [
         window.innerWidth,
         window.innerHeight
