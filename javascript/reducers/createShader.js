@@ -11,6 +11,8 @@ export default function (SHADER, DEFAULT_PROPERTIES) {
       switch (action.type) {
         case 'RESET_SHADER_CONFIG':
           return DEFAULT_PROPERTIES.viewport
+        case 'SET_VIEWPORT':
+          return action.value
         case 'ZOOM_TO_LOCATION':
           const location = viewport.cartesianLocation(action.location)
 

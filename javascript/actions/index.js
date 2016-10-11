@@ -1,5 +1,6 @@
-import { getCurrentShader } from 'reducers'
+import { getCurrentShader, getShaderViewport } from 'reducers'
 import registerEvent from 'utility/registerEvent'
+import mapValues from 'lodash/mapValues'
 import throttle from 'lodash/throttle'
 
 const throttledRegisterEvent = throttle(registerEvent, 1000)
@@ -69,7 +70,7 @@ export const setConfigValue = ({ name, value }) => (dispatch, getState) => {
   })
 }
 
-export const setCurrentShader = ({shader}) => (dispatch, getState) => {
+export const setCurrentShader = ({ shader }) => (dispatch, getState) => {
   const currentShader = getCurrentShader(getState())
   const action = 'SET_SHADER'
 
@@ -96,6 +97,45 @@ export const toggleMenu = () => (dispatch, getState) => {
 
   dispatch({
     type: action
+  })
+}
+
+export const resetViewportScale = () => (dispatch, getState) => {
+  const state = getState()
+
+  const currentShader = getCurrentShader(state)
+  const viewport = getShaderViewport(state, currentShader)
+  const action = 'SET_VIEWPORT'
+
+  dispatch({
+    type: action,
+    shader: currentShader,
+    value: {
+      ...viewport,
+      scale: 1
+    }
+  })
+}
+
+export const pinchZoom = ({ scale }) => (dispatch, getState) => {
+  const state = getState()
+
+  const currentShader = getCurrentShader(state)
+  const viewport = getShaderViewport(state, currentShader)
+  const action = 'SET_VIEWPORT'
+
+  scale = scale / (viewport.scale || 1)
+
+  const newViewport = {
+    ...viewport,
+    range: mapValues(viewport.range, axisScale => axisScale * scale),
+    scale: scale
+  }
+
+  dispatch({
+    type: action,
+    shader: currentShader,
+    value: newViewport
   })
 }
 
