@@ -19,8 +19,8 @@ export default function (SHADER, DEFAULT_PROPERTIES) {
           return {
             ...state,
             range: {
-              x: range.x * action.scale,
-              y: range.y * action.scale
+              x: range.x / action.scale,
+              y: range.y / action.scale
             },
             rotation: rotation + Math.PI / 180 * action.rotation
           }
