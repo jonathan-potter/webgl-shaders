@@ -8,7 +8,7 @@ import mapValues from 'lodash/mapValues'
 
 export default combineReducers({
   currentShader,
-  initialViewport: createReducer('initial_viewport', {}),
+  pinchStart: createReducer('pinch_start', {}),
   menuOpen,
   shaders: combineReducers(mapValues(DEFAULT_STORE, (shaderConfig, shaderName) => (
     createShader(shaderName, shaderConfig)
@@ -18,4 +18,4 @@ export default combineReducers({
 export const getCurrentShader = state => fromCurrentShader.getCurrentShader(state)
 export const getShaderConfig = (state, shader) => Shader.getShaderConfig(state, shader)
 export const getShaderViewport = (state, shader) => Shader.getShaderViewport(state, shader)
-export const getInitialViewport = state => state.initialViewport
+export const getPinchStart = state => state.pinchStart

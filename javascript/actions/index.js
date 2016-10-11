@@ -1,6 +1,5 @@
-import { getCurrentShader, getShaderViewport, getInitialViewport } from 'reducers'
+import { getCurrentShader, getShaderViewport, getPinchStart } from 'reducers'
 import registerEvent from 'utility/registerEvent'
-import mapValues from 'lodash/mapValues'
 import throttle from 'lodash/throttle'
 
 const throttledRegisterEvent = throttle(registerEvent, 1000)
@@ -100,32 +99,39 @@ export const toggleMenu = () => (dispatch, getState) => {
   })
 }
 
-export const setInitialViewport = () => (dispatch, getState) => {
+export const setPinchStart = ({ canvas, center }) => (dispatch, getState) => {
   const state = getState()
 
   const currentShader = getCurrentShader(state)
   const viewport = getShaderViewport(state, currentShader)
-  const action = 'SET_INITIAL_VIEWPORT'
+  const action = 'SET_PINCH_START'
 
   dispatch({
     type: action,
-    value: viewport
+    value: {
+      canvas,
+      center,
+      viewport
+    }
   })
 }
 
-export const pinchZoom = ({ rotation, scale }) => (dispatch, getState) => {
+export const pinchZoom = ({ center, rotation, scale }) => (dispatch, getState) => {
   const state = getState()
 
   const currentShader = getCurrentShader(state)
-  const initialViewport = getInitialViewport(state)
+  const pinchStart = getPinchStart(state)
   const action = 'PINCH_ZOOM'
 
   dispatch({
     type: action,
     shader: currentShader,
-    initialViewport: initialViewport,
-    rotation,
-    scale
+    pinchStart,
+    pinchCurrent: {
+      center,
+      rotation,
+      scale
+    }
   })
 }
 
