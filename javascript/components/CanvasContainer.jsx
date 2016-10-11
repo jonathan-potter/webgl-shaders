@@ -10,7 +10,7 @@ class CanvasContainer extends Component {
     canvas.addEventListener('click', this.onClick.bind(this))
     canvas.addEventListener('touchstart', this.resetTouches.bind(this))
     canvas.addEventListener('touchmove', this.onTouchMove.bind(this))
-    canvas.addEventListener('touchend', this.resetTouches.bind(this))
+    // canvas.addEventListener('touchend', this.resetTouches.bind(this))
   }
 
   onTouchMove (event) {
@@ -31,7 +31,7 @@ class CanvasContainer extends Component {
   resetTouches (event) {
     event.preventDefault()
 
-    this.props.resetViewportScale()
+    this.props.setInitialViewport()
   }
 
   onClick (event) {
