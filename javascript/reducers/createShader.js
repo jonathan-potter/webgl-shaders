@@ -8,11 +8,22 @@ export default function (SHADER, DEFAULT_PROPERTIES) {
 
       const viewport = Viewport.create({ center: state.center, range: state.range })
 
+      const { range, rotation = 0 } = action.initialViewport
+
       switch (action.type) {
         case 'RESET_SHADER_CONFIG':
           return DEFAULT_PROPERTIES.viewport
         case 'SET_VIEWPORT':
           return action.value
+        case 'PINCH_ZOOM':
+          return {
+            ...state,
+            range: {
+              x: range.x * action.scale,
+              y: range.y * action.scale
+            },
+            rotation: rotation + Math.PI / 180 * action.rotation
+          }
         case 'ZOOM_TO_LOCATION':
           const location = viewport.cartesianLocation(action.location)
 

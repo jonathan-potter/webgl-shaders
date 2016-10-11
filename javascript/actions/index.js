@@ -117,20 +117,15 @@ export const pinchZoom = ({ rotation, scale }) => (dispatch, getState) => {
   const state = getState()
 
   const currentShader = getCurrentShader(state)
-  const viewport = getShaderViewport(state, currentShader)
   const initialViewport = getInitialViewport(state)
-  const action = 'SET_VIEWPORT'
-
-  const newViewport = {
-    ...viewport,
-    range: mapValues(initialViewport.range, axisScale => axisScale / scale),
-    rotation: (initialViewport.rotation || 0) + Math.PI / 180 * rotation
-  }
+  const action = 'PINCH_ZOOM'
 
   dispatch({
     type: action,
     shader: currentShader,
-    value: newViewport
+    initialViewport: initialViewport,
+    rotation,
+    scale
   })
 }
 
