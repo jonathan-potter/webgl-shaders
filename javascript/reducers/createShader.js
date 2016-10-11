@@ -25,8 +25,8 @@ export default function (SHADER, DEFAULT_PROPERTIES) {
           const magnitude = Math.sqrt(dx * dx + dy * dy)
           const angle = Math.atan2(dy, dx)
 
-          dx = magnitude * Math.cos(angle + current.rotation)
-          dy = magnitude * Math.sin(angle + current.rotation)
+          dx = magnitude * Math.cos(angle + Math.PI / 180 * current.rotation)
+          dy = magnitude * Math.sin(angle + Math.PI / 180 * current.rotation)
 
           /* scale */
           dx *= current.scale / start.canvas.width
