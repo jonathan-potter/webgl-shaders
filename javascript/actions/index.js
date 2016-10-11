@@ -123,7 +123,7 @@ export const pinchZoom = ({ scale }) => (dispatch, getState) => {
 
   const newViewport = {
     ...viewport,
-    range: mapValues(initialViewport.range, axisScale => axisScale * scale)
+    range: mapValues(initialViewport.range, axisScale => axisScale / scale)
   }
 
   dispatch({
