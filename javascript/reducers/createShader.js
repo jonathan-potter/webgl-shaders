@@ -18,8 +18,8 @@ export default function (SHADER, DEFAULT_PROPERTIES) {
           const current = action.pinchCurrent
 
           /* translate */
-          let dx = current.center.x - start.center.x
-          let dy = current.center.y - start.center.y
+          let dx = (current.center.x - start.center.x) / start.canvas.width
+          let dy = (current.center.y - start.center.y) / start.canvas.height
 
           /* rotate */
           const magnitude = Math.sqrt(dx * dx + dy * dy)
@@ -29,8 +29,8 @@ export default function (SHADER, DEFAULT_PROPERTIES) {
           dy = magnitude * Math.sin(angle + Math.PI / 180 * current.rotation)
 
           /* scale */
-          dx *= current.scale / start.canvas.width
-          dy *= current.scale / start.canvas.height
+          dx /= current.scale
+          dy /= current.scale
 
           const center = {
             x: start.viewport.center.x - dx * start.viewport.range.x,
