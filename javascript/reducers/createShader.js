@@ -40,10 +40,10 @@ export default function (SHADER, DEFAULT_PROPERTIES) {
           return {
             center,
             range: {
-              x: state.range.x / current.scale,
-              y: state.range.y / current.scale
+              x: start.viewport.range.x / current.scale,
+              y: start.viewport.range.y / current.scale
             },
-            rotation: start.viewport.rotation + Math.PI / 180 * action.rotation
+            rotation: start.viewport.rotation + Math.PI / 180 * current.rotation
           }
         case 'ZOOM_TO_LOCATION':
           const location = viewport.cartesianLocation(action.location)
