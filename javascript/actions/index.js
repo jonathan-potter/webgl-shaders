@@ -124,7 +124,7 @@ export const pinchZoom = ({ scale }) => (dispatch, getState) => {
   const viewport = getShaderViewport(state, currentShader)
   const action = 'SET_VIEWPORT'
 
-  scale = scale / (viewport.scale || 1)
+  scale = (viewport.scale || 1) / scale
 
   const newViewport = {
     ...viewport,
