@@ -17,33 +17,33 @@ export default function (SHADER, DEFAULT_PROPERTIES) {
           const start = action.pinchStart
           const current = action.pinchCurrent
 
+          const rotation = start.viewport.rotation + current.rotation * Math.PI / 180
+
           /* translate */
-          let dx = (current.center.x - start.center.x) / start.canvas.width
-          let dy = (current.center.y - start.center.y) / start.canvas.height
+          let dx = (start.center.x - current.center.x) / start.canvas.width
+          let dy = (start.center.y - current.center.y) / start.canvas.height
 
           /* rotate */
           const magnitude = Math.sqrt(dx * dx + dy * dy)
           const angle = Math.atan2(dy, dx)
 
-          dx = magnitude * Math.cos(angle + Math.PI / 180 * current.rotation)
-          dy = magnitude * Math.sin(angle + Math.PI / 180 * current.rotation)
+          dx = magnitude * Math.cos(angle - rotation)
+          dy = magnitude * Math.sin(angle - rotation)
 
           /* scale */
           dx /= current.scale
           dy /= current.scale
 
-          const center = {
-            x: start.viewport.center.x - dx * start.viewport.range.x,
-            y: start.viewport.center.y + dy * start.viewport.range.y
-          }
-
           return {
-            center,
+            center: {
+              x: start.viewport.center.x + dx * start.viewport.range.x,
+              y: start.viewport.center.y - dy * start.viewport.range.y
+            },
             range: {
               x: start.viewport.range.x / current.scale,
               y: start.viewport.range.y / current.scale
             },
-            rotation: start.viewport.rotation + Math.PI / 180 * current.rotation
+            rotation
           }
         case 'ZOOM_TO_LOCATION':
           const location = viewport.cartesianLocation(action.location)
