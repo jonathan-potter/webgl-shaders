@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux'
 import Viewport from 'javascript/Viewport'
 
+const { atan2, cos, PI: pi, sin, sqrt } = Math
+
 export default function (SHADER, DEFAULT_PROPERTIES) {
   return combineReducers({
     viewport (state = DEFAULT_PROPERTIES.viewport, action) {
@@ -17,18 +19,21 @@ export default function (SHADER, DEFAULT_PROPERTIES) {
           const start = action.pinchStart
           const current = action.pinchCurrent
 
-          const rotation = start.viewport.rotation + current.rotation * Math.PI / 180
+          const { canvas } = start
+          const { range } = start.viewport
+
+          const rotation = ((start.viewport.rotation || 0) + current.rotation * pi / 180) % (2 * pi)
 
           /* translate */
-          let dx = (start.center.x - current.center.x) / start.canvas.width
-          let dy = (start.center.y - current.center.y) / start.canvas.height
+          let dx = (start.center.x - current.center.x) / canvas.width * range.x
+          let dy = (start.center.y - current.center.y) / canvas.height * range.y
 
           /* rotate */
-          const magnitude = Math.sqrt(dx * dx + dy * dy)
-          const angle = Math.atan2(dy, dx)
+          const magnitude = sqrt(dx * dx + dy * dy)
+          const angle = atan2(dy, dx)
 
-          dx = magnitude * Math.cos(angle - rotation)
-          dy = magnitude * Math.sin(angle - rotation)
+          dx = magnitude * cos(angle - rotation)
+          dy = magnitude * sin(angle - rotation)
 
           /* scale */
           dx /= current.scale
@@ -36,12 +41,12 @@ export default function (SHADER, DEFAULT_PROPERTIES) {
 
           return {
             center: {
-              x: start.viewport.center.x + dx * start.viewport.range.x,
-              y: start.viewport.center.y - dy * start.viewport.range.y
+              x: start.viewport.center.x + dx,
+              y: start.viewport.center.y - dy
             },
             range: {
-              x: start.viewport.range.x / current.scale,
-              y: start.viewport.range.y / current.scale
+              x: range.x / current.scale,
+              y: range.y / current.scale
             },
             rotation
           }

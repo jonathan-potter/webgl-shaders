@@ -8,9 +8,9 @@ class CanvasContainer extends Component {
     const canvas = document.getElementById('main')
 
     canvas.addEventListener('click', this.onClick.bind(this))
-    canvas.addEventListener('touchstart', this.resetTouches.bind(this))
+    canvas.addEventListener('touchstart', this.onTouchStart.bind(this))
     canvas.addEventListener('touchmove', this.onTouchMove.bind(this))
-    // canvas.addEventListener('touchend', this.resetTouches.bind(this))
+    canvas.addEventListener('touchend', this.onTouchEnd.bind(this))
   }
 
   onTouchMove (event) {
@@ -28,7 +28,7 @@ class CanvasContainer extends Component {
     })
   }
 
-  resetTouches (event) {
+  onTouchStart (event) {
     event.preventDefault()
 
     const touches = Array.from(event.touches)
@@ -44,6 +44,12 @@ class CanvasContainer extends Component {
         height
       }
     })
+  }
+
+  onTouchEnd (event) {
+    event.preventDefault()
+
+    this.props.resetPinchStart()
   }
 
   onClick (event) {

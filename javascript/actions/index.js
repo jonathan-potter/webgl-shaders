@@ -111,7 +111,7 @@ export const setPinchStart = ({ canvas, center }) => (dispatch, getState) => {
     value: {
       canvas,
       center,
-      viewport
+      viewport: { ...viewport }
     }
   })
 }
@@ -123,15 +123,25 @@ export const pinchZoom = ({ center, rotation, scale }) => (dispatch, getState) =
   const pinchStart = getPinchStart(state)
   const action = 'PINCH_ZOOM'
 
+  if (Object.keys(pinchStart).length > 0) {
+    /* pinch start must have registered before firing this action */
+
+    dispatch({
+      type: action,
+      shader: currentShader,
+      pinchStart,
+      pinchCurrent: {
+        center,
+        rotation,
+        scale
+      }
+    })
+  }
+}
+
+export const resetPinchStart = () => (dispatch) => {
   dispatch({
-    type: action,
-    shader: currentShader,
-    pinchStart,
-    pinchCurrent: {
-      center,
-      rotation,
-      scale
-    }
+    type: 'RESET_PINCH_START'
   })
 }
 
