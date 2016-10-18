@@ -6,6 +6,8 @@ import throttle from 'lodash/throttle'
 import createLogger from 'redux-logger'
 import thunk from 'redux-thunk'
 
+const CURRENT_VERSION = '0.2.3'
+
 export default function configureStore () {
   const middlewares = [thunk, createLogger()]
 
@@ -18,7 +20,7 @@ export default function configureStore () {
   }
 
   let store
-  if (version && version >= '0.2.2') {
+  if (version && version >= CURRENT_VERSION) {
     store = createStore(rootReducer, initialState, applyMiddleware(...middlewares))
   } else {
     store = createStore(rootReducer, applyMiddleware(...middlewares))
@@ -31,7 +33,7 @@ export default function configureStore () {
       currentShader: state.currentShader,
       shaders: state.shaders,
       viewports: state.viewports,
-      version: '0.2.2'
+      version: CURRENT_VERSION
     })
   }, 1000))
 
