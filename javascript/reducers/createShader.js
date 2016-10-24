@@ -19,14 +19,18 @@ export default function (SHADER, DEFAULT_PROPERTIES) {
           const start = action.pinchStart
           const current = action.pinchCurrent
 
-          const { canvas } = start
-          const { range } = start.viewport
+          const ASPECT_RATIO = window.innerWidth / window.innerHeight
+
+          const range = {
+            x: start.viewport.range.y * ASPECT_RATIO,
+            y: start.viewport.range.y
+          }
 
           const rotation = ((start.viewport.rotation || 0) + current.rotation * pi / 180) % (2 * pi)
 
           /* translate */
-          let dx = (start.center.x - current.center.x) / canvas.width * range.x
-          let dy = (start.center.y - current.center.y) / canvas.height * range.y
+          let dx = (start.center.x - current.center.x) / window.innerWidth * range.x // range.y used here for reasons :(
+          let dy = (start.center.y - current.center.y) / window.innerHeight * range.y
 
           /* rotate */
           const magnitude = sqrt(dx * dx + dy * dy)
