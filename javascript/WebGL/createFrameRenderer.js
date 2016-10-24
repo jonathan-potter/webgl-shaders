@@ -8,7 +8,7 @@ import forEach from 'lodash/forEach'
 
 const { requestAnimationFrame } = window
 
-let time = Date.now()
+let time = 0
 export default ({ canvas, context, shader, program, store }) => function renderFrame () {
   /* eslint-disable no-multi-spaces, key-spacing */
   const state = store.getState()
