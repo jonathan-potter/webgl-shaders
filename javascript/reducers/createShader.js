@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux'
 import Viewport from 'javascript/Viewport'
 
+const { atan2, cos, PI: pi, sin, sqrt } = Math
+
 export default function (SHADER, DEFAULT_PROPERTIES) {
   return combineReducers({
     viewport (state = DEFAULT_PROPERTIES.viewport, action) {
@@ -11,12 +13,62 @@ export default function (SHADER, DEFAULT_PROPERTIES) {
       switch (action.type) {
         case 'RESET_SHADER_CONFIG':
           return DEFAULT_PROPERTIES.viewport
+        case 'SET_VIEWPORT':
+          return action.value
+        case 'PINCH_ZOOM':
+          const start = action.pinchStart
+          const current = action.pinchCurrent
+
+          const ASPECT_RATIO = window.innerWidth / window.innerHeight
+
+          /* range.x is intentionally ignored in favor of setting */
+          /* the window dimensions to dictate aspect ratio */
+          const range = {
+            x: start.viewport.range.y * ASPECT_RATIO,
+            y: start.viewport.range.y
+          }
+
+          const rotation = ((start.viewport.rotation || 0) + current.rotation * pi / 180) % (2 * pi)
+
+          /* translate */
+          let dx = (start.center.x - current.center.x) / window.innerWidth * range.x // range.y used here for reasons :(
+          let dy = (start.center.y - current.center.y) / window.innerHeight * range.y
+
+          /* rotate */
+          const magnitude = sqrt(dx * dx + dy * dy)
+          const angle = atan2(dy, dx)
+
+          dx = magnitude * cos(angle - rotation)
+          dy = magnitude * sin(angle - rotation)
+
+          /* scale */
+          dx /= current.scale
+          dy /= current.scale
+
+          return {
+            center: {
+              x: start.viewport.center.x + dx,
+              y: start.viewport.center.y - dy
+            },
+            range: {
+              x: range.x / current.scale,
+              y: range.y / current.scale
+            },
+            rotation
+          }
         case 'ZOOM_TO_LOCATION':
           const location = viewport.cartesianLocation(action.location)
 
           return viewport.zoomToLocation(location).serialize()
         case 'ZOOM_OUT':
           return viewport.zoomOut(location).serialize()
+        case 'ROTATE_VIEWPORT': {
+          /* placed here for desktop debugging */
+          return {
+            ...state,
+            rotation: state.rotation + pi / 4
+          }
+        }
         default:
           return state
       }

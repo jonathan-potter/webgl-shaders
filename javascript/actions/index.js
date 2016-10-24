@@ -1,4 +1,4 @@
-import { getCurrentShader } from 'reducers'
+import { getCurrentShader, getShaderViewport, getPinchStart } from 'reducers'
 import registerEvent from 'utility/registerEvent'
 import throttle from 'lodash/throttle'
 
@@ -69,7 +69,7 @@ export const setConfigValue = ({ name, value }) => (dispatch, getState) => {
   })
 }
 
-export const setCurrentShader = ({shader}) => (dispatch, getState) => {
+export const setCurrentShader = ({ shader }) => (dispatch, getState) => {
   const currentShader = getCurrentShader(getState())
   const action = 'SET_SHADER'
 
@@ -99,3 +99,52 @@ export const toggleMenu = () => (dispatch, getState) => {
   })
 }
 
+export const setPinchStart = ({ center }) => (dispatch, getState) => {
+  const state = getState()
+
+  const currentShader = getCurrentShader(state)
+  const viewport = getShaderViewport(state, currentShader)
+  const action = 'SET_PINCH_START'
+
+  registerEvent({
+    category: currentShader,
+    action: action
+  })
+
+  dispatch({
+    type: action,
+    value: {
+      center,
+      viewport: { ...viewport }
+    }
+  })
+}
+
+export const pinchZoom = ({ center, rotation, scale }) => (dispatch, getState) => {
+  const state = getState()
+
+  const currentShader = getCurrentShader(state)
+  const pinchStart = getPinchStart(state)
+  const action = 'PINCH_ZOOM'
+
+  if (Object.keys(pinchStart).length > 0) {
+    /* pinch start must have registered before firing this action */
+
+    dispatch({
+      type: action,
+      shader: currentShader,
+      pinchStart,
+      pinchCurrent: {
+        center,
+        rotation,
+        scale
+      }
+    })
+  }
+}
+
+export const resetPinchStart = () => (dispatch) => {
+  dispatch({
+    type: 'RESET_PINCH_START'
+  })
+}
