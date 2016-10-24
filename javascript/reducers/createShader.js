@@ -21,6 +21,8 @@ export default function (SHADER, DEFAULT_PROPERTIES) {
 
           const ASPECT_RATIO = window.innerWidth / window.innerHeight
 
+          /* range.x is intentionally ignored in favor of setting */
+          /* the window dimensions to dictate aspect ratio */
           const range = {
             x: start.viewport.range.y * ASPECT_RATIO,
             y: start.viewport.range.y
@@ -61,7 +63,7 @@ export default function (SHADER, DEFAULT_PROPERTIES) {
         case 'ZOOM_OUT':
           return viewport.zoomOut(location).serialize()
         case 'ROTATE_VIEWPORT': {
-          /* placed here for debugging */
+          /* placed here for desktop debugging */
           return {
             ...state,
             rotation: state.rotation + pi / 4

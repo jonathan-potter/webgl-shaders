@@ -32,16 +32,11 @@ class CanvasContainer extends Component {
     event.preventDefault()
 
     const touches = Array.from(event.touches)
-    const { width, height } = document.getElementById('main')
 
     this.props.setPinchStart({
       center: {
         x: touches.reduce((sum, touch) => (sum + touch.clientX), 0) / touches.length,
         y: touches.reduce((sum, touch) => (sum + touch.clientY), 0) / touches.length
-      },
-      canvas: {
-        width,
-        height
       }
     })
   }

@@ -99,17 +99,21 @@ export const toggleMenu = () => (dispatch, getState) => {
   })
 }
 
-export const setPinchStart = ({ canvas, center }) => (dispatch, getState) => {
+export const setPinchStart = ({ center }) => (dispatch, getState) => {
   const state = getState()
 
   const currentShader = getCurrentShader(state)
   const viewport = getShaderViewport(state, currentShader)
   const action = 'SET_PINCH_START'
 
+  registerEvent({
+    category: currentShader,
+    action: action
+  })
+
   dispatch({
     type: action,
     value: {
-      canvas,
       center,
       viewport: { ...viewport }
     }
