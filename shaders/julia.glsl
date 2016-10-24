@@ -93,8 +93,7 @@ vec2 rotate2D(vec2 point, vec2 center, float rotation) {
 vec2 fragCoordToXY(vec4 fragCoord) {
   vec2 relativePosition = fragCoord.xy / RESOLUTION;
 
-  vec2 cartesianPosition = CENTER + (relativePosition - 0.5) * RANGE.y;
-  cartesianPosition.x *= ASPECT_RATIO;
+  vec2 cartesianPosition = CENTER + (relativePosition - 0.5) * RANGE;
 
   return rotate2D(cartesianPosition, CENTER, ROTATION);
 }

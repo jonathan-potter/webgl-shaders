@@ -144,4 +144,3 @@ export const resetPinchStart = () => (dispatch) => {
     type: 'RESET_PINCH_START'
   })
 }
-

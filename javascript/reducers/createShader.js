@@ -56,6 +56,13 @@ export default function (SHADER, DEFAULT_PROPERTIES) {
           return viewport.zoomToLocation(location).serialize()
         case 'ZOOM_OUT':
           return viewport.zoomOut(location).serialize()
+        case 'ROTATE_VIEWPORT': {
+          /* placed here for debugging */
+          return {
+            ...state,
+            rotation: state.rotation + pi / 4
+          }
+        }
         default:
           return state
       }
