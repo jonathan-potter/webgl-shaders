@@ -33,3 +33,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 ### 2016-10-06
 - plays with coloration in 'spinning cube' shader
 - adds reflectivity to 'spinning cube' shader
+
+### 2016-10-06 - 2016-10-24
+- adds pinch zoom capability for mobile
