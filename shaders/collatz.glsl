@@ -4,6 +4,7 @@ uniform vec2 RESOLUTION;
 uniform vec2 CENTER;
 uniform vec2 RANGE;
 
+uniform float ROTATION;
 uniform float DEPTH;
 uniform float CONSTANT_1;
 uniform float ANGLE1;
@@ -63,13 +64,24 @@ float collatz(vec2 position) {
   return 0.0;
 }
 
+vec2 rotate2D(vec2 point, vec2 center, float rotation) {
+  vec2 delta = point - center;
+
+  float magnitude = length(delta);
+  float angle = atan(delta.y, delta.x);
+
+  return center + vec2(
+    magnitude * cos(angle + rotation),
+    magnitude * sin(angle + rotation)
+  );
+}
+
 vec2 fragCoordToXY(vec4 fragCoord) {
   vec2 relativePosition = fragCoord.xy / RESOLUTION;
 
-  vec2 cartesianPosition = CENTER + (relativePosition - 0.5) * RANGE.y;
-  cartesianPosition.x *= ASPECT_RATIO;
+  vec2 cartesianPosition = CENTER + (relativePosition - 0.5) * RANGE;
 
-  return cartesianPosition;
+  return rotate2D(cartesianPosition, CENTER, ROTATION);
 }
 
 float quickColorize(float value, float rate) {
@@ -81,5 +93,5 @@ void main() {
 
   float color = collatz(coordinate);
 
-  gl_FragColor =  vec4(quickColorize(color, 1.0), quickColorize(color, 3.0), quickColorize(color, 5.0), 1.0);
+  gl_FragColor = vec4(quickColorize(color, 1.0), quickColorize(color, 3.0), quickColorize(color, 5.0), 1.0);
 }

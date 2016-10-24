@@ -7,6 +7,7 @@ uniform vec2 JULIA_C;
 uniform vec2 MSAA_COORDINATES[16];
 
 uniform float FRACTAL;
+uniform float ROTATION;
 uniform float BRIGHTNESS;
 uniform float COLORSET;
 uniform float EXPONENT;
@@ -69,13 +70,24 @@ vec4 colorize(vec2 fractalValue) {
   return vec4(mu, mu, mu, 1.0);
 }
 
+vec2 rotate2D(vec2 point, vec2 center, float rotation) {
+  vec2 delta = point - center;
+
+  float magnitude = length(delta);
+  float angle = atan(delta.y, delta.x);
+
+  return center + vec2(
+    magnitude * cos(angle + rotation),
+    magnitude * sin(angle + rotation)
+  );
+}
+
 vec2 fragCoordToXY(vec4 fragCoord) {
   vec2 relativePosition = fragCoord.xy / RESOLUTION;
 
-  vec2 cartesianPosition = CENTER + (relativePosition - 0.5) * RANGE.y;
-  cartesianPosition.x *= ASPECT_RATIO;
+  vec2 cartesianPosition = CENTER + (relativePosition - 0.5) * RANGE;
 
-  return cartesianPosition;
+  return rotate2D(cartesianPosition, CENTER, ROTATION);
 }
 
 vec2 msaa(vec2 coordinate) {
