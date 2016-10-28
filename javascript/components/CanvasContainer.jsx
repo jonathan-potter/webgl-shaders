@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import * as actions from 'actions'
 
+const { PI: pi } = Math
+
 class CanvasContainer extends Component {
   componentDidMount () {
     /* React onClick's SyntheticEvent does not contain all required properties */
@@ -20,7 +22,7 @@ class CanvasContainer extends Component {
 
     this.props.pinchZoom({
       scale: event.scale || 1,
-      rotation: event.rotation || 0,
+      rotation: (event.rotation || 0) * pi / 180,
       center: {
         x: touches.reduce((sum, touch) => (sum + touch.clientX), 0) / touches.length / window.innerWidth,
         y: touches.reduce((sum, touch) => (sum + touch.clientY), 0) / touches.length / window.innerHeight

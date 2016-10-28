@@ -19,7 +19,7 @@ export default function (SHADER, DEFAULT_PROPERTIES) {
           const start = action.pinchStart
           const current = action.pinchCurrent
 
-          const rotation = ((start.viewport.rotation || 0) + current.rotation * pi / 180) % (2 * pi)
+          const rotation = ((start.viewport.rotation || 0) + current.rotation) % (2 * pi)
 
           const cartesianCenter = start.viewport.center
           const startViewport = Viewport.create(start.viewport)
@@ -28,13 +28,12 @@ export default function (SHADER, DEFAULT_PROPERTIES) {
           let newCenter = rotatePointAroundCenter({
             point: cartesianCenter,
             center: cartesianTouchCenter,
-            rotation: current.rotation * pi / 180
+            rotation: current.rotation
           })
 
           newCenter = scalePointAroundCenter({
             point: newCenter,
             center: cartesianTouchCenter,
-            rotation: current.rotation * pi / 180,
             scale: current.scale
           })
 
