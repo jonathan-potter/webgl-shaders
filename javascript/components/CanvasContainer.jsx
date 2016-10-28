@@ -22,8 +22,8 @@ class CanvasContainer extends Component {
       scale: event.scale || 1,
       rotation: event.rotation || 0,
       center: {
-        x: touches.reduce((sum, touch) => (sum + touch.clientX), 0) / touches.length,
-        y: touches.reduce((sum, touch) => (sum + touch.clientY), 0) / touches.length
+        x: touches.reduce((sum, touch) => (sum + touch.clientX), 0) / touches.length / window.innerWidth,
+        y: touches.reduce((sum, touch) => (sum + touch.clientY), 0) / touches.length / window.innerHeight
       }
     })
   }
@@ -35,8 +35,8 @@ class CanvasContainer extends Component {
 
     this.props.setPinchStart({
       center: {
-        x: touches.reduce((sum, touch) => (sum + touch.clientX), 0) / touches.length,
-        y: touches.reduce((sum, touch) => (sum + touch.clientY), 0) / touches.length
+        x: touches.reduce((sum, touch) => (sum + touch.clientX), 0) / touches.length / window.innerWidth,
+        y: touches.reduce((sum, touch) => (sum + touch.clientY), 0) / touches.length / window.innerHeight
       }
     })
   }

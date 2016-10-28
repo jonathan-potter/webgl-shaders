@@ -8,7 +8,7 @@ export default function (SHADER, DEFAULT_PROPERTIES) {
     viewport (state = DEFAULT_PROPERTIES.viewport, action) {
       if (action.shader !== SHADER) { return state }
 
-      const viewport = Viewport.create({ center: state.center, range: state.range })
+      const viewport = Viewport.create(state)
 
       switch (action.type) {
         case 'RESET_SHADER_CONFIG':
@@ -19,20 +19,36 @@ export default function (SHADER, DEFAULT_PROPERTIES) {
           const start = action.pinchStart
           const current = action.pinchCurrent
 
-          const ASPECT_RATIO = window.innerWidth / window.innerHeight
+          const rotation = ((start.viewport.rotation || 0) + current.rotation * pi / 180) % (2 * pi)
+
+          const cartesianCenter = start.viewport.center
+          const startViewport = Viewport.create(start.viewport)
+          const cartesianTouchCenter = startViewport.cartesianLocation(start.center)
+
+          let newCenter = rotatePointAroundCenter({
+            point: cartesianCenter,
+            center: cartesianTouchCenter,
+            rotation: current.rotation * pi / 180
+          })
+
+          newCenter = scalePointAroundCenter({
+            point: newCenter,
+            center: cartesianTouchCenter,
+            rotation: current.rotation * pi / 180,
+            scale: current.scale
+          })
 
           /* range.x is intentionally ignored in favor of setting */
           /* the window dimensions to dictate aspect ratio */
+          const ASPECT_RATIO = window.innerWidth / window.innerHeight
           const range = {
             x: start.viewport.range.y * ASPECT_RATIO,
             y: start.viewport.range.y
           }
 
-          const rotation = ((start.viewport.rotation || 0) + current.rotation * pi / 180) % (2 * pi)
-
           /* translate */
-          let dx = (start.center.x - current.center.x) / window.innerWidth * range.x // range.y used here for reasons :(
-          let dy = (start.center.y - current.center.y) / window.innerHeight * range.y
+          let dx = (start.center.x - current.center.x) * range.x
+          let dy = (start.center.y - current.center.y) * range.y
 
           /* rotate */
           const magnitude = sqrt(dx * dx + dy * dy)
@@ -47,14 +63,14 @@ export default function (SHADER, DEFAULT_PROPERTIES) {
 
           return {
             center: {
-              x: start.viewport.center.x + dx,
-              y: start.viewport.center.y - dy
+              x: newCenter.x + dx,
+              y: newCenter.y - dy
             },
             range: {
               x: range.x / current.scale,
               y: range.y / current.scale
             },
-            rotation
+            rotation: rotation
           }
         case 'ZOOM_TO_LOCATION':
           const location = viewport.cartesianLocation(action.location)
@@ -94,3 +110,28 @@ export default function (SHADER, DEFAULT_PROPERTIES) {
 
 export const getShaderConfig = (state, shader) => state.shaders[shader].config
 export const getShaderViewport = (state, shader) => state.shaders[shader].viewport
+
+function rotatePointAroundCenter ({ point, center, rotation }) {
+  const dx = point.x - center.x
+  const dy = point.y - center.y
+
+  const magnitude = sqrt(dx * dx + dy * dy)
+  const angle = atan2(dy, dx)
+
+  center = {
+    x: center.x + magnitude * cos(angle + rotation),
+    y: center.y + magnitude * sin(angle + rotation)
+  }
+
+  return center
+}
+
+function scalePointAroundCenter ({ point, center, scale }) {
+  const dx = point.x - center.x
+  const dy = point.y - center.y
+
+  return {
+    x: center.x + dx / scale,
+    y: center.y + dy / scale
+  }
+}

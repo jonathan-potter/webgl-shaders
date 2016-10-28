@@ -63,7 +63,8 @@ export const DEFAULT_STORE = {
     },
     viewport: {
       center: { x: 0, y: 0 },
-      range: { x: 4, y: 4 }
+      range: { x: 4, y: 4 },
+      rotation: 0
     }
   },
   'mandelbrot set': {
@@ -75,7 +76,8 @@ export const DEFAULT_STORE = {
     },
     viewport: {
       center: { x: 0, y: 0 },
-      range: { x: 4, y: 4 }
+      range: { x: 4, y: 4 },
+      rotation: 0
     }
   },
   'burning ship': {
@@ -87,7 +89,8 @@ export const DEFAULT_STORE = {
     },
     viewport: {
       center: { x: 0, y: 0 },
-      range: { x: 4, y: 4 }
+      range: { x: 4, y: 4 },
+      rotation: 0
     }
   },
   'modified collatz': {
@@ -99,7 +102,8 @@ export const DEFAULT_STORE = {
     },
     viewport: {
       center: { x: 0, y: 0 },
-      range: { x: 100, y: 100 }
+      range: { x: 100, y: 100 },
+      rotation: 0
     }
   },
   'spinning cube': {
@@ -114,7 +118,8 @@ export const DEFAULT_STORE = {
     },
     viewport: {
       center: { x: 0.25, y: 0.25 },
-      range: { x: 1, y: 1 }
+      range: { x: 1, y: 1 },
+      rotation: 0
     }
   }
 }

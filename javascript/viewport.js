@@ -1,40 +1,51 @@
 const ZOOM_SIZE = 0.5
 
 const VIEWPORT_PROTOTYPE = {
-  init ({ center, range }) {
+  init ({ center, range, rotation }) {
     this.center = center
     this.range = range
+    this.rotation = rotation
+  },
+
+  aspectRatio () {
+    return window.innerWidth / window.innerHeight
   },
 
   serialize () {
     return {
       center: this.center,
-      range: this.range
+      range: this.range,
+      rotation: this.rotation
     }
   },
 
   setCenter (location) {
     return Viewport.create({
       center: location,
-      range: this.range
+      range: this.range,
+      rotation: this.rotation
     })
-  },
-
-  topLeft () {
-    return {
-      x: this.center.x - this.range.x / 2,
-      y: this.center.y + this.range.y / 2
-    }
   },
 
   cartesianLocation (normalizedLocation) {
     if (!normalizedLocation) { return }
 
-    const topLeft = this.topLeft()
+    let { x, y } = normalizedLocation
+
+    x -= 0.5
+    y -= 0.5
+    x *= this.aspectRatio()
+    y *= -1
+
+    const magnitude = Math.sqrt(x * x + y * y)
+    const angle = Math.atan2(y, x)
+
+    x = magnitude * Math.cos(angle + this.rotation)
+    y = magnitude * Math.sin(angle + this.rotation)
 
     return {
-      x: topLeft.x + this.range.x * normalizedLocation.x,
-      y: topLeft.y - this.range.y * normalizedLocation.y
+      x: this.center.x + this.range.y * x,
+      y: this.center.y + this.range.y * y
     }
   },
 
@@ -46,7 +57,8 @@ const VIEWPORT_PROTOTYPE = {
 
     return Viewport.create({
       center: location,
-      range: newRange
+      range: newRange,
+      rotation: this.rotation
     })
   },
 
@@ -58,16 +70,17 @@ const VIEWPORT_PROTOTYPE = {
 
     return Viewport.create({
       center: location,
-      range: newRange
+      range: newRange,
+      rotation: this.rotation
     })
   }
 }
 
 const Viewport = {
-  create ({ center, range }) {
+  create ({ center, range, rotation }) {
     const viewport = Object.create(VIEWPORT_PROTOTYPE)
 
-    viewport.init({ center, range })
+    viewport.init({ center, range, rotation })
 
     return viewport
   }
