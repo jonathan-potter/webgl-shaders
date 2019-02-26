@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import * as actions from 'actions'
 
-const { PI: pi } = Math
+const { hypot, PI: pi, sign } = Math
 
 class CanvasContainer extends Component {
   componentDidMount () {
@@ -13,6 +13,7 @@ class CanvasContainer extends Component {
     canvas.addEventListener('touchstart', this.onTouchStart.bind(this))
     canvas.addEventListener('touchmove', this.onTouchMove.bind(this))
     canvas.addEventListener('touchend', this.onTouchEnd.bind(this))
+    canvas.addEventListener('wheel', this.onTrackpadPinchZoom.bind(this))
   }
 
   onTouchMove (event) {
@@ -27,6 +28,25 @@ class CanvasContainer extends Component {
         x: touches.reduce((sum, touch) => (sum + touch.clientX), 0) / touches.length / window.innerWidth,
         y: touches.reduce((sum, touch) => (sum + touch.clientY), 0) / touches.length / window.innerHeight
       }
+    })
+  }
+
+  onTrackpadPinchZoom (event) {
+    event.preventDefault()
+    const delta = hypot(event.deltaX, event.deltaY) * sign(event.deltaX + event.deltaY);
+    const center = {
+      x: event.clientX / window.innerWidth,
+      y: event.clientY / window.innerHeight
+    }
+
+    this.props.setPinchStart({
+      center
+    })
+
+    this.props.pinchZoom({
+      scale: 1 - delta / 200,
+      rotation: 0,
+      center
     })
   }
 
